@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const User = require('./userModel');
 
-const ResturantSchema = new Schema(
+const RestaurantSchema = new Schema(
   {
     user: {
       type: User,
@@ -20,4 +20,4 @@ const ResturantSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Resturant', ResturantSchema);
+module.exports = mongoose.model('Resturant', RestaurantSchema);
