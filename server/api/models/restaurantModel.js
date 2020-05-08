@@ -6,6 +6,9 @@ const User = require('./userModel');
 
 const RestaurantSchema = new Schema(
   {
+    restaurantName: {
+      type: String,
+    },
     user: {
       type: User,
     },
@@ -20,4 +23,4 @@ const RestaurantSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Resturant', RestaurantSchema);
+module.exports = mongoose.model('Restaurant', RestaurantSchema);
