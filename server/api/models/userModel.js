@@ -19,6 +19,7 @@ const UserSchema = new Schema(
     },
     telephone: {
       type: String,
+      required: false,
     },
     userActive: {
       type: Boolean,
