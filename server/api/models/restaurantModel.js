@@ -2,14 +2,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const User = require('./userModel');
-
 const RestaurantSchema = new Schema(
   {
-    user: {
-      type: User,
+    restaurantName: {
+      type: String,
     },
-    menus: {
+    user: {
+      type: Object,
+    },
+    currentMenu: {
+      type: Object,
+    },
+    oldMenus: {
       type: Array,
     },
     isActive: {
@@ -20,4 +24,4 @@ const RestaurantSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Resturant', RestaurantSchema);
+module.exports = mongoose.model('Restaurant', RestaurantSchema);
