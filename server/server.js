@@ -8,6 +8,8 @@ const cors = require('cors');
 // Models Imports
 const User = require('./api/models/userModel');
 const Task = require('./api/models/todoListModel');
+const Restaurant = require('./api/models/restaurantModel');
+const Menu = require('./api/models/menuModel');
 
 // Init Express
 const app = express();
@@ -60,9 +62,11 @@ app.use(cors());
 const adminRoutes = require('./api/routes/adminRoutes');
 const authRoutes = require('./api/routes/authRoutes');
 const taskRoutes = require('./api/routes/todoListRoutes');
+const restaurantRoutes = require('./api/routes/restaurantRoutes');
 adminRoutes(app);
 authRoutes(app);
 taskRoutes(app);
+restaurantRoutes(app);
 
 // 404 Handling
 app.use((req, res) => {
