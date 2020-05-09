@@ -10,9 +10,6 @@ const MenuSchema = new Schema(
     shortUrlLink: {
       type: String,
     },
-    isActive: {
-      type: Boolean,
-    },
   },
   { timestamps: true }
 );

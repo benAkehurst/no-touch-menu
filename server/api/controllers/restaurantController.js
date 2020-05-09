@@ -255,7 +255,6 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
       let newMenu = new Menu({
         menuPdfLink: menu.menuPdfLink,
         shortUrlLink: menu.shortUrlLink,
-        isActive: menu.isActive,
       });
       newMenu.save((err, menu) => {
         if (err) {
@@ -267,18 +266,18 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
         }
         Restaurant.findByIdAndUpdate(
           restaurantId,
-          { $push: { menus: menu } },
+          { $set: { currentMenu: menu } },
           (err, restaurant) => {
             if (err) {
               res.status(400).json({
                 success: false,
-                message: 'Error pushing new menu to restaurant',
+                message: 'Error adding new menu to restaurant',
                 data: err,
               });
             }
             res.status(201).json({
               success: true,
-              message: 'Menu added to menu array on restaurant',
+              message: 'Menu added to current menu on restaurant',
               data: null,
             });
           }
@@ -320,7 +319,6 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
     let newMenu = new Menu({
       menuPdfLink: menu.menuPdfLink,
       shortUrlLink: menu.shortUrlLink,
-      isActive: menu.isActive,
     });
     newMenu.save((err, menu) => {
       if (err) {
@@ -332,18 +330,18 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
       }
       Restaurant.findByIdAndUpdate(
         restaurantId,
-        { $push: { menus: menu } },
+        { $set: { currentMenu: menu } },
         (err, restaurant) => {
           if (err) {
             res.status(400).json({
               success: false,
-              message: 'Error pushing new menu to restaurant',
+              message: 'Error adding new menu to restaurant',
               data: err,
             });
           }
           res.status(201).json({
             success: true,
-            message: 'Menu added to menu array on restaurant',
+            message: 'Menu added to current menu on restaurant',
             data: null,
           });
         }
