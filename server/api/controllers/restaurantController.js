@@ -264,6 +264,32 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
             data: err,
           });
         }
+        Restaurant.findById(restaurantId, (err, restaurant) => {
+          if (err) {
+            res.status(400).json({
+              success: false,
+              message: 'Error adding new menu to restaurant',
+              data: err,
+            });
+          }
+          if (restaurant) {
+            Restaurant.findByIdAndUpdate(
+              restaurantId,
+              {
+                $push: { oldMenus: restaurant.currentMenu },
+              },
+              (err, success) => {
+                if (err) {
+                  res.status(400).json({
+                    success: false,
+                    message: 'Error adding old menu to old menus',
+                    data: err,
+                  });
+                }
+              }
+            );
+          }
+        });
         Restaurant.findByIdAndUpdate(
           restaurantId,
           { $set: { currentMenu: menu } },
@@ -328,6 +354,32 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
           data: err,
         });
       }
+      Restaurant.findById(restaurantId, (err, restaurant) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error adding new menu to restaurant',
+            data: err,
+          });
+        }
+        if (restaurant) {
+          Restaurant.findByIdAndUpdate(
+            restaurantId,
+            {
+              $push: { oldMenus: restaurant.currentMenu },
+            },
+            (err, success) => {
+              if (err) {
+                res.status(400).json({
+                  success: false,
+                  message: 'Error adding old menu to old menus',
+                  data: err,
+                });
+              }
+            }
+          );
+        }
+      });
       Restaurant.findByIdAndUpdate(
         restaurantId,
         { $set: { currentMenu: menu } },
