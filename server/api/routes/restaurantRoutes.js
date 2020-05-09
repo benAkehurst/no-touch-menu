@@ -14,4 +14,7 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/add-menu-to-restaurant-user/:token')
     .post(restaurantController.add_menu_to_restaurant_restaurant_user);
+  app
+    .route('/api/restaurant/add-menu-to-restaurant-admin/:requesterId')
+    .post(restaurantController.add_menu_to_restaurant_restaurant_admin);
 };

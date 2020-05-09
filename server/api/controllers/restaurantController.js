@@ -285,3 +285,67 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
     }
   }
 };
+
+/**
+ * Adds a new menu to the array of menus as an admin
+ * ADMIN PROCEDURE
+ * POST
+ * {
+ *  restaurantId: 'string',
+ *  menu: Object
+ * }
+ */
+exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+  const menu = req.body.menu;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    let newMenu = new Menu({
+      menuPdfLink: menu.menuPdfLink,
+      shortUrlLink: menu.shortUrlLink,
+      isActive: menu.isActive,
+    });
+    newMenu.save((err, menu) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error creating new menu',
+          data: err,
+        });
+      }
+      Restaurant.findByIdAndUpdate(
+        restaurantId,
+        { $push: { menus: menu } },
+        (err, restaurant) => {
+          if (err) {
+            res.status(400).json({
+              success: false,
+              message: 'Error pushing new menu to restaurant',
+              data: err,
+            });
+          }
+          res.status(201).json({
+            success: true,
+            message: 'Menu added to menu array on restaurant',
+            data: null,
+          });
+        }
+      );
+    });
+  }
+};
