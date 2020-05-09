@@ -8,4 +8,7 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/change-user-assigned-to-restaurant/:requesterId')
     .post(restaurantController.change_user_assigned_to_restaurant);
+  app
+    .route('/api/restaurant/change-restaurant-isActive-status/:requesterId')
+    .post(restaurantController.change_restaurant_isActive_status);
 };

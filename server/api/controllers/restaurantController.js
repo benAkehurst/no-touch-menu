@@ -9,6 +9,7 @@ const Menu = mongoose.model('Menu');
 
 /**
  * Create a new Restaurant
+ * ADMIN PROCEDURE
  * POST
  * {
  *  restaurantName: 'string',
@@ -84,6 +85,7 @@ exports.create_new_restaurant = async (req, res) => {
 
 /**
  * Change user who is assigned to the resturant
+ * ADMIN PROCEDURE
  * POST
  * {
  *  restaurantId: 'string',
@@ -144,6 +146,56 @@ exports.change_user_assigned_to_restaurant = async (req, res) => {
         res.status(201).json({
           success: true,
           message: 'Restaurant updated',
+          data: updatedRestaurant,
+        });
+      }
+    );
+  }
+};
+
+/**
+ * Change the isActive status of a resturant
+ * ADMIN PROCEDURE
+ * POST
+ * {
+ *  restaurantId: 'string',
+ *  newStatus: boolean
+ * }
+ */
+exports.change_restaurant_isActive_status = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+  const newStatus = req.body.newStatus;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    Restaurant.updateOne(
+      { _id: restaurantId },
+      { $set: { isActive: newStatus } },
+      (err, updatedRestaurant) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error updating isActive status restaurant',
+            data: err,
+          });
+        }
+        res.status(201).json({
+          success: true,
+          message: 'Restaurant isActive status updated',
           data: updatedRestaurant,
         });
       }
