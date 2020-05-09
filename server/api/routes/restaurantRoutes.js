@@ -23,4 +23,10 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/get-all-menus-admin/:requesterId')
     .post(restaurantController.get_all_menus_from_restaurant_admin);
+  app
+    .route('/api/restaurant/remove-menu-from-restaurant-user/:token')
+    .post(restaurantController.remove_menu_from_restaurant_user);
+  app
+    .route('/api/restaurant/remove-menu-from-restaurant-admin/:requesterId')
+    .post(restaurantController.remove_menu_from_restaurant_admin);
 };

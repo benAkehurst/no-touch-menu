@@ -473,7 +473,6 @@ exports.get_all_menus_from_restaurant_user = async (req, res) => {
  * ADMIN PROCEDURE
  * POST
  * {
- *  requesterId: 'string'
  *  restaurantId: 'string'
  * }
  */
@@ -514,5 +513,119 @@ exports.get_all_menus_from_restaurant_admin = async (req, res) => {
         data: restaurantData,
       });
     });
+  }
+};
+
+/**
+ * Allows a user to remove the current menu
+ * USER PROCEDURE
+ * POST
+ * {
+ *  restaurantId: 'string'
+ *  userId: 'string'
+ * }
+ */
+exports.remove_menu_from_restaurant_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.body.restaurantId;
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    let restaurantUser;
+    await Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (restaurant.user._id) {
+        restaurantUser = true;
+      } else {
+        res.status(400).json({
+          success: false,
+          message: 'User not authorised for this action',
+          data: err,
+        });
+      }
+    });
+    if (restaurantUser) {
+      Restaurant.findByIdAndUpdate(
+        restaurantId,
+        { $set: { currentMenu: {} } },
+        (err, success) => {
+          if (err) {
+            res.status(400).json({
+              success: false,
+              message: 'Error finding restaurant menus',
+              data: err,
+            });
+          }
+          res.status(200).json({
+            success: true,
+            message: 'Menu deleted',
+            data: null,
+          });
+        }
+      );
+    }
+  }
+};
+
+/**
+ * Allows an admin to remove a menu
+ * ADMIN PROCEDURE
+ * POST
+ * {
+ *  restaurantId: 'string'
+ * }
+ */
+exports.remove_menu_from_restaurant_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    Restaurant.findByIdAndUpdate(
+      restaurantId,
+      { $set: { currentMenu: {} } },
+      (err, success) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error finding restaurant menus',
+            data: err,
+          });
+        }
+        res.status(200).json({
+          success: true,
+          message: 'Menu deleted',
+          data: null,
+        });
+      }
+    );
   }
 };
