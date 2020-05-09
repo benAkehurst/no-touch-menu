@@ -402,7 +402,10 @@ exports.get_all_menus_from_restaurant_user = async (req, res) => {
             data: err,
           });
         }
-        let restaurantData = _.pick(restaurant.toObject(), 'menus');
+        let restaurantData = _.pick(restaurant.toObject(), [
+          'currentMenu',
+          'oldMenus',
+        ]);
         res.status(201).json({
           success: true,
           message: 'Restaurant menus found',
@@ -449,7 +452,10 @@ exports.get_all_menus_from_restaurant_admin = async (req, res) => {
           data: err,
         });
       }
-      let restaurantData = _.pick(restaurant.toObject(), 'menus');
+      let restaurantData = _.pick(restaurant.toObject(), [
+        'currentMenu',
+        'oldMenus',
+      ]);
       res.status(201).json({
         success: true,
         message: 'Restaurant menus found',
