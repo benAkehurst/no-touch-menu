@@ -10,7 +10,10 @@ const RestaurantSchema = new Schema(
     user: {
       type: Object,
     },
-    menus: {
+    currentMenu: {
+      type: Object,
+    },
+    oldMenus: {
       type: Array,
     },
     isActive: {

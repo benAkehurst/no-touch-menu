@@ -24,7 +24,8 @@ exports.create_new_restaurant = async (req, res) => {
   const requesterId = req.params.requesterId;
   const restaurantName = req.body.restaurantName;
   const userId = req.body.userId;
-  const menus = [];
+  const currentMenu = new Menu();
+  const oldMenus = [];
   const isActive = req.body.isActive;
 
   let isAdminCheck;
@@ -64,7 +65,8 @@ exports.create_new_restaurant = async (req, res) => {
     let newRestaurant = new Restaurant({
       restaurantName: restaurantName,
       user: userObj,
-      menus: menus,
+      currentMenu: currentMenu,
+      oldMenus: oldMenus,
       isActive: isActive,
     });
 
