@@ -629,3 +629,65 @@ exports.remove_menu_from_restaurant_admin = async (req, res) => {
     );
   }
 };
+
+/**
+ * As an admin, if a restaurant is isActive = false, it will be deleted
+ * ADMIN PROCEDURE
+ * POST
+ * {
+ *  restaurantId: 'string'
+ * }
+ */
+exports.delete_restaurant = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error deleting restaurant - no restaurant found',
+          data: err,
+        });
+      }
+      if (restaurant.isActive) {
+        res.status(400).json({
+          success: false,
+          message: 'Error deleting restaurant - restaurant is active',
+          data: err,
+        });
+      }
+      if (!restaurant.isActive) {
+        Restaurant.findByIdAndDelete(restaurantId, (err, success) => {
+          if (err) {
+            res.status(400).json({
+              success: false,
+              message: 'Error deleting restaurant',
+              data: err,
+            });
+          }
+          res.status(200).json({
+            success: true,
+            message: 'Restaurant deleted',
+            data: null,
+          });
+        });
+      }
+    });
+  }
+};

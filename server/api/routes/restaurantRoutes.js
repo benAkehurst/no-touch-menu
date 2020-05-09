@@ -29,4 +29,7 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/remove-menu-from-restaurant-admin/:requesterId')
     .post(restaurantController.remove_menu_from_restaurant_admin);
+  app
+    .route('/api/restaurant/delete-restaurant/:requesterId')
+    .post(restaurantController.delete_restaurant);
 };
