@@ -20,4 +20,7 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/get-all-menus-user/:token')
     .post(restaurantController.get_all_menus_from_restaurant_user);
+  app
+    .route('/api/restaurant/get-all-menus-admin/:requesterId')
+    .post(restaurantController.get_all_menus_from_restaurant_admin);
 };

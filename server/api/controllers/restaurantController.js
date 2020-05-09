@@ -362,7 +362,6 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
 exports.get_all_menus_from_restaurant_user = async (req, res) => {
   const token = req.params.token;
   const restaurantId = req.body.restaurantId;
-  const userId = req.body.userId;
 
   let tokenValid;
   await middleware
@@ -406,10 +405,56 @@ exports.get_all_menus_from_restaurant_user = async (req, res) => {
         let restaurantData = _.pick(restaurant.toObject(), 'menus');
         res.status(201).json({
           success: true,
-          message: 'Restaurant found',
+          message: 'Restaurant menus found',
           data: restaurantData,
         });
       });
     }
+  }
+};
+
+/**
+ * Allows a user to see all the menus on a restaurant
+ * ADMIN PROCEDURE
+ * POST
+ * {
+ *  requesterId: 'string'
+ *  restaurantId: 'string'
+ * }
+ */
+exports.get_all_menus_from_restaurant_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error finding restaurant menus',
+          data: err,
+        });
+      }
+      let restaurantData = _.pick(restaurant.toObject(), 'menus');
+      res.status(201).json({
+        success: true,
+        message: 'Restaurant menus found',
+        data: restaurantData,
+      });
+    });
   }
 };
