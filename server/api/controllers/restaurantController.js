@@ -406,7 +406,7 @@ exports.get_all_menus_from_restaurant_user = async (req, res) => {
           'currentMenu',
           'oldMenus',
         ]);
-        res.status(201).json({
+        res.status(200).json({
           success: true,
           message: 'Restaurant menus found',
           data: restaurantData,
@@ -456,7 +456,7 @@ exports.get_all_menus_from_restaurant_admin = async (req, res) => {
         'currentMenu',
         'oldMenus',
       ]);
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         message: 'Restaurant menus found',
         data: restaurantData,
