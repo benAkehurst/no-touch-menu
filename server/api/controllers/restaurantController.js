@@ -12,7 +12,7 @@ const Menu = mongoose.model('Menu');
  * POST
  * {
  *  restaurantName: 'string',
- *  userId: 'user object of restaurant user',
+ *  userId: 'user Id of restaurant user/owner',
  *  menus: 'blank array',
  *  isActive: true
  * }
@@ -79,5 +79,74 @@ exports.create_new_restaurant = async (req, res) => {
         data: restaurant,
       });
     });
+  }
+};
+
+/**
+ * Change user who is assigned to the resturant
+ * POST
+ * {
+ *  restaurantId: 'string',
+ *  newUserId: 'string'
+ * }
+ */
+exports.change_user_assigned_to_restaurant = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+  const newUserId = req.body.newUserId;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    let newUser;
+    await User.findById(newUserId, (err, user) => {
+      if (!user) {
+        res.status(400).json({
+          success: false,
+          message:
+            'Error finding user while changing users assigned to restaurant',
+          data: err,
+        });
+      }
+      if (user) {
+        newUser = _.pick(user.toObject(), [
+          'name',
+          'email',
+          '_id',
+          'userActive',
+        ]);
+      }
+    });
+
+    Restaurant.updateOne(
+      { _id: restaurantId },
+      { $set: { user: newUser } },
+      (err, updatedRestaurant) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error updating user assigned to restaurant',
+            data: err,
+          });
+        }
+        res.status(201).json({
+          success: true,
+          message: 'Restaurant updated',
+          data: updatedRestaurant,
+        });
+      }
+    );
   }
 };
