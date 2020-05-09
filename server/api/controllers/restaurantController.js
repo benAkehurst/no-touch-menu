@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 const _ = require('lodash');
 
+let middleware = require('../../middlewares/middleware');
+
 const Restaurant = mongoose.model('Restaurant');
 const User = mongoose.model('User');
 const Menu = mongoose.model('Menu');
@@ -200,5 +202,86 @@ exports.change_restaurant_isActive_status = async (req, res) => {
         });
       }
     );
+  }
+};
+
+/**
+ * Adds a new menu to the array of menus
+ * USER PROCEDURE
+ * POST
+ * {
+ *  restaurantId: 'string',
+ *  menu: Object
+ * }
+ */
+exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.body.restaurantId;
+  const menu = req.body.menu;
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    let restaurantUser;
+    await Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (restaurant.user._id) {
+        restaurantUser = true;
+      } else {
+        res.status(400).json({
+          success: false,
+          message: 'User not authorised for this action',
+          data: err,
+        });
+      }
+    });
+    if (restaurantUser) {
+      let newMenu = new Menu({
+        menuPdfLink: menu.menuPdfLink,
+        shortUrlLink: menu.shortUrlLink,
+        isActive: menu.isActive,
+      });
+      newMenu.save((err, menu) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error creating new menu',
+            data: err,
+          });
+        }
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $push: { menus: menu } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error pushing new menu to restaurant',
+                data: err,
+              });
+            }
+            res.status(201).json({
+              success: true,
+              message: 'Menu added to menu array on restaurant',
+              data: null,
+            });
+          }
+        );
+      });
+    }
   }
 };

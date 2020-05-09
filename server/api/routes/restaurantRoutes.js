@@ -11,4 +11,7 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/change-restaurant-isActive-status/:requesterId')
     .post(restaurantController.change_restaurant_isActive_status);
+  app
+    .route('/api/restaurant/add-menu-to-restaurant-user/:token')
+    .post(restaurantController.add_menu_to_restaurant_restaurant_user);
 };
