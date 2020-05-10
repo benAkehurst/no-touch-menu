@@ -399,15 +399,22 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
  * Adds a new menu to the array of menus as an admin
  * ADMIN PROCEDURE
  * POST
- * {
- *  restaurantId: 'string',
- *  menu: Object
- * }
+ * Needs to be a form:
+ * Form Field - restaurantId
+ * Form Field - menuFile
  */
 exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
   const requesterId = req.params.requesterId;
   const restaurantId = req.body.restaurantId;
-  const menu = req.body.menu;
+  const menuFile = req.files.menuFile;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: 'No files were uploaded, try again.',
+      data: null,
+    });
+  }
 
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
@@ -424,48 +431,43 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
   });
 
   if (isAdminCheck) {
-    let newMenu = new Menu({
-      menuPdfLink: menu.menuPdfLink,
-      shortUrlLink: menu.shortUrlLink,
-    });
-    newMenu.save((err, menu) => {
-      if (err) {
+    let pdfS3Url = await uploadFile(menuFile, restaurantId)
+      .then((error) => {
         res.status(400).json({
           success: false,
-          message: 'Error creating new menu',
-          data: err,
+          message: 'Error uploading file to AWS',
+          data: error,
         });
-      }
-      Restaurant.findById(restaurantId, (err, restaurant) => {
+      })
+      .catch((response) => {
+        return response;
+      });
+    if (pdfS3Url) {
+      const createShortLink = await fetch(
+        'https://api-ssl.bitly.com/v4/shorten',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${process.env.BITLY_TOKEN}`,
+            'content-type': 'application/json',
+          },
+          body: [JSON.stringify({ long_url: pdfS3Url })],
+        }
+      );
+      const shortenedLink = await createShortLink.json();
+      let newMenu = new Menu({
+        menuPdfLink: pdfS3Url,
+        shortUrlLink: shortenedLink.link,
+      });
+      newMenu.save((err, menu) => {
         if (err) {
           res.status(400).json({
             success: false,
-            message: 'Error adding new menu to restaurant',
+            message: 'Error creating new menu',
             data: err,
           });
         }
-        if (restaurant) {
-          Restaurant.findByIdAndUpdate(
-            restaurantId,
-            {
-              $push: { oldMenus: restaurant.currentMenu },
-            },
-            (err, success) => {
-              if (err) {
-                res.status(400).json({
-                  success: false,
-                  message: 'Error adding old menu to old menus',
-                  data: err,
-                });
-              }
-            }
-          );
-        }
-      });
-      Restaurant.findByIdAndUpdate(
-        restaurantId,
-        { $set: { currentMenu: menu } },
-        (err, restaurant) => {
+        Restaurant.findById(restaurantId, (err, restaurant) => {
           if (err) {
             res.status(400).json({
               success: false,
@@ -473,14 +475,44 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
               data: err,
             });
           }
-          res.status(201).json({
-            success: true,
-            message: 'Menu added to current menu on restaurant',
-            data: null,
-          });
-        }
-      );
-    });
+          if (restaurant) {
+            Restaurant.findByIdAndUpdate(
+              restaurantId,
+              {
+                $push: { oldMenus: restaurant.currentMenu },
+              },
+              (err, success) => {
+                if (err) {
+                  res.status(400).json({
+                    success: false,
+                    message: 'Error adding old menu to old menus',
+                    data: err,
+                  });
+                }
+              }
+            );
+          }
+        });
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { currentMenu: menu } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error adding new menu to restaurant',
+                data: err,
+              });
+            }
+            res.status(201).json({
+              success: true,
+              message: 'Menu added to current menu on restaurant',
+              data: null,
+            });
+          }
+        );
+      });
+    }
   }
 };
 
