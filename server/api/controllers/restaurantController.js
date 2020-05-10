@@ -10,6 +10,44 @@ const User = mongoose.model('User');
 const Menu = mongoose.model('Menu');
 
 /**
+ *
+ */
+exports.view_all_restaurants = async (req, res) => {
+  const requesterId = req.params.requesterId;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    Restaurant.find({}, (err, restaurants) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all restaurants',
+          data: err,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'All restaurants found',
+        data: restaurants,
+      });
+    });
+  }
+};
+
+/**
  * Create a new Restaurant
  * ADMIN PROCEDURE
  * POST
