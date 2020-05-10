@@ -4,6 +4,7 @@ const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 // Models Imports
 const User = require('./api/models/userModel');
@@ -42,6 +43,7 @@ mongoose.connect(
 // Server Config
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(fileUpload());
 
 // Cors Controls
 app.use((req, res, next) => {
