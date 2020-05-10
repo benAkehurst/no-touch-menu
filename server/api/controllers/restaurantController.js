@@ -10,7 +10,10 @@ const User = mongoose.model('User');
 const Menu = mongoose.model('Menu');
 
 /**
- *
+ * Gets all the restaurants in the DB
+ * ADMIN PROCEDURE
+ * GET
+ * param: requesterId
  */
 exports.view_all_restaurants = async (req, res) => {
   const requesterId = req.params.requesterId;
