@@ -412,7 +412,12 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
       }
     });
     if (restaurantUser) {
-      let pdfS3Url = await uploadFile(menuFile, restaurantId)
+      let pdfS3Url = await uploadFile(
+        menuFile,
+        restaurantId,
+        'menus',
+        'application/pdf'
+      )
         .then((error) => {
           res.status(400).json({
             success: false,
@@ -534,7 +539,12 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
   });
 
   if (isAdminCheck) {
-    let pdfS3Url = await uploadFile(menuFile, restaurantId)
+    let pdfS3Url = await uploadFile(
+      menuFile,
+      restaurantId,
+      'menus',
+      'application/pdf'
+    )
       .then((error) => {
         res.status(400).json({
           success: false,
@@ -909,12 +919,86 @@ exports.delete_restaurant = async (req, res) => {
   }
 };
 
-const uploadFile = async (file, restaurantId) => {
+/**
+ * Adds a logo to the restaurant model
+ * ADMIN PROCEDURE
+ * POST
+ * Needs to be a form:
+ * Form Field - restaurantId
+ * Form Field - logoFile
+ */
+exports.upload_restaurant_logo_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+  const logoFile = req.files.logoFile;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: 'No files were uploaded, try again.',
+      data: null,
+    });
+  }
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+  if (isAdminCheck) {
+    let imageS3Upload = await uploadFile(
+      logoFile,
+      restaurantId,
+      'images',
+      'image/jpg'
+    )
+      .then((error) => {
+        res.status(400).json({
+          success: false,
+          message: 'Error uploading file to AWS',
+          data: error,
+        });
+      })
+      .catch((response) => {
+        return response;
+      });
+    if (imageS3Upload) {
+      Restaurant.findByIdAndUpdate(
+        restaurantId,
+        { restaurantLogo: imageS3Upload },
+        (err, success) => {
+          if (err) {
+            res.status(400).json({
+              success: false,
+              message: 'Error saving logo to restaurant model',
+              data: err,
+            });
+          }
+          res.status(201).json({
+            success: true,
+            message: 'Logo added to restaurant successfully',
+            data: success,
+          });
+        }
+      );
+    }
+  }
+};
+
+const uploadFile = async (file, restaurantId, subfolder, contenttype) => {
   const params = {
-    Bucket: `${process.env.BUCKET_NAME}/menus`,
+    Bucket: `${process.env.BUCKET_NAME}/${subfolder}`,
     Key: `${restaurantId}_${file.name}`,
     Body: file.data,
-    ContentType: 'application/pdf',
+    ContentType: `${contenttype}`,
     ACL: 'public-read',
   };
   return new Promise((reject, resolve) => {
