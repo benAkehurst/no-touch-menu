@@ -14,6 +14,12 @@ module.exports = (app) => {
     .route('/api/restaurant/change-restaurant-isActive-status/:requesterId')
     .post(restaurantController.change_restaurant_isActive_status);
   app
+    .route('/api/restaurant/edit-restaurant-name/:requesterId')
+    .post(restaurantController.edit_restaurant_name_admin);
+  app
+    .route('/api/restaurant/edit-restaurant-name-user/:token')
+    .post(restaurantController.edit_restaurant_name_user);
+  app
     .route('/api/restaurant/add-menu-to-restaurant-user/:token')
     .post(restaurantController.add_menu_to_restaurant_restaurant_user);
   app
