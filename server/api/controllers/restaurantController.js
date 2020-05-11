@@ -297,7 +297,7 @@ exports.edit_restaurant_name_admin = async (req, res) => {
             data: err,
           });
         }
-        res.status(201).json({
+        res.status(200).json({
           success: true,
           message: 'Restaurant name updated',
           data: updatedRestaurant,
@@ -307,7 +307,58 @@ exports.edit_restaurant_name_admin = async (req, res) => {
   }
 };
 
-exports.edit_restaurant_name_user = async (req, res) => {};
+/**
+ * Change name of restaurant
+ * USER PROCEDURE
+ * POST
+ * {
+ *  restaurantId: 'string',
+ *  newRestaurantName: 'string'
+ * }
+ */
+exports.edit_restaurant_name_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.body.restaurantId;
+  const newRestaurantName = req.body.newRestaurantName;
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    Restaurant.findByIdAndUpdate(
+      restaurantId,
+      { restaurantName: newRestaurantName },
+      (err, updatedRestaurant) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error updating restaurant name',
+            data: err,
+          });
+        }
+        res.status(200).json({
+          success: true,
+          message: 'Restaurant name updated',
+          data: updatedRestaurant,
+        });
+      }
+    );
+  }
+};
 
 /**
  * Adds a new menu to the array of menus
