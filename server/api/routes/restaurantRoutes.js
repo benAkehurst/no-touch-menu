@@ -40,4 +40,10 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/delete-restaurant/:requesterId')
     .post(restaurantController.delete_restaurant);
+  app
+    .route('/api/restaurant/upload-restaurant-logo/:requesterId')
+    .post(restaurantController.upload_restaurant_logo_admin);
+  app
+    .route('/api/restaurant/upload-restaurant-logo-user/:token')
+    .post(restaurantController.upload_restaurant_logo_user);
 };
