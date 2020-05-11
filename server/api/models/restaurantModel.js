@@ -7,6 +7,9 @@ const RestaurantSchema = new Schema(
     restaurantName: {
       type: String,
     },
+    restaurantLogo: {
+      type: String,
+    },
     user: {
       type: Object,
     },
