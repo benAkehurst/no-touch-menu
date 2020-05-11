@@ -993,6 +993,84 @@ exports.upload_restaurant_logo_admin = async (req, res) => {
   }
 };
 
+/**
+ * Adds a logo to the restaurant model
+ * ADMIN PROCEDURE
+ * POST
+ * Needs to be a form:
+ * Form Field - restaurantId
+ * Form Field - logoFile
+ */
+exports.upload_restaurant_logo_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.body.restaurantId;
+  const logoFile = req.files.logoFile;
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: 'No files were uploaded, try again.',
+      data: null,
+    });
+  }
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    let imageS3Upload = await uploadFile(
+      logoFile,
+      restaurantId,
+      'images',
+      'image/jpg'
+    )
+      .then((error) => {
+        res.status(400).json({
+          success: false,
+          message: 'Error uploading file to AWS',
+          data: error,
+        });
+      })
+      .catch((response) => {
+        return response;
+      });
+    if (imageS3Upload) {
+      Restaurant.findByIdAndUpdate(
+        restaurantId,
+        { restaurantLogo: imageS3Upload },
+        (err, success) => {
+          if (err) {
+            res.status(400).json({
+              success: false,
+              message: 'Error saving logo to restaurant model',
+              data: err,
+            });
+          }
+          res.status(201).json({
+            success: true,
+            message: 'Logo added to restaurant successfully',
+            data: success,
+          });
+        }
+      );
+    }
+  }
+};
+
 const uploadFile = async (file, restaurantId, subfolder, contenttype) => {
   const params = {
     Bucket: `${process.env.BUCKET_NAME}/${subfolder}`,

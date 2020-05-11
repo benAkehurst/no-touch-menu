@@ -43,4 +43,7 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/upload-restaurant-logo/:requesterId')
     .post(restaurantController.upload_restaurant_logo_admin);
+  app
+    .route('/api/restaurant/upload-restaurant-logo-user/:token')
+    .post(restaurantController.upload_restaurant_logo_user);
 };
