@@ -90,6 +90,7 @@ exports.view_current_menu_user = async (req, res) => {
 
 exports.view_current_menu_admin = async (req, res) => {
   const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
 
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
@@ -106,7 +107,7 @@ exports.view_current_menu_admin = async (req, res) => {
   });
 
   if (isAdminCheck) {
-    Menu.find({}, (err, menus) => {
+    Restaurant.findById(restaurantId, (err, restaurant) => {
       if (err) {
         res.status(400).json({
           success: false,
@@ -116,8 +117,8 @@ exports.view_current_menu_admin = async (req, res) => {
       }
       res.status(200).json({
         success: true,
-        message: 'All menus found',
-        data: menus,
+        message: 'Current menu found',
+        data: restaurant.currentMenu,
       });
     });
   }
