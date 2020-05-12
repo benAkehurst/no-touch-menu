@@ -442,9 +442,11 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
           }
         );
         const shortenedLink = await createShortLink.json();
+        const qrCode = await generateQRCode(pdfS3Url);
         let newMenu = new Menu({
           menuPdfLink: pdfS3Url,
           shortUrlLink: shortenedLink.link,
+          qrCodeBase64: qrCode,
         });
         newMenu.save((err, menu) => {
           if (err) {
