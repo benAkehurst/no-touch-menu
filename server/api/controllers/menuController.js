@@ -49,6 +49,13 @@ exports.view_all_menus = async (req, res) => {
   }
 };
 
+/**
+ * Gets current menus on restaurant in the DB
+ * USER PROCEDURE
+ * GET
+ * param: token
+ * param: requesterId
+ */
 exports.view_current_menu_user = async (req, res) => {
   const token = req.params.token;
   const restaurantId = req.params.restaurantId;
@@ -88,6 +95,13 @@ exports.view_current_menu_user = async (req, res) => {
   }
 };
 
+/**
+ * Gets current menus on restaurant in the DB
+ * ADMIN PROCEDURE
+ * POST
+ * param: requesterId
+ * body: restaurantId
+ */
 exports.view_current_menu_admin = async (req, res) => {
   const requesterId = req.params.requesterId;
   const restaurantId = req.body.restaurantId;
