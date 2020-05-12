@@ -137,3 +137,92 @@ exports.view_current_menu_admin = async (req, res) => {
     });
   }
 };
+
+/**
+ * Gets current menu qr code
+ * USER PROCEDURE
+ * GET
+ * param: token
+ * param: requesterId
+ */
+exports.view_current_menu_qrcode_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.params.restaurantId;
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Current menu found',
+        data: restaurant.currentMenu.qrCodeBase64,
+      });
+    });
+  }
+};
+
+/**
+ * Gets current menu qr code
+ * ADMIN PROCEDURE
+ * POST
+ * param: requesterId
+ * body: restaurantId
+ */
+exports.view_current_menu_qrcode_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: 'User not authorised for this action',
+        data: err,
+      });
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Current menu found',
+        data: restaurant.currentMenu.qrCodeBase64,
+      });
+    });
+  }
+};

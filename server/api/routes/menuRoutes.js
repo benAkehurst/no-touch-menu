@@ -12,4 +12,10 @@ module.exports = (app) => {
   app
     .route('/api/menus/view-current-menu-admin/:requesterId')
     .post(menuController.view_current_menu_admin);
+  app
+    .route('/api/menus/view-current-menu-qrcode-user/:token/:restaurantId')
+    .get(menuController.view_current_menu_qrcode_user);
+  app
+    .route('/api/menus/view-current-menu-qrcode-admin/:requesterId')
+    .post(menuController.view_current_menu_qrcode_admin);
 };
