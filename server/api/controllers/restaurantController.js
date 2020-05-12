@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 const AWS = require('aws-sdk');
 const fetch = require('node-fetch');
+const QRCode = require('qrcode');
 
 AWS.config.update({ region: 'eu-west-2' });
 
@@ -568,9 +569,11 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
         }
       );
       const shortenedLink = await createShortLink.json();
-      let newMenu = new Menu({
+      const qrCode = await generateQRCode(pdfS3Url);
+      let newMenu = await new Menu({
         menuPdfLink: pdfS3Url,
         shortUrlLink: shortenedLink.link,
+        qrCodeBase64: qrCode,
       });
       newMenu.save((err, menu) => {
         if (err) {
@@ -1087,4 +1090,14 @@ const uploadFile = async (file, restaurantId, subfolder, contenttype) => {
       return resolve(data.Location);
     });
   });
+};
+
+const generateQRCode = async (url) => {
+  return QRCode.toDataURL(url)
+    .then((url) => {
+      return url;
+    })
+    .catch((err) => {
+      return err;
+    });
 };
