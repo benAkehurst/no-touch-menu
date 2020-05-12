@@ -10,6 +10,9 @@ const MenuSchema = new Schema(
     shortUrlLink: {
       type: String,
     },
+    qrCodeBase64: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
