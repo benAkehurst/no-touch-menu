@@ -18,4 +18,10 @@ module.exports = (app) => {
   app
     .route('/api/menus/view-current-menu-qrcode-admin/:requesterId')
     .post(menuController.view_current_menu_qrcode_admin);
+  app
+    .route('/api/menus/get-menu-pdf-user/:token/:restaurantId')
+    .get(menuController.get_menu_pdf_user);
+  app
+    .route('/api/menus/get-menu-pdf-admin/:requesterId')
+    .post(menuController.get_menu_pdf_admin);
 };
