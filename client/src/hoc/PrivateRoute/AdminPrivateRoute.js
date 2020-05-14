@@ -1,15 +1,16 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { getAdminStatus } from '../../Helpers/localStorage';
+import helpers from '../../Helpers/localStorage';
 
 /* eslint-disable */
 export const AdminPrivateRoute = ({ component: Component, ...rest }) => {
-  const token = getAdminStatus();
+  const token = helpers.getAdminStatus();
+
   return (
     <Route
       {...rest}
       render={(props) =>
-        token === 'true' ? (
+        token !== undefined || null ? (
           <Component {...props} />
         ) : (
           <Redirect
