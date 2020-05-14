@@ -3,8 +3,10 @@ import classes from './Auth.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import {
+  addUserToken,
+  addUserId,
+  addRestaurantId,
   addAdminStatus,
-  addId,
   clearStorage,
 } from '../../Helpers/localStorage';
 
@@ -176,11 +178,11 @@ class Auth extends Component {
             console.log(res.data.obj);
             if (res.data.obj.isAdmin) {
               addAdminStatus(true);
-              addId(res.data.obj._id);
+              addUserId(res.data.obj._id);
               this.props.history.push({ pathname: '/admin' });
             } else {
               addAdminStatus(false);
-              addId(res.data.obj._id);
+              addUserId(res.data.obj._id);
               this.props.history.push({ pathname: '/home' });
             }
           }
