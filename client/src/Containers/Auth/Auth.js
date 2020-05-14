@@ -258,7 +258,11 @@ class Auth extends Component {
     return (
       <div className={classes.Auth}>
         <section className={classes.Header}>
-          <Banner>Tasty Coffe Rewards</Banner>
+          <Banner
+            siteName={'No Touch Menu'}
+            showUserButtons={true}
+            showLogo={false}
+          ></Banner>
         </section>
         <section className={classes.FormContainer}>
           <Button btnType={'General'} clicked={this.changeFormHandler}>
