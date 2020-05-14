@@ -1,8 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import axios from '../../axios-connector';
 import helpers from '../../Helpers/localStorage';
-import BASE_URL from '../../Helpers/BASE_URL';
 
 /* eslint-disable */
 export const PrivateRoute = ({ component: Component, ...rest }) => {
