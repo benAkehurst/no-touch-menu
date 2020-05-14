@@ -97,3 +97,33 @@ exports.login_user = (req, res) => {
     });
   });
 };
+
+exports.reset_password = async (req, res) => {
+  const userId = req.params.userId;
+  const newPassword = bcrypt.hashSync(req.body.newPassword, 10);
+
+  User.findByIdAndUpdate(
+    userId,
+    { $set: { password: newPassword } },
+    (err, user) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error updating password',
+          data: err,
+        });
+      }
+      let userFiltered = _.pick(user.toObject(), [
+        'name',
+        'email',
+        '_id',
+        'restaurantId',
+      ]);
+      res.status(201).json({
+        success: true,
+        message: 'Password Updated',
+        data: userFiltered,
+      });
+    }
+  );
+};
