@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import classes from './Auth.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import {
-  addUserToken,
-  addUserId,
-  addRestaurantId,
-  addAdminStatus,
-  clearStorage,
-} from '../../Helpers/localStorage';
+import helpers from '../../Helpers/localStorage';
 
-import Button from '../../components/UI/Button/Button';
+import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -68,10 +62,6 @@ class Auth extends Component {
     isformValid: false,
     isLoading: false,
   };
-
-  componentDidMount() {
-    clearStorage();
-  }
 
   /**
    * Deals with how the inputs update the value on the state
@@ -147,7 +137,7 @@ class Auth extends Component {
       };
       this.setState({ showLoader: true });
       axios
-        .post('/user/create', data)
+        .post('/auth/create-new-user', data)
         .then((res) => {
           if (res.status === 201) {
             this.setState({
@@ -172,18 +162,19 @@ class Auth extends Component {
       };
       this.setState({ showLoader: false });
       axios
-        .post('/user/login', data)
+        .post('/auth/login-user', data)
         .then((res) => {
           if (res.status === 200) {
-            console.log(res.data.obj);
-            if (res.data.obj.isAdmin) {
-              addAdminStatus(true);
-              addUserId(res.data.obj._id);
+            if (res.data.data.isAdmin) {
+              helpers.addAdminStatus(true);
+              helpers.addUserId(res.data.obj._id);
               this.props.history.push({ pathname: '/admin' });
             } else {
-              addAdminStatus(false);
-              addUserId(res.data.obj._id);
-              this.props.history.push({ pathname: '/home' });
+              helpers.addAdminStatus(false);
+              helpers.addUserToken(res.data.data.token);
+              helpers.addUserId(res.data.data._id);
+              helpers.addRestaurantId(res.data.data.restaurantId);
+              this.props.history.push({ pathname: '/restaurant' });
             }
           }
         })
@@ -248,9 +239,10 @@ class Auth extends Component {
     });
     const button = (
       <Button
-        btnType={'Login'}
+        color="primary"
+        variant="contained"
         disabled={!this.state.isformValid}
-        clicked={this.onSubmitHandler}
+        onClick={this.onSubmitHandler}
       >
         {!this.state.isformValid ? 'Disabled' : 'Submit'}
       </Button>
@@ -260,20 +252,21 @@ class Auth extends Component {
         <section className={classes.Header}>
           <Banner
             siteName={'No Touch Menu'}
-            showUserButtons={true}
+            showUserButtons={false}
             showLogo={false}
           ></Banner>
         </section>
         <section className={classes.FormContainer}>
-          <Button btnType={'General'} clicked={this.changeFormHandler}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.changeFormHandler}
+          >
             Go to {this.state.isRegister ? 'Login' : 'Register'}
           </Button>
           <h2>{!this.state.isRegister ? 'Login' : 'Register Now'}</h2>
           <form>{this.state.isRegister ? registerForm : loginForm}</form>
           {button}
-          {this.state.hasRegistered ? (
-            <Banner>Thanks for registering, now login!</Banner>
-          ) : null}
         </section>
         {this.state.showLoader ? <Spinner size={'medium'} /> : null}
       </div>
