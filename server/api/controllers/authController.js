@@ -82,7 +82,12 @@ exports.login_user = (req, res) => {
       // TODO: SET JWT TOKEN DURATION HERE
       expiresIn: '24h',
     });
-    let userFiltered = _.pick(user.toObject(), ['name', 'email', '_id']);
+    let userFiltered = _.pick(user.toObject(), [
+      'name',
+      'email',
+      '_id',
+      'restaurantId',
+    ]);
     userFiltered.token = token;
     res.cookie('token', token, { expiresIn: '24h' });
     res.status(200).json({
