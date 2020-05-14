@@ -29,6 +29,9 @@ const UserSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    restaurantId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
