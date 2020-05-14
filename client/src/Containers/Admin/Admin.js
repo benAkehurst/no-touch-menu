@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classes from './Admin.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import { getUserId } from '../../Helpers/localStorage';
+import helpers from '../../Helpers/localStorage';
 
 import Banner from '../../components/UI/Banner/Banner';
 import Input from '../../components/UI/Input/Input';
@@ -66,7 +66,7 @@ class Admin extends Component {
    */
   onSubmitHandler = () => {
     this.setState({ isSaving: true, stampsSaved: false });
-    const id = getUserId();
+    const id = helpers.getUserId();
     const data = {
       _id: id,
       customerId: `_${this.state.controls.userId.value}`,
