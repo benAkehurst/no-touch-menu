@@ -89,6 +89,7 @@ exports.login_user = (req, res) => {
       'email',
       '_id',
       'restaurantId',
+      'isAdmin',
     ]);
     userFiltered.token = token;
     res.cookie('token', token, { expiresIn: '24h' });
@@ -138,6 +139,11 @@ exports.reset_password = async (req, res) => {
   );
 };
 
+/**
+ * Checks if a token is valid
+ * GET
+ * params: token
+ */
 exports.check_token_valid = async (req, res) => {
   const token = req.params.token;
 
@@ -170,4 +176,38 @@ exports.check_token_valid = async (req, res) => {
       message: 'Token not valid',
     });
   }
+};
+
+/**
+ * Checks if a user is admin
+ * GET
+ * params: userId
+ */
+exports.check_user_is_admin = async (req, res) => {
+  const userId = req.params.userId;
+  let isAdmin;
+  User.findById(userId, (err, user) => {
+    if (err) {
+      res.status(400).json({
+        success: false,
+        message: 'Error finding user',
+        data: err,
+      });
+    }
+    if (!user.isAdmin) {
+      res.status(400).json({
+        success: true,
+        message: 'User not valid',
+        data: null,
+      });
+    }
+    if (user.isAdmin) {
+      isAdmin = isAdmin;
+      res.status(200).json({
+        success: true,
+        message: 'User valid',
+        data: null,
+      });
+    }
+  });
 };
