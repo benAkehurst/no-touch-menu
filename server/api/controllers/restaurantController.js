@@ -187,6 +187,20 @@ exports.change_user_assigned_to_restaurant = async (req, res) => {
       }
     });
 
+    await User.findByIdAndUpdate(
+      newUserId,
+      { $set: { restaurantId: restaurantId } },
+      (err, user) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error updating user assigned to restaurant',
+            data: err,
+          });
+        }
+      }
+    );
+
     Restaurant.updateOne(
       { _id: restaurantId },
       { $set: { user: newUser } },
