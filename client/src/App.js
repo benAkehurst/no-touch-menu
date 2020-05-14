@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from './hoc/PrivateRoute/PrivateRoute';
-import { AdminPrivateRoute } from './hoc/PrivateRoute/AdminPrivateRoute';
 
 import Layout from './hoc/Layout/Layout';
 import Auth from './Containers/Auth/Auth';
@@ -15,25 +14,16 @@ class App extends Component {
       <div>
         <Layout>
           <Switch>
-            <Route path="/" component={Auth}></Route>
             <Route path="/auth" component={Auth}></Route>
             <PrivateRoute
               path="/restaurant"
               component={Restaurant}
             ></PrivateRoute>
             <PrivateRoute path="/profile" component={Profile}></PrivateRoute>
-            <AdminPrivateRoute
-              path="/users"
-              component={Admin}
-            ></AdminPrivateRoute>
-            <AdminPrivateRoute
-              path="/restaurants"
-              component={Admin}
-            ></AdminPrivateRoute>
-            <AdminPrivateRoute
-              path="/menus"
-              component={Admin}
-            ></AdminPrivateRoute>
+            <PrivateRoute path="/admin" component={Admin}></PrivateRoute>
+            <PrivateRoute path="/users" component={Admin}></PrivateRoute>
+            <PrivateRoute path="/restaurants" component={Admin}></PrivateRoute>
+            <PrivateRoute path="/menus" component={Admin}></PrivateRoute>
           </Switch>
         </Layout>
       </div>

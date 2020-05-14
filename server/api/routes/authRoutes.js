@@ -6,4 +6,10 @@ module.exports = (app) => {
   app
     .route('/api/auth/reset-password/:userId')
     .post(authController.reset_password);
+  app
+    .route('/api/auth/check-token-valid/:token')
+    .get(authController.check_token_valid);
+  app
+    .route('/api/auth/check-user-valid/:userId')
+    .get(authController.check_user_is_admin);
 };
