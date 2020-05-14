@@ -3,8 +3,8 @@ import { Redirect, Route } from 'react-router-dom';
 import { getAdminStatus } from '../../Helpers/localStorage';
 
 /* eslint-disable */
-export const PrivateRoute = ({ component: Component, ...rest }) => {
-  const token = getUserToken();
+export const AdminPrivateRoute = ({ component: Component, ...rest }) => {
+  const token = getAdminStatus();
   return (
     <Route
       {...rest}
