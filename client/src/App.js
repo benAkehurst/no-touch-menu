@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from './hoc/PrivateRoute/PrivateRoute';
+import { AdminPrivateRoute } from './hoc/PrivateRoute/AdminPrivateRoute';
 
 import Layout from './hoc/Layout/Layout';
 import Auth from './Containers/Auth/Auth';
-import Home from './Containers/Home/Home';
+import Restaurant from './Containers/Restaurant/Restaurant';
+import Profile from './Containers/Profile/Profile';
 import Admin from './Containers/Admin/Admin';
-import Account from './Containers/Account/Account';
 
 class App extends Component {
   render() {
@@ -16,9 +17,23 @@ class App extends Component {
           <Switch>
             <Route path="/" component={Auth}></Route>
             <Route path="/auth" component={Auth}></Route>
-            <Route path="/home" component={Home}></Route>
-            <Route path="/account" component={Account}></Route>
-            <PrivateRoute exact path="/admin" component={Admin} />
+            <PrivateRoute
+              path="/restaurant"
+              component={Restaurant}
+            ></PrivateRoute>
+            <PrivateRoute path="/profile" component={Profile}></PrivateRoute>
+            <AdminPrivateRoute
+              path="/users"
+              component={Admin}
+            ></AdminPrivateRoute>
+            <AdminPrivateRoute
+              path="/restaurants"
+              component={Admin}
+            ></AdminPrivateRoute>
+            <AdminPrivateRoute
+              path="/menus"
+              component={Admin}
+            ></AdminPrivateRoute>
           </Switch>
         </Layout>
       </div>
