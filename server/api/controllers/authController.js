@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 
+const middleware = require('../../middlewares/middleware');
+
 const User = mongoose.model('User');
 
 /**
@@ -134,4 +136,38 @@ exports.reset_password = async (req, res) => {
       });
     }
   );
+};
+
+exports.check_token_valid = async (req, res) => {
+  const token = req.params.token;
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    res.status(200).json({
+      success: true,
+      message: 'Token Valid',
+      data: null,
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: 'Token not valid',
+    });
+  }
 };
