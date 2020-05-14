@@ -98,6 +98,14 @@ exports.login_user = (req, res) => {
   });
 };
 
+/**
+ * Resets user password
+ * POST:
+ * params: userId
+ * {
+ *  "newPassword": "anything",
+ * }
+ */
 exports.reset_password = async (req, res) => {
   const userId = req.params.userId;
   const newPassword = bcrypt.hashSync(req.body.newPassword, 10);
