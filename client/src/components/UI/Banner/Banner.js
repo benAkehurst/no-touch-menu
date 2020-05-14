@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classes from './Banner.module.scss';
 
 import Aux from '../../../hoc/Aux/Aux';
 import AppBar from '@material-ui/core/AppBar';
