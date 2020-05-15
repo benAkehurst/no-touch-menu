@@ -15,4 +15,7 @@ describe('<Banner />', () => {
   it('should render the compoent', () => {
     expect(wrapper).toBeTruthy();
   });
+  it('should render the compoent', () => {
+    expect(wrapper).toBeFalsy();
+  });
 });
