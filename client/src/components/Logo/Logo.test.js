@@ -1,15 +1,15 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Test from './Test';
+import Logo from './Logo';
 
 configure({ adapter: new Adapter() });
 
-describe('<Test />', () => {
+describe('<Logo />', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Test />);
+    wrapper = shallow(<Logo />);
   });
 
   it('should render the compoent', () => {
