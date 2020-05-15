@@ -7,6 +7,8 @@ on:
   push:
     branches: [master]
   pull_request:
+    paths: 
+    - './client/*'
     branches: [master]
 
 jobs:
@@ -18,7 +20,6 @@ jobs:
         node-version: [10.x, 12.x]
 
     steps:
-      - working-directory: ./client
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
