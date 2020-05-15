@@ -8,9 +8,6 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-    paths:
-      - 'client/**'
-      - 'package*.json'
 
 jobs:
   build:
@@ -26,6 +23,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+        working-directory: ./client
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
