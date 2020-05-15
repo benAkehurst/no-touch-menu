@@ -5,8 +5,8 @@ name: Node Continuous Intergration
 
 on:
   push:
-    paths:
-    - "./client/*"
+    paths: 
+      - './client'
     branches: [master]
   pull_request:
     branches: [master]
