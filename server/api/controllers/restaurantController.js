@@ -1090,6 +1090,8 @@ exports.upload_restaurant_logo_user = async (req, res) => {
   }
 };
 
+exports.get_single_restaurant = async (req, res) => {};
+
 const uploadFile = async (file, restaurantId, subfolder, contenttype) => {
   const params = {
     Bucket: `${process.env.BUCKET_NAME}/${subfolder}`,
