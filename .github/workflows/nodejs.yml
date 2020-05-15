@@ -8,6 +8,9 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+    paths:
+      - 'client/**'
+      - 'package*.json'
 
 jobs:
   build:
