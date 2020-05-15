@@ -1090,6 +1090,29 @@ exports.upload_restaurant_logo_user = async (req, res) => {
   }
 };
 
+/**
+ * Gets a single restaurant
+ * GET
+ * params: restaurantId
+ */
+exports.get_single_restaurant = async (req, res) => {
+  const restaurantId = req.params.restaurantId;
+  Restaurant.findById(restaurantId, (err, restaurant) => {
+    if (err) {
+      res.status(400).json({
+        success: false,
+        message: 'Error saving logo to restaurant model',
+        data: err,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Restaurant Found successfully',
+      data: restaurant,
+    });
+  });
+};
+
 const uploadFile = async (file, restaurantId, subfolder, contenttype) => {
   const params = {
     Bucket: `${process.env.BUCKET_NAME}/${subfolder}`,

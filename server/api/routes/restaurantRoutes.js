@@ -46,4 +46,7 @@ module.exports = (app) => {
   app
     .route('/api/restaurant/upload-restaurant-logo-user/:token')
     .post(restaurantController.upload_restaurant_logo_user);
+  app
+    .route('/api/restaurant/get-single-restaurant/:restaurantId')
+    .get(restaurantController.get_single_restaurant);
 };
