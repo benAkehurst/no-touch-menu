@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./client
 
     strategy:
       matrix:
@@ -26,3 +28,4 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+      working-directory: ${{env.working-directory}}
