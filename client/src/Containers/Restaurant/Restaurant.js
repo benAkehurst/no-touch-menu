@@ -67,10 +67,12 @@ class Restaurant extends Component {
   renderRestaurantPage = () => {
     return (
       <div className={classes.RestaurantContainer}>
-        <div className={classes.OptionsContainer}>
+        <section className={classes.OptionsContainer}>
           {this.renderRestaurantOptions()}
-        </div>
-        <div className={classes.MenuContainer}>{this.renderMenuOptions()}</div>
+        </section>
+        <section className={classes.MenuContainer}>
+          {this.renderMenuOptions()}
+        </section>
       </div>
     );
   };
