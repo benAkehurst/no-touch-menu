@@ -6,8 +6,10 @@ import helpers from '../../Helpers/localStorage';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
+import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import Card from '../../components/Card/Card';
 
 class Restaurant extends Component {
   state = {
@@ -57,11 +59,43 @@ class Restaurant extends Component {
   };
 
   renderRestaurantOptions = () => {
-    return <h2>Restaurant Options</h2>;
+    return (
+      <div className={classes.RestaurantOptions}>
+        <h2>Restaurant Options</h2>
+        <section className={classes.RestaurantOption}>
+          <h3>Restaurant Information</h3>
+          <Card></Card>
+        </section>
+        <section className={classes.RestaurantOption}>
+          <h3>Update Restaurant Name</h3>
+          <Card></Card>
+        </section>
+        <section className={classes.RestaurantOption}>
+          <h3>Update Restaurant Logo</h3>
+          <Card></Card>
+        </section>
+      </div>
+    );
   };
 
   renderMenuOptions = () => {
-    return <h2>Menu Options</h2>;
+    return (
+      <div className={classes.MenuOptions}>
+        <h2>Menu Options</h2>
+        <section className={classes.MenuOption}>
+          <Button color="primary" variant="contained">
+            Download PDF Menu
+          </Button>
+        </section>
+        <section className={classes.MenuOption}>
+          <Button color="primary" variant="contained">
+            Download QR Code
+          </Button>
+        </section>
+        <section className={classes.MenuOption}></section>
+        <section className={classes.MenuOption}></section>
+      </div>
+    );
   };
 
   renderRestaurantPage = () => {

@@ -24,9 +24,33 @@
     @include flex-column();
     border-right: 1px solid #eee;
     width: 50%;
+    .RestaurantOptions {
+      @include flex-column();
+      width: 100%;
+      padding: 1rem;
+      .RestaurantOption {
+        width: 100%;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   }
   .MenuContainer {
     @include flex-column();
     width: 50%;
+    .MenuOptions {
+      @include flex-column();
+      width: 100%;
+      padding: 1rem;
+      .MenuOption {
+        width: 100%;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
   }
 }
