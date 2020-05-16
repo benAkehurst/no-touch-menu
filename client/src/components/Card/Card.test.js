@@ -11,7 +11,7 @@ describe('<Card />', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Card />);
+    wrapper = shallow(<Car />);
   });
 
   it('should render the compoent', () => {
