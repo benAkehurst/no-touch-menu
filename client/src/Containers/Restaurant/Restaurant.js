@@ -8,6 +8,7 @@ import BASE_URL from '../../Helpers/BASE_URL';
 import Aux from '../../hoc/Aux/Aux';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
+import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Card from '../../components/Card/Card';
 
@@ -18,6 +19,9 @@ class Restaurant extends Component {
     errorMessage: null,
     isLoggedIn: null,
     restaurantData: null,
+    updatedRestaurantName: null,
+    updatedLogoFile: null,
+    updatedMenuFile: null,
   };
 
   componentDidMount() {
@@ -81,11 +85,24 @@ class Restaurant extends Component {
         </section>
         <section className={classes.RestaurantOption}>
           <h3>Update Restaurant Name</h3>
-          <Card></Card>
+          <div className={classes.RestaurantChangeName}>
+            <input
+              placeholder={this.state.restaurantData.restaurantName}
+              type="text"
+            ></input>
+            <Button color="primary" variant="contained">
+              Submit
+            </Button>
+          </div>
         </section>
         <section className={classes.RestaurantOption}>
           <h3>Update Restaurant Logo</h3>
-          <Card></Card>
+          <div className={classes.RestaurantChangeName}>
+            <input type="file"></input>
+            <Button color="primary" variant="contained">
+              Submit
+            </Button>
+          </div>
         </section>
       </div>
     );
