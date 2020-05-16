@@ -64,7 +64,20 @@ class Restaurant extends Component {
         <h2>Restaurant Options</h2>
         <section className={classes.RestaurantOption}>
           <h3>Restaurant Information</h3>
-          <Card></Card>
+          <div className={classes.RestaurantInformation}>
+            <div className={classes.RestaurantSingleInfo}>
+              <h4>Restaurant Name</h4>
+              <p>{this.state.restaurantData.restaurantName}</p>
+            </div>
+            <div className={classes.RestaurantSingleInfo}>
+              <h4>Main User</h4>
+              <p>{this.state.restaurantData.user.name}</p>
+            </div>
+            <div className={classes.RestaurantSingleInfo}>
+              <h4>Created On</h4>
+              <p>{this.formatDate(this.state.restaurantData.createdAt)}</p>
+            </div>
+          </div>
         </section>
         <section className={classes.RestaurantOption}>
           <h3>Update Restaurant Name</h3>
@@ -125,6 +138,20 @@ class Restaurant extends Component {
 
   loadingMessage = () => {
     return <div>Loading restaurant data</div>;
+  };
+
+  formatDate = (createdOn) => {
+    let date = new Date(createdOn);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate();
+    if (dt < 10) {
+      dt = '0' + dt;
+    }
+    if (month < 10) {
+      month = '0' + month;
+    }
+    return `${dt}/${month}/${year}`;
   };
 
   render() {
