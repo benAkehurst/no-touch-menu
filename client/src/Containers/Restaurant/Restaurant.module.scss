@@ -1,0 +1,32 @@
+@mixin border {
+  border: 1px solid;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.RestaurantContainer {
+  @include flex-row();
+  height: calc(100% - 4rem);
+  box-sizing: border-box;
+  padding: 1rem;
+  .OptionsContainer {
+    @include flex-column();
+    border-right: 1px solid #eee;
+    width: 50%;
+  }
+  .MenuContainer {
+    @include flex-column();
+    width: 50%;
+  }
+}
