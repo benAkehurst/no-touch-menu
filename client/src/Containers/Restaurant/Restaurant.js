@@ -5,6 +5,10 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import helpers from '../../Helpers/localStorage';
 import BASE_URL from '../../Helpers/BASE_URL';
 
+import Aux from '../../hoc/Aux/Aux';
+import Banner from '../../components/UI/Banner/Banner';
+import Spinner from '../../components/UI/Spinner/Spinner';
+
 class Restaurant extends Component {
   state = {
     isLoading: false,
@@ -14,9 +18,8 @@ class Restaurant extends Component {
     restaurantData: null,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.checkTokenValid();
-    this.fetchResaurantData();
   }
 
   checkTokenValid = () => {
@@ -30,7 +33,7 @@ class Restaurant extends Component {
       .then((res) => {
         if (res.status === 200) {
           this.setState({ isLoggedIn: true });
-          return true;
+          this.fetchResaurantData();
         }
       })
       .catch((err) => {
@@ -53,8 +56,47 @@ class Restaurant extends Component {
       });
   };
 
+  renderRestaurantOptions = () => {
+    return <h2>Restaurant Options</h2>;
+  };
+
+  renderMenuOptions = () => {
+    return <h2>Menu Options</h2>;
+  };
+
+  renderRestaurantPage = () => {
+    return (
+      <div className={classes.RestaurantContainer}>
+        <div className={classes.OptionsContainer}>
+          {this.renderRestaurantOptions()}
+        </div>
+        <div className={classes.MenuContainer}>{this.renderMenuOptions()}</div>
+      </div>
+    );
+  };
+
+  loadingMessage = () => {
+    return <div>Loading restaurant data</div>;
+  };
+
   render() {
-    return <div>Restaurant</div>;
+    return (
+      <Aux>
+        <Banner
+          siteName={
+            this.state.restaurantData
+              ? this.state.restaurantData.restaurantName
+              : 'Loading Restaurant'
+          }
+          showLogo={false}
+          showUserButtons={true}
+        ></Banner>
+        {this.state.isLoading ? <Spinner size={'large'} /> : null}
+        {this.state.restaurantData
+          ? this.renderRestaurantPage()
+          : this.loadingMessage()}
+      </Aux>
+    );
   }
 }
 
