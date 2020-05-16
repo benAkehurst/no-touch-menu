@@ -23,15 +23,17 @@ class Banner extends Component {
   render() {
     return (
       <Aux>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography edge="start" variant="h6">
-              {this.props.siteName}
-            </Typography>
-            {this.props.showLogo ? this.showLogo() : null}
-            {this.props.showUserButtons ? this.showUserButtons() : null}
-          </Toolbar>
-        </AppBar>
+        <header>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography edge="start" variant="h6">
+                {this.props.siteName}
+              </Typography>
+              {this.props.showLogo ? this.showLogo() : null}
+              {this.props.showUserButtons ? this.showUserButtons() : null}
+            </Toolbar>
+          </AppBar>
+        </header>
       </Aux>
     );
   }
