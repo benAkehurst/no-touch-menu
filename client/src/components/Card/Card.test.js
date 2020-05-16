@@ -15,7 +15,7 @@ describe('<Card />', () => {
   });
 
   it('should render the compoent', () => {
-    expect(wrapper).toBeTruthy();
+    expect(wrapper).toBeFalse();
   });
 
   it('should render stamps if they exist', () => {
