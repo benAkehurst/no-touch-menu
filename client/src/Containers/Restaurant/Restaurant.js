@@ -62,6 +62,30 @@ class Restaurant extends Component {
       });
   };
 
+  onNewNameChangeHandler = (event) => {
+    this.setState({ updatedRestaurantName: event.target.value });
+  };
+
+  onFileLogoUploadChangeHandler = (event) => {
+    this.setState({
+      updatedLogoFile: event.target.files[0],
+    });
+  };
+
+  onNewMenuUploadChangeHandler = (event) => {
+    this.setState({
+      updatedMenuFile: event.target.files[0],
+    });
+  };
+
+  updateRestaurantNameHandler = () => {
+    console.log('Name change clicked');
+  };
+  updateRestaurantLogo = () => {
+    console.log('Logo change clicked');
+  };
+  updateRestaurantMenu = () => {};
+
   renderRestaurantOptions = () => {
     return (
       <div className={classes.RestaurantOptions}>
@@ -89,8 +113,13 @@ class Restaurant extends Component {
             <input
               placeholder={this.state.restaurantData.restaurantName}
               type="text"
+              onChange={this.onNewNameChangeHandler}
             ></input>
-            <Button color="primary" variant="contained">
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={this.updateRestaurantNameHandler}
+            >
               Submit
             </Button>
           </div>
@@ -98,8 +127,16 @@ class Restaurant extends Component {
         <section className={classes.RestaurantOption}>
           <h3>Update Restaurant Logo</h3>
           <div className={classes.RestaurantChangeName}>
-            <input type="file"></input>
-            <Button color="primary" variant="contained">
+            <input
+              type="file"
+              name="file"
+              onChange={this.onFileLogoUploadChangeHandler}
+            ></input>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={this.updateRestaurantLogo}
+            >
               Submit
             </Button>
           </div>
