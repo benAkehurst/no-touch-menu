@@ -92,8 +92,20 @@ class Restaurant extends Component {
             Download QR Code
           </Button>
         </section>
-        <section className={classes.MenuOption}></section>
-        <section className={classes.MenuOption}></section>
+        <section className={classes.MenuCards}>
+          <div className={classes.MenuCard}>
+            <h3>Current Menu</h3>
+            <Card></Card>
+          </div>
+          <div className={classes.MenuCard}>
+            <h3>Old Menus</h3>
+            <Card></Card>
+          </div>
+        </section>
+        <section className={classes.MenuOption}>
+          <h3>Upload New Menu</h3>
+          <Card />
+        </section>
       </div>
     );
   };
