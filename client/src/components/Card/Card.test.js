@@ -17,11 +17,6 @@ describe('<Card />', () => {
     expect(wrapper).toBeTruthy();
   });
 
-  it('should render stamps if they exist', () => {
-    wrapper.setProps({ currentStamps: 2 });
-    expect(wrapper.find(Stamp)).toBeTruthy();
-  });
-
   it('should render a message if over 10 stamps', () => {
     wrapper.setProps({ currentStamps: 12 });
 
