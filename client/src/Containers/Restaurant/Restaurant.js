@@ -5,6 +5,8 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import helpers from '../../Helpers/localStorage';
 import BASE_URL from '../../Helpers/BASE_URL';
 
+import fileDownload from 'js-file-download';
+
 import Aux from '../../hoc/Aux/Aux';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
@@ -21,6 +23,8 @@ class Restaurant extends Component {
     updatedRestaurantName: null,
     updatedLogoFile: null,
     updatedMenuFile: null,
+    qrcodeData: null,
+    qrCodeShowing: false,
   };
 
   componentDidMount() {
@@ -77,13 +81,50 @@ class Restaurant extends Component {
     });
   };
 
-  updateRestaurantNameHandler = () => {
-    console.log('Name change clicked');
+  downloadMenu = () => {
+    window.open(
+      `${BASE_URL}/menus/get-menu-pdf-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
+    );
   };
-  updateRestaurantLogo = () => {
-    console.log('Logo change clicked');
+
+  viewQrCode = () => {
+    let qrUri = '';
+    axios
+      .get(
+        `${BASE_URL}/menus/view-current-menu-qrcode-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
+      )
+      .then((res) => {
+        qrUri = res.data.data;
+        this.setState({ qrcodeData: res.data.data, qrCodeShowing: true });
+        document.querySelector('#qrCodeImage').src = qrUri;
+      })
+      .catch((err) => console.log(err));
   };
-  updateRestaurantMenu = () => {};
+
+  hideQrCode = () => {
+    this.setState({ qrCodeShowing: false });
+  };
+
+  clickHandler = (clickType) => {
+    switch (clickType) {
+      case 'updateRestaurantName':
+        break;
+      case 'updateRestaurantLogo':
+        break;
+      case 'downloadMenu':
+        this.downloadMenu();
+        break;
+      case 'viewQrCode':
+        this.viewQrCode();
+        break;
+      case 'hideQrCode':
+        this.hideQrCode();
+        break;
+
+      default:
+        break;
+    }
+  };
 
   renderRestaurantOptions = () => {
     return (
@@ -117,7 +158,7 @@ class Restaurant extends Component {
             <Button
               color="primary"
               variant="contained"
-              onClick={this.updateRestaurantNameHandler}
+              onClick={() => this.clickHandler('updateRestaurantName')}
             >
               Submit
             </Button>
@@ -134,7 +175,7 @@ class Restaurant extends Component {
             <Button
               color="primary"
               variant="contained"
-              onClick={this.updateRestaurantLogo}
+              onClick={() => this.clickHandler('updateRestaurantLogo')}
             >
               Submit
             </Button>
@@ -149,14 +190,30 @@ class Restaurant extends Component {
       <div className={classes.MenuOptions}>
         <h2>Menu Options</h2>
         <section className={classes.MenuOption}>
-          <Button color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => this.clickHandler('downloadMenu')}
+          >
             Download PDF Menu
           </Button>
         </section>
         <section className={classes.MenuOption}>
-          <Button color="primary" variant="contained">
-            Download QR Code
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => {
+              !this.state.qrCodeShowing
+                ? this.clickHandler('viewQrCode')
+                : this.clickHandler('hideQrCode');
+            }}
+          >
+            {this.state.qrCodeShowing ? 'Hide QR Code' : null}
+            {!this.state.qrCodeShowing ? 'View QR Code' : null}
           </Button>
+          {this.state.qrCodeShowing ? (
+            <img id="qrCodeImage" src="" alt="Menu QR Code" />
+          ) : null}
         </section>
         <section className={classes.MenuCards}>
           <div className={classes.MenuCard}>

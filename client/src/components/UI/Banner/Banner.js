@@ -14,8 +14,8 @@ class Banner extends Component {
   showUserButtons = () => {
     return (
       <div className={'Buttons-wrapper'}>
-        <Button color="inherit">Profile</Button>
         <Button color="inherit">Restaurant</Button>
+        <Button color="inherit">Logout</Button>
       </div>
     );
   };
