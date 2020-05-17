@@ -39,7 +39,7 @@ class Restaurant extends Component {
       .get(`${BASE_URL}/auth/check-token-valid/${token}`)
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ isLoggedIn: true });
+          this.setState({ isLoggedIn: true, isLoading: false });
           this.fetchResaurantData();
         }
       })
@@ -74,6 +74,7 @@ class Restaurant extends Component {
   };
 
   updateRestaurantName = () => {
+    this.setState({ isLoading: true });
     let data = {
       restaurantId: helpers.getRestaurantId(),
       newRestaurantName: this.state.updatedRestaurantName,
@@ -84,10 +85,11 @@ class Restaurant extends Component {
         data
       )
       .then((res) => {
-        console.log(res);
+        this.setState({ isLoading: false });
+        window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
+        this.setState({ isLoading: false, isError: true });
       });
   };
 
@@ -268,7 +270,11 @@ class Restaurant extends Component {
           showLogo={false}
           showUserButtons={true}
         ></Banner>
-        {this.state.isLoading ? <Spinner size={'large'} /> : null}
+        {this.state.isLoading ? (
+          <div className={classes.LoadingBg}>
+            <Spinner size={'large'} />
+          </div>
+        ) : null}
         {this.state.restaurantData
           ? this.renderRestaurantPage()
           : this.loadingMessage()}
