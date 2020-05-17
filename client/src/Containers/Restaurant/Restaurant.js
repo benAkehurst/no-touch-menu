@@ -22,8 +22,6 @@ class Restaurant extends Component {
     updatedRestaurantName: null,
     updatedLogoFile: null,
     updatedMenuFile: null,
-    qrcodeData: null,
-    qrCodeShowing: false,
   };
 
   componentDidMount() {
@@ -58,6 +56,7 @@ class Restaurant extends Component {
       .then((res) => {
         console.log(res.data.data);
         this.setState({ isLoading: false, restaurantData: res.data.data });
+        this.viewQrCode();
       })
       .catch((err) => {
         this.setState({ isLoading: false, isError: true, errorMessage: err });
@@ -114,10 +113,6 @@ class Restaurant extends Component {
       .catch((err) => console.log(err));
   };
 
-  hideQrCode = () => {
-    this.setState({ qrCodeShowing: false });
-  };
-
   clickHandler = (clickType) => {
     switch (clickType) {
       case 'updateRestaurantName':
@@ -126,13 +121,9 @@ class Restaurant extends Component {
       case 'downloadMenu':
         this.downloadMenu();
         break;
-      case 'viewQrCode':
-        this.viewQrCode();
-        break;
       case 'hideQrCode':
         this.hideQrCode();
         break;
-
       default:
         break;
     }
@@ -154,7 +145,7 @@ class Restaurant extends Component {
               <p>{this.state.restaurantData.user.name}</p>
             </div>
             <div className={classes.RestaurantSingleInfo}>
-              <h4>Created On</h4>
+              <h4>Created On Date</h4>
               <p>
                 {timeDateHelpers.formatDate(
                   this.state.restaurantData.createdAt
@@ -197,36 +188,25 @@ class Restaurant extends Component {
             Download PDF Menu
           </Button>
         </section>
-        <section className={classes.MenuOption}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              !this.state.qrCodeShowing
-                ? this.clickHandler('viewQrCode')
-                : this.clickHandler('hideQrCode');
-            }}
-          >
-            {this.state.qrCodeShowing ? 'Hide QR Code' : null}
-            {!this.state.qrCodeShowing ? 'View QR Code' : null}
-          </Button>
-          {this.state.qrCodeShowing ? (
-            <img id="qrCodeImage" src="" alt="Menu QR Code" />
-          ) : null}
-        </section>
         <section className={classes.MenuCards}>
-          <div className={classes.MenuCard}>
+          <section className={classes.MenuCard}>
             <h3>Current Menu</h3>
-            <Card></Card>
-          </div>
-          <div className={classes.MenuCard}>
+            <a href={this.state.restaurantData.currentMenu.menuPdfLink}>
+              Menu Link
+            </a>
+            <h4>Created On Date</h4>
+            {timeDateHelpers.formatDate(
+              this.state.restaurantData.currentMenu.createdAt
+            )}
+            <h4>QR Code</h4>
+            <img id="qrCodeImage" src="" alt="Menu QR Code" />
+          </section>
+          <section className={classes.MenuCard}>
             <h3>Old Menus</h3>
-            <Card></Card>
-          </div>
+          </section>
         </section>
         <section className={classes.MenuOption}>
           <h3>Upload New Menu</h3>
-          <Card />
         </section>
       </div>
     );
