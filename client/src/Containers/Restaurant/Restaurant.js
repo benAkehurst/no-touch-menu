@@ -5,8 +5,6 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import helpers from '../../Helpers/localStorage';
 import BASE_URL from '../../Helpers/BASE_URL';
 
-import fileDownload from 'js-file-download';
-
 import Aux from '../../hoc/Aux/Aux';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
