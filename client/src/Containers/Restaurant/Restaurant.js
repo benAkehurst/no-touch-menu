@@ -10,7 +10,6 @@ import Aux from '../../hoc/Aux/Aux';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Card from '../../components/Card/Card';
 
 class Restaurant extends Component {
   state = {
@@ -54,7 +53,6 @@ class Restaurant extends Component {
     axios
       .get(`${BASE_URL}/restaurant/get-single-restaurant/${restaurantId}`)
       .then((res) => {
-        console.log(res.data.data);
         this.setState({ isLoading: false, restaurantData: res.data.data });
         this.viewQrCode();
       })
@@ -99,6 +97,10 @@ class Restaurant extends Component {
     );
   };
 
+  uploadNewMenu = () => {
+    console.log('menu upload clicked');
+  };
+
   viewQrCode = () => {
     let qrUri = '';
     axios
@@ -110,7 +112,7 @@ class Restaurant extends Component {
         this.setState({ qrcodeData: res.data.data, qrCodeShowing: true });
         document.querySelector('#qrCodeImage').src = qrUri;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => this.setState({ isError: true, errorMessage: err }));
   };
 
   clickHandler = (clickType) => {
@@ -121,8 +123,8 @@ class Restaurant extends Component {
       case 'downloadMenu':
         this.downloadMenu();
         break;
-      case 'hideQrCode':
-        this.hideQrCode();
+      case 'uploadNewMenu':
+        this.uploadNewMenu();
         break;
       default:
         break;
@@ -156,7 +158,7 @@ class Restaurant extends Component {
         </section>
         <section className={classes.RestaurantOption}>
           <h3>Update Restaurant Name</h3>
-          <div className={classes.RestaurantChangeName}>
+          <div className={classes.FormInputWrapper}>
             <input
               placeholder={this.state.restaurantData.restaurantName}
               type="text"
@@ -190,6 +192,19 @@ class Restaurant extends Component {
         </section>
         <section className={classes.MenuOption}>
           <h3>Upload New Menu</h3>
+          <div className={classes.FormInputWrapper}>
+            <input
+              type="file"
+              onChange={this.onNewMenuUploadChangeHandler}
+            ></input>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => this.clickHandler('uploadNewMenu')}
+            >
+              Submit
+            </Button>
+          </div>
         </section>
         <section className={classes.MenuCards}>
           <section className={classes.MenuCard}>
@@ -208,7 +223,10 @@ class Restaurant extends Component {
             <h3>Old Menus</h3>
             {this.state.restaurantData.oldMenus.map((menu) => {
               return (
-                <div className={classes.MeanCardRepeaded}>
+                <div
+                  className={classes.MeanCardRepeaded}
+                  key={`${menu}_${Math.random()}`}
+                >
                   <a href={menu.menuPdfLink}>Menu Link</a>
                   <p>Created On Date:</p>
                   {timeDateHelpers.formatDate(menu.createdAt)}
