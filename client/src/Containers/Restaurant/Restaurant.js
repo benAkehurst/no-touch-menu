@@ -249,6 +249,10 @@ class Restaurant extends Component {
     return <div>Loading restaurant data</div>;
   };
 
+  displayErrorMessage = () => {
+    return <div>{this.state.errorMessage}</div>;
+  };
+
   render() {
     return (
       <Aux>
@@ -269,6 +273,7 @@ class Restaurant extends Component {
         {this.state.restaurantData
           ? this.renderRestaurantPage()
           : this.loadingMessage()}
+        {this.state.errorMessage ? this.displayErrorMessage() : null}
       </Aux>
     );
   }
