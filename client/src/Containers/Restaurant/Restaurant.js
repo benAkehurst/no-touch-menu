@@ -67,16 +67,28 @@ class Restaurant extends Component {
     this.setState({ updatedRestaurantName: event.target.value });
   };
 
-  onFileLogoUploadChangeHandler = (event) => {
-    this.setState({
-      updatedLogoFile: event.target.files[0],
-    });
-  };
-
   onNewMenuUploadChangeHandler = (event) => {
     this.setState({
       updatedMenuFile: event.target.files[0],
     });
+  };
+
+  updateRestaurantName = () => {
+    let data = {
+      restaurantId: helpers.getRestaurantId(),
+      newRestaurantName: this.state.updatedRestaurantName,
+    };
+    axios
+      .post(
+        `/restaurant/edit-restaurant-name-user/${helpers.getUserToken()}`,
+        data
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   downloadMenu = () => {
@@ -106,8 +118,7 @@ class Restaurant extends Component {
   clickHandler = (clickType) => {
     switch (clickType) {
       case 'updateRestaurantName':
-        break;
-      case 'updateRestaurantLogo':
+        this.updateRestaurantName();
         break;
       case 'downloadMenu':
         this.downloadMenu();
@@ -157,23 +168,6 @@ class Restaurant extends Component {
               color="primary"
               variant="contained"
               onClick={() => this.clickHandler('updateRestaurantName')}
-            >
-              Submit
-            </Button>
-          </div>
-        </section>
-        <section className={classes.RestaurantOption}>
-          <h3>Update Restaurant Logo</h3>
-          <div className={classes.RestaurantChangeName}>
-            <input
-              type="file"
-              name="file"
-              onChange={this.onFileLogoUploadChangeHandler}
-            ></input>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => this.clickHandler('updateRestaurantLogo')}
             >
               Submit
             </Button>
