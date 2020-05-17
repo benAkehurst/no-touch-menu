@@ -188,6 +188,9 @@ class Restaurant extends Component {
             Download PDF Menu
           </Button>
         </section>
+        <section className={classes.MenuOption}>
+          <h3>Upload New Menu</h3>
+        </section>
         <section className={classes.MenuCards}>
           <section className={classes.MenuCard}>
             <h3>Current Menu</h3>
@@ -201,12 +204,18 @@ class Restaurant extends Component {
             <h4>QR Code</h4>
             <img id="qrCodeImage" src="" alt="Menu QR Code" />
           </section>
-          <section className={classes.MenuCard}>
+          <section className={classes.MenuCardRepeater}>
             <h3>Old Menus</h3>
+            {this.state.restaurantData.oldMenus.map((menu) => {
+              return (
+                <div className={classes.MeanCardRepeaded}>
+                  <a href={menu.menuPdfLink}>Menu Link</a>
+                  <p>Created On Date:</p>
+                  {timeDateHelpers.formatDate(menu.createdAt)}
+                </div>
+              );
+            })}
           </section>
-        </section>
-        <section className={classes.MenuOption}>
-          <h3>Upload New Menu</h3>
         </section>
       </div>
     );
