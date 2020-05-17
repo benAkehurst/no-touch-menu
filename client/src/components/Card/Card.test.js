@@ -5,7 +5,6 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 import Card from './Card';
-import Stamp from './Stamp/Stamp';
 
 describe('<Card />', () => {
   let wrapper;
