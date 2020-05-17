@@ -3,6 +3,7 @@ import classes from './Restaurant.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import helpers from '../../Helpers/localStorage';
+import timeDateHelpers from '../../Helpers/timeAndDate';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
@@ -154,7 +155,11 @@ class Restaurant extends Component {
             </div>
             <div className={classes.RestaurantSingleInfo}>
               <h4>Created On</h4>
-              <p>{this.formatDate(this.state.restaurantData.createdAt)}</p>
+              <p>
+                {timeDateHelpers.formatDate(
+                  this.state.restaurantData.createdAt
+                )}
+              </p>
             </div>
           </div>
         </section>
@@ -242,20 +247,6 @@ class Restaurant extends Component {
 
   loadingMessage = () => {
     return <div>Loading restaurant data</div>;
-  };
-
-  formatDate = (createdOn) => {
-    let date = new Date(createdOn);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let dt = date.getDate();
-    if (dt < 10) {
-      dt = '0' + dt;
-    }
-    if (month < 10) {
-      month = '0' + month;
-    }
-    return `${dt}/${month}/${year}`;
   };
 
   render() {
