@@ -5,7 +5,6 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 import Card from './Card';
-import Stamp from './Stamp/Stamp';
 
 describe('<Card />', () => {
   let wrapper;
@@ -16,11 +15,6 @@ describe('<Card />', () => {
 
   it('should render the compoent', () => {
     expect(wrapper).toBeTruthy();
-  });
-
-  it('should render stamps if they exist', () => {
-    wrapper.setProps({ currentStamps: 2 });
-    expect(wrapper.find(Stamp)).toBeTruthy();
   });
 
   it('should render a message if over 10 stamps', () => {

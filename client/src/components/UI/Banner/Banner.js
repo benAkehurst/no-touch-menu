@@ -14,8 +14,8 @@ class Banner extends Component {
   showUserButtons = () => {
     return (
       <div className={'Buttons-wrapper'}>
-        <Button color="inherit">Profile</Button>
         <Button color="inherit">Restaurant</Button>
+        <Button color="inherit">Logout</Button>
       </div>
     );
   };
@@ -23,15 +23,17 @@ class Banner extends Component {
   render() {
     return (
       <Aux>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography edge="start" variant="h6">
-              {this.props.siteName}
-            </Typography>
-            {this.props.showLogo ? this.showLogo() : null}
-            {this.props.showUserButtons ? this.showUserButtons() : null}
-          </Toolbar>
-        </AppBar>
+        <header>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography edge="start" variant="h6">
+                {this.props.siteName}
+              </Typography>
+              {this.props.showLogo ? this.showLogo() : null}
+              {this.props.showUserButtons ? this.showUserButtons() : null}
+            </Toolbar>
+          </AppBar>
+        </header>
       </Aux>
     );
   }
