@@ -174,6 +174,12 @@ class Restaurant extends Component {
             </Button>
           </div>
         </section>
+        <section className={classes.RestaurantOption}>
+          <Uploader
+            title={'Upload New Restaurant Logo'}
+            uploadType={'newLogo'}
+          ></Uploader>
+        </section>
       </div>
     );
   };
@@ -192,7 +198,7 @@ class Restaurant extends Component {
           </Button>
         </section>
         <section className={classes.MenuOption}>
-          <Uploader title={'Upload New Menu'}></Uploader>
+          <Uploader title={'Upload New Menu'} uploadType={'newMenu'}></Uploader>
         </section>
         <section className={classes.MenuCards}>
           <section className={classes.MenuCard}>
