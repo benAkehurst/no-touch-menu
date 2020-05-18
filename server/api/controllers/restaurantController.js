@@ -509,7 +509,7 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
               }
               res.status(201).json({
                 success: true,
-                message: 'Menu added to current menu on restaurant',
+                message: 'Menu updated successfully',
                 data: null,
               });
             }
@@ -638,7 +638,7 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
             }
             res.status(201).json({
               success: true,
-              message: 'Menu added to current menu on restaurant',
+              message: 'Menu updated successfully',
               data: null,
             });
           }
