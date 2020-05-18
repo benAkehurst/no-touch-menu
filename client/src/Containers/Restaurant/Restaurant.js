@@ -10,6 +10,7 @@ import Aux from '../../hoc/Aux/Aux';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import Uploader from '../../components/Uploader/Uploader';
 
 class Restaurant extends Component {
   state = {
@@ -191,20 +192,7 @@ class Restaurant extends Component {
           </Button>
         </section>
         <section className={classes.MenuOption}>
-          <h3>Upload New Menu</h3>
-          <div className={classes.FormInputWrapper}>
-            <input
-              type="file"
-              onChange={this.onNewMenuUploadChangeHandler}
-            ></input>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => this.clickHandler('uploadNewMenu')}
-            >
-              Submit
-            </Button>
-          </div>
+          <Uploader title={'Upload New Menu'}></Uploader>
         </section>
         <section className={classes.MenuCards}>
           <section className={classes.MenuCard}>
