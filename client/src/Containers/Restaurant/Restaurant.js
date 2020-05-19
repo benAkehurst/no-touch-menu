@@ -246,7 +246,9 @@ class Restaurant extends Component {
                 Remove Current Menu
               </Button>
             </section>
-          ) : null}
+          ) : (
+            <p>Please upload a menu!</p>
+          )}
           <section className={classes.MenuCardRepeater}>
             <h3>Old Menus</h3>
             {this.state.restaurantData.oldMenus.map((menu) => {
