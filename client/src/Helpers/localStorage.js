@@ -11,8 +11,8 @@ const helpers = {
     window.localStorage.setItem('restaurantId', id);
     return true;
   },
-  addAdminStatus: function addAdminStatus(id) {
-    window.localStorage.setItem('isAdmin', id);
+  addAdminStatus: function addAdminStatus(status) {
+    window.localStorage.setItem('isAdmin', status);
     return true;
   },
   getUserToken: function getUserToken() {
