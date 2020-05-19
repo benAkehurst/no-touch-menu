@@ -109,11 +109,33 @@ class Restaurant extends Component {
         `${BASE_URL}/menus/view-current-menu-qrcode-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
       )
       .then((res) => {
-        qrUri = res.data.data;
-        this.setState({ qrcodeData: res.data.data, qrCodeShowing: true });
-        document.querySelector('#qrCodeImage').src = qrUri;
+        if (res.data.data) {
+          qrUri = res.data.data;
+          this.setState({ qrcodeData: res.data.data, qrCodeShowing: true });
+          document.querySelector('#qrCodeImage').src = qrUri;
+        }
       })
       .catch((err) => this.setState({ isError: true, errorMessage: err }));
+  };
+
+  removeCurrentMenu = () => {
+    this.setState({ isLoading: true });
+    const data = {
+      restaurantId: helpers.getRestaurantId(),
+      userId: helpers.getUserId(),
+    };
+    axios
+      .post(
+        `/restaurant/remove-menu-from-restaurant-user/${helpers.getUserToken()}`,
+        data
+      )
+      .then((res) => {
+        this.setState({ isLoading: false });
+        window.location.reload();
+      })
+      .catch((err) => {
+        this.setState({ isLoading: false, isError: true });
+      });
   };
 
   clickHandler = (clickType) => {
@@ -126,6 +148,9 @@ class Restaurant extends Component {
         break;
       case 'uploadNewMenu':
         this.uploadNewMenu();
+        break;
+      case 'removeCurrentMenu':
+        this.removeCurrentMenu();
         break;
       default:
         break;
@@ -201,18 +226,27 @@ class Restaurant extends Component {
           <Uploader title={'Upload New Menu'} uploadType={'newMenu'}></Uploader>
         </section>
         <section className={classes.MenuCards}>
-          <section className={classes.MenuCard}>
-            <h3>Current Menu</h3>
-            <a href={this.state.restaurantData.currentMenu.menuPdfLink}>
-              Menu Link
-            </a>
-            <h4>Created On Date</h4>
-            {timeDateHelpers.formatDate(
-              this.state.restaurantData.currentMenu.createdAt
-            )}
-            <h4>QR Code</h4>
-            <img id="qrCodeImage" src="" alt="Menu QR Code" />
-          </section>
+          {this.state.restaurantData.currentMenu ? (
+            <section className={classes.MenuCard}>
+              <h3>Current Menu</h3>
+              <a href={this.state.restaurantData.currentMenu.menuPdfLink}>
+                Menu Link
+              </a>
+              <h4>Created On Date</h4>
+              {timeDateHelpers.formatDate(
+                this.state.restaurantData.currentMenu.createdAt
+              )}
+              <h4>QR Code</h4>
+              <img id="qrCodeImage" src="" alt="Menu QR Code" />
+              <Button
+                onClick={() => this.clickHandler('removeCurrentMenu')}
+                color="primary"
+                variant="contained"
+              >
+                Remove Current Menu
+              </Button>
+            </section>
+          ) : null}
           <section className={classes.MenuCardRepeater}>
             <h3>Old Menus</h3>
             {this.state.restaurantData.oldMenus.map((menu) => {
