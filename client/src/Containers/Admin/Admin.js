@@ -12,7 +12,12 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import Uploader from '../../components/Uploader/Uploader';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import User from '../../components/Admin/User/User';
+import Restaurant from '../../components/Admin/Restaurant/Restaurant';
+import Menu from '../../components/Admin/Menu/Menu';
 
 class Admin extends Component {
   state = {
@@ -59,6 +64,7 @@ class Admin extends Component {
             >
               <Typography className={classes.heading}>User Options</Typography>
             </ExpansionPanelSummary>
+            <User />
             <ul>
               <li>Get All Users</li>
               <li>Change User Admin Role</li>
@@ -81,6 +87,7 @@ class Admin extends Component {
                 Restaurant Options
               </Typography>
             </ExpansionPanelSummary>
+            <Restaurant />
             <ul>
               <li>View All Restaurants</li>
               <li>Get Single Restaurant</li>
@@ -101,6 +108,7 @@ class Admin extends Component {
             >
               <Typography className={classes.heading}>Menu Options</Typography>
             </ExpansionPanelSummary>
+            <Menu />
             <ul>
               <li>View All Menus</li>
               <li>View Current Menu</li>
