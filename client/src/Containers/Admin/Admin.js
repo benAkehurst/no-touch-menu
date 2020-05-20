@@ -6,7 +6,6 @@ import helpers from '../../Helpers/localStorage';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
-import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Uploader from '../../components/Uploader/Uploader';
@@ -37,7 +36,7 @@ class Admin extends Component {
     axios
       .get(`${BASE_URL}/admin/check-if-admin/${helpers.getUserId()}`)
       .then((res) => {
-        if (res.data.data.success) {
+        if (res.data.success) {
           this.setState({ isLoading: false, isAuthorised: true });
         }
       })
@@ -51,6 +50,11 @@ class Admin extends Component {
     return (
       <Aux>
         <Banner siteName={'Admin Options'}></Banner>
+        {this.state.isLoading ? (
+          <div className={classes.LoadingBg}>
+            <Spinner size={'large'} />
+          </div>
+        ) : null}
         <main className={classes.AdminWrapper}>
           <div className={classes.SelectedItems}>
             <p>User Id: {this.state.selectedUserId}</p>
