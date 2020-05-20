@@ -43,6 +43,13 @@ ul {
     border-bottom: 1px dashed #ccc;
   }
 
+  .ChangeAdminStatus {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
   .Hoverable:hover {
     cursor: pointer;
   }
