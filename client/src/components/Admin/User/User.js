@@ -3,6 +3,7 @@ import classes from './User.module.scss';
 import axios from '../../../axios-connector';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import helpers from '../../../Helpers/localStorage';
+import timeDateHelpers from '../../../Helpers/timeAndDate';
 import BASE_URL from '../../../Helpers/BASE_URL';
 
 import Aux from '../../../hoc/Aux/Aux';
@@ -177,7 +178,46 @@ class User extends Component {
             ) : null}
           </li>
           <li>Change User Status</li>
-          <li>Get Single User</li>
+          {/* Get Single User */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Get Single User</h4>
+              <input
+                placeholder={'User ID'}
+                type="text"
+                onChange={this.userIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getSingleUser}
+                disabled={!this.state.chosenUserId}
+              >
+                Get User
+              </Button>
+            </div>
+            {this.state.singleUser ? (
+              <div className={classes.SingleListItem}>
+                <span>Name - {this.state.singleUser.name}</span>
+                <span>User Id - {this.state.singleUser._id}</span>
+                <span>Email - {this.state.singleUser.email}</span>
+                <span>
+                  Created On -{' '}
+                  {timeDateHelpers.formatDate(this.state.singleUser.createdAt)}
+                </span>
+                <span>
+                  Updated On -{' '}
+                  {timeDateHelpers.formatDate(this.state.singleUser.updatedAt)}
+                </span>
+                <span>
+                  Is Active - {JSON.stringify(this.state.singleUser.userActive)}
+                </span>
+                <span>
+                  Is Admin - {JSON.stringify(this.state.singleUser.isAdmin)}
+                </span>
+              </div>
+            ) : null}
+          </li>
           <li>Delete Single User</li>
           <li>Create New User</li>
           <li>Reset Password</li>
