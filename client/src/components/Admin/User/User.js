@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import Banner from '../../../components/UI/Banner/Banner';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Uploader from '../../../components/Uploader/Uploader';
-import Checkbox from '@material-ui/core/Checkbox';
 
 class User extends Component {
   state = {
@@ -272,8 +271,6 @@ class User extends Component {
               </div>
             ) : null}
           </li>
-          {/* Delete Single User */}
-          <li>Delete Single User</li>
           <li>Create New User</li>
           <li>Reset Password</li>
           <li>Check User Valid</li>
