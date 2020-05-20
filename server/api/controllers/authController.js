@@ -81,6 +81,15 @@ exports.login_user = (req, res) => {
         },
       });
     }
+    if (user.userActive === false) {
+      return res.status(401).json({
+        success: false,
+        message: 'Login failed',
+        data: {
+          message: 'Invalid Account',
+        },
+      });
+    }
     let token = jwt.sign({ username: user._id }, process.env.JWT_SECRET, {
       // TODO: SET JWT TOKEN DURATION HERE
       expiresIn: '24h',
