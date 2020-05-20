@@ -21,9 +21,6 @@ class App extends Component {
             ></PrivateRoute>
             <PrivateRoute path="/profile" component={Profile}></PrivateRoute>
             <PrivateRoute path="/admin" component={Admin}></PrivateRoute>
-            <PrivateRoute path="/users" component={Admin}></PrivateRoute>
-            <PrivateRoute path="/restaurants" component={Admin}></PrivateRoute>
-            <PrivateRoute path="/menus" component={Admin}></PrivateRoute>
           </Switch>
         </Layout>
       </div>

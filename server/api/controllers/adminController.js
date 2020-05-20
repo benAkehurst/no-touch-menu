@@ -182,3 +182,36 @@ exports.get_single_user = async (req, res) => {
     });
   }
 };
+
+exports.check_if_admin = async (req, res) => {
+  const userId = req.params.userId;
+  let isAdminCheck;
+  await User.findById(userId, (err, user) => {
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    User.findById(userId, (err, user) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: "Couldn't find user",
+          data: err,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Is Admin true',
+        data: true,
+      });
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'Not authorized',
+      data: null,
+    });
+  }
+};

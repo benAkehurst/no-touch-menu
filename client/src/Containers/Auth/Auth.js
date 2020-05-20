@@ -167,7 +167,7 @@ class Auth extends Component {
           if (res.status === 200) {
             if (res.data.data.isAdmin) {
               helpers.addAdminStatus(true);
-              helpers.addUserId(res.data.obj._id);
+              helpers.addUserId(res.data.data._id);
               this.props.history.push({ pathname: '/admin' });
             } else {
               helpers.addAdminStatus(false);

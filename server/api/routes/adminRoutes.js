@@ -9,4 +9,7 @@ module.exports = (app) => {
     .route('/api/admin/change-user-status')
     .post(adminController.change_user_status);
   app.route('/api/admin/get-single-user').post(adminController.get_single_user);
+  app
+    .route('/api/admin/check-if-admin/:userId')
+    .get(adminController.check_if_admin);
 };
