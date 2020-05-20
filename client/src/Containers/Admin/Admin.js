@@ -21,6 +21,9 @@ class Admin extends Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
+    if (helpers.getUserId() === null) {
+      this.props.history.push({ pathName: '/auth' });
+    }
     axios
       .get(`${BASE_URL}/admin/check-if-admin/${helpers.getUserId()}`)
       .then((res) => {
@@ -38,6 +41,20 @@ class Admin extends Component {
     return (
       <Aux>
         <Banner siteName={'Admin Options'}></Banner>
+        <main>
+          <section>
+            <h3>Admin Options</h3>
+          </section>
+          <section>
+            <h3>Auth Options</h3>
+          </section>
+          <section>
+            <h3>Restaurant Options</h3>
+          </section>
+          <section>
+            <h3>Menu Options</h3>
+          </section>
+        </main>
       </Aux>
     );
   }
