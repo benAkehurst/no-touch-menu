@@ -10,6 +10,9 @@ import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Uploader from '../../components/Uploader/Uploader';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 class Admin extends Component {
   state = {
@@ -17,6 +20,8 @@ class Admin extends Component {
     isLoading: false,
     isError: false,
     isAuthorised: false,
+    selectedUserId: 'Select a User',
+    selectedRestaurantId: 'Select a Restaurant',
   };
 
   componentDidMount() {
@@ -41,9 +46,19 @@ class Admin extends Component {
     return (
       <Aux>
         <Banner siteName={'Admin Options'}></Banner>
-        <main>
-          <section>
-            <h3>Users Options</h3>
+        <main className={classes.AdminWrapper}>
+          <div className={classes.SelectedItems}>
+            <p>User Id: {this.state.selectedUserId}</p>
+            <p>Restaurant Id: {this.state.selectedRestaurantId}</p>
+          </div>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>User Options</Typography>
+            </ExpansionPanelSummary>
             <ul>
               <li>Get All Users</li>
               <li>Change User Admin Role</li>
@@ -55,9 +70,17 @@ class Admin extends Component {
               <li>Check User Valid</li>
               <li></li>
             </ul>
-          </section>
-          <section>
-            <h3>Restaurant Options</h3>
+          </ExpansionPanel>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography className={classes.heading}>
+                Restaurant Options
+              </Typography>
+            </ExpansionPanelSummary>
             <ul>
               <li>View All Restaurants</li>
               <li>Get Single Restaurant</li>
@@ -69,9 +92,15 @@ class Admin extends Component {
               <li>Upload Restaurant Logo</li>
               <li></li>
             </ul>
-          </section>
-          <section>
-            <h3>Menu Options</h3>
+          </ExpansionPanel>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography className={classes.heading}>Menu Options</Typography>
+            </ExpansionPanelSummary>
             <ul>
               <li>View All Menus</li>
               <li>View Current Menu</li>
@@ -82,7 +111,7 @@ class Admin extends Component {
               <li>Remove Menu From Restaurant</li>
               <li></li>
             </ul>
-          </section>
+          </ExpansionPanel>
         </main>
       </Aux>
     );
