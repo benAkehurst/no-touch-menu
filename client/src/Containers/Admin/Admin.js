@@ -29,7 +29,12 @@ class Admin extends Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    if (helpers.getUserId() === null) {
+    if (
+      helpers.getUserId() === null ||
+      !helpers.getUserId() ||
+      helpers.getUserId() === undefined
+    ) {
+      helpers.clearStorage();
       this.props.history.push({ pathName: '/auth' });
     }
     axios
