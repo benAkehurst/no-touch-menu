@@ -15,7 +15,21 @@ class Menu extends Component {
   state = {};
 
   render() {
-    return <Aux>Menu</Aux>;
+    return (
+      <Aux>
+        Menu
+        <ul>
+          <li>View All Menus</li>
+          <li>View Current Menu</li>
+          <li>View Current Menu QR Code</li>
+          <li>Get Menu as PDF</li>
+          <li>Add Menu to Restaurant</li>
+          <li>Get All Menus</li>
+          <li>Remove Menu From Restaurant</li>
+          <li></li>
+        </ul>
+      </Aux>
+    );
   }
 }
 

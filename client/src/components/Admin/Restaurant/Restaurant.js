@@ -15,7 +15,22 @@ class Restaurant extends Component {
   state = {};
 
   render() {
-    return <Aux>Restaurant</Aux>;
+    return (
+      <Aux>
+        Restaurant
+        <ul>
+          <li>View All Restaurants</li>
+          <li>Get Single Restaurant</li>
+          <li>Create New Restaurant</li>
+          <li>Change User Assigned To Restaurant</li>
+          <li>Change Restaurant isActive Status</li>
+          <li>Edit Restaurant Name</li>
+          <li>Delete Restaurant</li>
+          <li>Upload Restaurant Logo</li>
+          <li></li>
+        </ul>
+      </Aux>
+    );
   }
 }
 
