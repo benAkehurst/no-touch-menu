@@ -8,7 +8,6 @@ import BASE_URL from '../../Helpers/BASE_URL';
 import Aux from '../../hoc/Aux/Aux';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Uploader from '../../components/Uploader/Uploader';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
@@ -46,6 +45,10 @@ class Admin extends Component {
       });
   }
 
+  setUserId = (id) => {
+    this.setState({ selectedUserId: id });
+  };
+
   render() {
     return (
       <Aux>
@@ -68,18 +71,11 @@ class Admin extends Component {
             >
               <Typography className={classes.heading}>User Options</Typography>
             </ExpansionPanelSummary>
-            <User />
-            <ul>
-              <li>Get All Users</li>
-              <li>Change User Admin Role</li>
-              <li>Change User Status</li>
-              <li>Get Single User</li>
-              <li>Delete Single User</li>
-              <li>Create New User</li>
-              <li>Reset Password</li>
-              <li>Check User Valid</li>
-              <li></li>
-            </ul>
+            <User
+              userId={this.state.selectedUserId}
+              restaurantId={this.state.selectedRestaurantId}
+              userIdClick={this.setUserId}
+            />
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -91,18 +87,11 @@ class Admin extends Component {
                 Restaurant Options
               </Typography>
             </ExpansionPanelSummary>
-            <Restaurant />
-            <ul>
-              <li>View All Restaurants</li>
-              <li>Get Single Restaurant</li>
-              <li>Create New Restaurant</li>
-              <li>Change User Assigned To Restaurant</li>
-              <li>Change Restaurant isActive Status</li>
-              <li>Edit Restaurant Name</li>
-              <li>Delete Restaurant</li>
-              <li>Upload Restaurant Logo</li>
-              <li></li>
-            </ul>
+            <Restaurant
+              userId={this.state.selectedUserId}
+              restaurantId={this.state.selectedRestaurantId}
+              userIdClick={this.setUserId}
+            />
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
@@ -112,17 +101,11 @@ class Admin extends Component {
             >
               <Typography className={classes.heading}>Menu Options</Typography>
             </ExpansionPanelSummary>
-            <Menu />
-            <ul>
-              <li>View All Menus</li>
-              <li>View Current Menu</li>
-              <li>View Current Menu QR Code</li>
-              <li>Get Menu as PDF</li>
-              <li>Add Menu to Restaurant</li>
-              <li>Get All Menus</li>
-              <li>Remove Menu From Restaurant</li>
-              <li></li>
-            </ul>
+            <Menu
+              userId={this.state.selectedUserId}
+              restaurantId={this.state.selectedRestaurantId}
+              userIdClick={this.setUserId}
+            />
           </ExpansionPanel>
         </main>
       </Aux>
