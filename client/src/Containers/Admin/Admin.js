@@ -43,16 +43,45 @@ class Admin extends Component {
         <Banner siteName={'Admin Options'}></Banner>
         <main>
           <section>
-            <h3>Admin Options</h3>
-          </section>
-          <section>
-            <h3>Auth Options</h3>
+            <h3>Users Options</h3>
+            <ul>
+              <li>Get All Users</li>
+              <li>Change User Admin Role</li>
+              <li>Change User Status</li>
+              <li>Get Single User</li>
+              <li>Delete Single User</li>
+              <li>Create New User</li>
+              <li>Reset Password</li>
+              <li>Check User Valid</li>
+              <li></li>
+            </ul>
           </section>
           <section>
             <h3>Restaurant Options</h3>
+            <ul>
+              <li>View All Restaurants</li>
+              <li>Get Single Restaurant</li>
+              <li>Create New Restaurant</li>
+              <li>Change User Assigned To Restaurant</li>
+              <li>Change Restaurant isActive Status</li>
+              <li>Edit Restaurant Name</li>
+              <li>Delete Restaurant</li>
+              <li>Upload Restaurant Logo</li>
+              <li></li>
+            </ul>
           </section>
           <section>
             <h3>Menu Options</h3>
+            <ul>
+              <li>View All Menus</li>
+              <li>View Current Menu</li>
+              <li>View Current Menu QR Code</li>
+              <li>Get Menu as PDF</li>
+              <li>Add Menu to Restaurant</li>
+              <li>Get All Menus</li>
+              <li>Remove Menu From Restaurant</li>
+              <li></li>
+            </ul>
           </section>
         </main>
       </Aux>
