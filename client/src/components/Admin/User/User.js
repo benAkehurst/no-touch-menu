@@ -20,10 +20,30 @@ class User extends Component {
     allUsers: null,
     allUsersVisable: false,
     singleUser: null,
+    newUserName: null,
+    newUserEmail: null,
+    newUserPassword: null,
+    responseSuccess: false,
   };
 
   userIdHandler = (event) => {
     this.setState({ chosenUserId: event.target.value });
+  };
+
+  newUserHandler = (key, e) => {
+    switch (key) {
+      case 'name':
+        this.setState({ newUserName: e.target.value });
+        break;
+      case 'email':
+        this.setState({ newUserEmail: e.target.value });
+        break;
+      case 'password':
+        this.setState({ newUserPassword: e.target.value });
+        break;
+      default:
+        break;
+    }
   };
 
   getAllUsers = () => {
@@ -118,6 +138,30 @@ class User extends Component {
       .catch((err) => {
         helpers.clearStorage();
         this.props.history.push({ pathName: '/auth' });
+      });
+  };
+
+  createNewUser = () => {
+    let data = {
+      name: this.state.newUserName,
+      email: this.state.newUserEmail,
+      password: this.state.newUserPassword,
+    };
+    this.setState({ isLoading: true });
+    axios
+      .post('/auth/create-new-user', data)
+      .then((res) => {
+        if (res.status === 201) {
+          this.setState({
+            isLoading: false,
+            responseSuccess: true,
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoading: false,
+        });
       });
   };
 
@@ -271,9 +315,40 @@ class User extends Component {
               </div>
             ) : null}
           </li>
-          <li>Create New User</li>
+          {/* Create A New User */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Create New User</h4>
+              <input
+                placeholder={'Name'}
+                type="text"
+                onChange={(e) => this.newUserHandler('name', e)}
+              />
+              <input
+                placeholder={'Email'}
+                type="email"
+                onChange={(e) => this.newUserHandler('email', e)}
+              />
+              <input
+                placeholder={'Password'}
+                type="password"
+                onChange={(e) => this.newUserHandler('password', e)}
+              />
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.createNewUser}
+                disabled={
+                  !this.state.newUserName &&
+                  !this.state.newUserEmail &&
+                  !this.state.newUserPassword
+                }
+              >
+                Create
+              </Button>
+            </div>
+          </li>
           <li>Reset Password</li>
-          <li>Check User Valid</li>
         </ul>
       </Aux>
     );
