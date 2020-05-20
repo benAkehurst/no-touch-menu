@@ -99,6 +99,29 @@ class User extends Component {
       });
   };
 
+  handleUserActiveChange = () => {
+    this.setState({ isLoading: true });
+    let data = {
+      requesterId: helpers.getUserId(),
+      userId: this.state.chosenUserId,
+      userActiveValue: this.state.singleUser.userActive ? false : true,
+    };
+    axios
+      .post(`${BASE_URL}/admin/change-user-status`, data)
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+            singleUser: res.data.data,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
+  };
+
   render() {
     return (
       <Aux>
@@ -177,7 +200,38 @@ class User extends Component {
               </div>
             ) : null}
           </li>
-          <li>Change User Status</li>
+          {/* Change User Status */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Change User Status</h4>
+              <input
+                placeholder={'User ID'}
+                type="text"
+                onChange={this.userIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getSingleUser}
+                disabled={!this.state.chosenUserId}
+              >
+                Get User
+              </Button>
+            </div>
+            {this.state.singleUser ? (
+              <div className={classes.ChangeAdminStatus}>
+                <label>Is Active?</label>
+                <p>{this.state.singleUser.userActive ? 'Yes' : 'No'}</p>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={this.handleUserActiveChange}
+                >
+                  Change Status
+                </Button>
+              </div>
+            ) : null}
+          </li>
           {/* Get Single User */}
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
@@ -218,11 +272,11 @@ class User extends Component {
               </div>
             ) : null}
           </li>
+          {/* Delete Single User */}
           <li>Delete Single User</li>
           <li>Create New User</li>
           <li>Reset Password</li>
           <li>Check User Valid</li>
-          <li></li>
         </ul>
       </Aux>
     );
