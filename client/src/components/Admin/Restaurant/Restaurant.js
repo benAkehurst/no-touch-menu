@@ -16,6 +16,13 @@ class Restaurant extends Component {
     isLoading: false,
     allRestaurants: null,
     allRestaurantsVisable: false,
+    singleRestaurant: null,
+    chosenRestaurantId: null,
+    chosenRestaurantData: null,
+  };
+
+  restaurantIdHandler = (event) => {
+    this.setState({ chosenRestaurantId: event.target.value });
   };
 
   getAllRestaurants = () => {
@@ -41,6 +48,26 @@ class Restaurant extends Component {
     this.state.allRestaurantsVisable
       ? this.setState({ allRestaurantsVisable: false })
       : this.setState({ allRestaurantsVisable: true });
+  };
+
+  getSingleRestaurant = () => {
+    this.setState({ isLoading: true });
+    axios
+      .get(
+        `${BASE_URL}/restaurant/get-single-restaurant/${this.state.chosenRestaurantId}`
+      )
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+            chosenRestaurantData: res.data.data,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
   };
 
   render() {
@@ -95,7 +122,54 @@ class Restaurant extends Component {
                 })
               : null}
           </li>
-          <li>Get Single Restaurant</li>
+          {/* Get Single Restaurant */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Get Single Restaurant</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={this.restaurantIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getSingleRestaurant}
+                disabled={!this.state.chosenRestaurantId}
+              >
+                Get Restaurant
+              </Button>
+            </div>
+            {this.state.chosenRestaurantData ? (
+              <div className={classes.SingleListItem}>
+                <span>
+                  Restaurant Name -{' '}
+                  {this.state.chosenRestaurantData.restaurantName}
+                </span>
+                <span>
+                  User Id - {this.state.chosenRestaurantData.user._id}
+                </span>
+                <span>
+                  User Name - {this.state.chosenRestaurantData.user.name}
+                </span>
+                <span>
+                  Telephone - {this.state.chosenRestaurantData.user.telephone}
+                </span>
+                <span>
+                  Created On -{' '}
+                  {timeDateHelpers.formatDate(
+                    this.state.chosenRestaurantData.createdAt
+                  )}
+                </span>
+                <span>
+                  Updated On -{' '}
+                  {timeDateHelpers.formatDate(
+                    this.state.chosenRestaurantData.updatedAt
+                  )}
+                </span>
+              </div>
+            ) : null}
+          </li>
           <li>Create New Restaurant</li>
           <li>Change User Assigned To Restaurant</li>
           <li>Change Restaurant isActive Status</li>
