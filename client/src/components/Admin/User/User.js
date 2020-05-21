@@ -24,6 +24,8 @@ class User extends Component {
     newUserEmail: null,
     newUserPassword: null,
     responseSuccess: false,
+    changePasswordId: null,
+    newPassword: null,
   };
 
   userIdHandler = (event) => {
@@ -40,6 +42,19 @@ class User extends Component {
         break;
       case 'password':
         this.setState({ newUserPassword: e.target.value });
+        break;
+      default:
+        break;
+    }
+  };
+
+  resetPasswordHandler = (key, e) => {
+    switch (key) {
+      case 'userId':
+        this.setState({ changePasswordId: e.target.value });
+        break;
+      case 'newPassword':
+        this.setState({ newPassword: e.target.value });
         break;
       default:
         break;
@@ -150,6 +165,28 @@ class User extends Component {
     this.setState({ isLoading: true });
     axios
       .post('/auth/create-new-user', data)
+      .then((res) => {
+        if (res.status === 201) {
+          this.setState({
+            isLoading: false,
+            responseSuccess: true,
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoading: false,
+        });
+      });
+  };
+
+  updatePassword = () => {
+    let data = {
+      newPassword: this.state.newPassword,
+    };
+    this.setState({ isLoading: true });
+    axios
+      .post(`/auth/reset-password/${this.state.changePasswordId}`, data)
       .then((res) => {
         if (res.status === 201) {
           this.setState({
@@ -350,7 +387,31 @@ class User extends Component {
               </Button>
             </div>
           </li>
-          <li>Reset Password</li>
+          {/* Reset Password */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Reset Password</h4>
+              <div className={classes.SingleOptionsInputs}>
+                <input
+                  placeholder={'User ID to change'}
+                  type="text"
+                  onChange={(e) => this.resetPasswordHandler('userId', e)}
+                />
+                <input
+                  placeholder={'New Password'}
+                  type="password"
+                  onChange={(e) => this.resetPasswordHandler('newPassword', e)}
+                />
+              </div>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.updatePassword}
+              >
+                Reset Password
+              </Button>
+            </div>
+          </li>
         </ul>
       </Aux>
     );
