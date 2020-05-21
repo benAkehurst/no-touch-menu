@@ -319,21 +319,23 @@ class User extends Component {
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
               <h4>Create New User</h4>
-              <input
-                placeholder={'Name'}
-                type="text"
-                onChange={(e) => this.newUserHandler('name', e)}
-              />
-              <input
-                placeholder={'Email'}
-                type="email"
-                onChange={(e) => this.newUserHandler('email', e)}
-              />
-              <input
-                placeholder={'Password'}
-                type="password"
-                onChange={(e) => this.newUserHandler('password', e)}
-              />
+              <div className={classes.SingleOptionsInputs}>
+                <input
+                  placeholder={'Name'}
+                  type="text"
+                  onChange={(e) => this.newUserHandler('name', e)}
+                />
+                <input
+                  placeholder={'Email'}
+                  type="email"
+                  onChange={(e) => this.newUserHandler('email', e)}
+                />
+                <input
+                  placeholder={'Password'}
+                  type="password"
+                  onChange={(e) => this.newUserHandler('password', e)}
+                />
+              </div>
               <Button
                 color="primary"
                 variant="contained"
