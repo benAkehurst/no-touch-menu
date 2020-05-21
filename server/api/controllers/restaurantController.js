@@ -1097,19 +1097,33 @@ exports.upload_restaurant_logo_user = async (req, res) => {
  */
 exports.get_single_restaurant = async (req, res) => {
   const restaurantId = req.params.restaurantId;
+  if (!restaurantId || restaurantId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Error finding restaurant',
+      data: err,
+    });
+  }
   Restaurant.findById(restaurantId, (err, restaurant) => {
     if (err) {
       res.status(400).json({
         success: false,
-        message: 'Error saving logo to restaurant model',
+        message: 'Error finding restaurant',
         data: err,
       });
+    } else if (!restaurant) {
+      res.status(400).json({
+        success: false,
+        message: 'Error finding restaurant',
+        data: err,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Restaurant Found successfully',
+        data: restaurant,
+      });
     }
-    res.status(200).json({
-      success: true,
-      message: 'Restaurant Found successfully',
-      data: restaurant,
-    });
   });
 };
 
