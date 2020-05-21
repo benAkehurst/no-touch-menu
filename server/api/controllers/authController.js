@@ -35,12 +35,13 @@ exports.create_new_user = (req, res) => {
         message: 'Error creating new user',
         data: err,
       });
+    } else {
+      res.status(201).json({
+        success: true,
+        message: 'User created',
+        data: null,
+      });
     }
-    res.status(201).json({
-      success: true,
-      message: 'User created',
-      data: null,
-    });
   });
 };
 
@@ -77,6 +78,15 @@ exports.login_user = (req, res) => {
         message: 'Login failed',
         data: {
           message: 'Invalid login credentials',
+        },
+      });
+    }
+    if (user.userActive === false) {
+      return res.status(401).json({
+        success: false,
+        message: 'Login failed',
+        data: {
+          message: 'Invalid Account',
         },
       });
     }

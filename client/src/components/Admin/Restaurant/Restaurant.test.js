@@ -1,15 +1,15 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import InfoDisplay from './InfoDisplay';
+import Restaurant from './Restaurant';
 
 configure({ adapter: new Adapter() });
 
-describe('<InfoDisplay />', () => {
+describe('<Restaurant />', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<InfoDisplay />);
+    wrapper = shallow(<Restaurant />);
   });
 
   it('should render the compoent', () => {

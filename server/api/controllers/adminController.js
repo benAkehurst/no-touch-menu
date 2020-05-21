@@ -150,29 +150,43 @@ exports.change_user_status = async (req, res) => {
  */
 exports.get_single_user = async (req, res) => {
   const requesterId = req.body.requesterId;
-  const user = req.body.userId;
-
+  const userIdToFind = req.body.userId;
+  if (requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: "Couldn't find user",
+      data: err,
+    });
+  }
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
-    if (user.isAdmin) {
+    if (user === null) {
+      res.status(400).json({
+        success: false,
+        message: "Couldn't find user",
+        data: err,
+      });
+    } else if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
   });
 
   if (isAdminCheck) {
-    User.findById(user, (err, user) => {
+    User.findById(userIdToFind, (err, foundUser) => {
       if (err) {
         res.status(400).json({
           success: false,
           message: "Couldn't find user",
           data: err,
         });
+      } else {
+        console.log(foundUser);
+        res.status(200).json({
+          success: true,
+          message: 'Single User found',
+          data: foundUser,
+        });
       }
-      res.status(200).json({
-        success: true,
-        message: 'User found',
-        data: user,
-      });
     });
   } else {
     res.status(401).json({
@@ -185,9 +199,28 @@ exports.get_single_user = async (req, res) => {
 
 exports.check_if_admin = async (req, res) => {
   const userId = req.params.userId;
+  if (userId === null) {
+    res.status(400).json({
+      success: false,
+      message: "Couldn't find user",
+      data: err,
+    });
+  }
   let isAdminCheck;
   await User.findById(userId, (err, user) => {
-    if (user.isAdmin) {
+    if (!user) {
+      res.status(400).json({
+        success: false,
+        message: "Couldn't find user",
+        data: err,
+      });
+    } else if (!user.isAdmin) {
+      res.status(400).json({
+        success: false,
+        message: "Couldn't find user",
+        data: err,
+      });
+    } else if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
   });
