@@ -54,6 +54,10 @@ class Admin extends Component {
     this.setState({ selectedUserId: id });
   };
 
+  setRestaurantId = (id) => {
+    this.setState({ selectedRestaurantId: id });
+  };
+
   render() {
     return (
       <Aux>
@@ -95,7 +99,7 @@ class Admin extends Component {
             <Restaurant
               userId={this.state.selectedUserId}
               restaurantId={this.state.selectedRestaurantId}
-              userIdClick={this.setUserId}
+              restaurantIdClick={this.setRestaurantId}
             />
           </ExpansionPanel>
           <ExpansionPanel>
