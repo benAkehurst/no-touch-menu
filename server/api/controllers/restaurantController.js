@@ -79,6 +79,13 @@ exports.create_new_restaurant = async (req, res) => {
   const oldMenus = [];
   const isActive = req.body.isActive;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'User not authorised for this action',
+      data: err,
+    });
+  }
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
     if (!user.isAdmin) {
