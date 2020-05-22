@@ -79,6 +79,13 @@ exports.create_new_restaurant = async (req, res) => {
   const oldMenus = [];
   const isActive = req.body.isActive;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'User not authorised for this action',
+      data: err,
+    });
+  }
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
     if (!user.isAdmin) {
@@ -152,6 +159,13 @@ exports.change_user_assigned_to_restaurant = async (req, res) => {
   const restaurantId = req.body.restaurantId;
   const newUserId = req.body.newUserId;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'User not authorised for this action',
+      data: err,
+    });
+  }
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
     if (!user.isAdmin) {
@@ -1097,19 +1111,33 @@ exports.upload_restaurant_logo_user = async (req, res) => {
  */
 exports.get_single_restaurant = async (req, res) => {
   const restaurantId = req.params.restaurantId;
+  if (!restaurantId || restaurantId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Error finding restaurant',
+      data: err,
+    });
+  }
   Restaurant.findById(restaurantId, (err, restaurant) => {
     if (err) {
       res.status(400).json({
         success: false,
-        message: 'Error saving logo to restaurant model',
+        message: 'Error finding restaurant',
         data: err,
       });
+    } else if (!restaurant) {
+      res.status(400).json({
+        success: false,
+        message: 'Error finding restaurant',
+        data: err,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'Restaurant Found successfully',
+        data: restaurant,
+      });
     }
-    res.status(200).json({
-      success: true,
-      message: 'Restaurant Found successfully',
-      data: restaurant,
-    });
   });
 };
 
