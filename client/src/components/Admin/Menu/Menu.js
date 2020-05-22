@@ -122,8 +122,39 @@ class Menu extends Component {
               </div>
             ) : null}
           </li>
-          <li>View Current Menu QR Code</li>
           {/* View Current Menu QR Code */}
+          {/* qrCodeBase64 */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>View Current Menu QR Code</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={this.restaurantIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getSingleRestaurant}
+              >
+                Get Restaurant
+              </Button>
+            </div>
+            {this.state.chosenRestaurantData ? (
+              <div className={classes.SingleListItem}>
+                <span>
+                  Current Menu QR Code -{' '}
+                  <img
+                    id="qrCodeImage"
+                    src={
+                      this.state.chosenRestaurantData.currentMenu.qrCodeBase64
+                    }
+                    alt="Menu QR Code"
+                  />{' '}
+                </span>
+              </div>
+            ) : null}
+          </li>
           <li>Get Menu as PDF</li>
           {/* Get Menu as PDF */}
           <li>Add Menu to Restaurant</li>
