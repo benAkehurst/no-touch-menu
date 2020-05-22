@@ -123,7 +123,6 @@ class Menu extends Component {
             ) : null}
           </li>
           {/* View Current Menu QR Code */}
-          {/* qrCodeBase64 */}
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
               <h4>View Current Menu QR Code</h4>
@@ -137,7 +136,7 @@ class Menu extends Component {
                 variant="contained"
                 onClick={this.getSingleRestaurant}
               >
-                Get Restaurant
+                Get Menu QR Code
               </Button>
             </div>
             {this.state.chosenRestaurantData ? (
@@ -155,12 +154,17 @@ class Menu extends Component {
               </div>
             ) : null}
           </li>
-          <li>Get Menu as PDF</li>
-          {/* Get Menu as PDF */}
-          <li>Add Menu to Restaurant</li>
           {/* Add Menu to Restaurant */}
-          <li>Remove Menu From Restaurant</li>
-          {/* Remove Menu From Restaurant */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <Uploader
+                title={'Upload New Menu'}
+                uploadType={'newMenuAdmin'}
+                restarantId={this.state.chosenRestaurantId}
+                requesterId={helpers.getUserId()}
+              ></Uploader>
+            </div>
+          </li>
         </ul>
       </Aux>
     );
