@@ -203,6 +203,29 @@ class Restaurant extends Component {
       });
   };
 
+  deleteRestaurantHandler = () => {
+    this.setState({ isLoading: true });
+    let data = {
+      restaurantId: this.state.chosenRestaurantId,
+    };
+    axios
+      .post(
+        `${BASE_URL}/restaurant/delete-restaurant/${helpers.getUserId()}`,
+        data
+      )
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
+  };
+
   render() {
     return (
       <Aux>
@@ -416,7 +439,35 @@ class Restaurant extends Component {
               ) : null}
             </div>
           </li>
-          <li>Delete Restaurant</li>
+          {/* Delete A Restaurant */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Delete A Restaurant</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={this.restaurantIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getSingleRestaurant}
+              >
+                Get Restaurant
+              </Button>
+              {this.state.chosenRestaurantData ? (
+                <div>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={this.deleteRestaurantHandler}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              ) : null}
+            </div>
+          </li>
           <li>Upload Restaurant Logo</li>
         </ul>
       </Aux>
