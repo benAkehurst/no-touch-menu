@@ -21,6 +21,8 @@ class Restaurant extends Component {
     chosenRestaurantData: null,
     newRestaurantName: null,
     newRestaurantOwner: null,
+    changeRestaurantID: null,
+    changeRestaurantUserUser: null,
   };
 
   restaurantIdHandler = (event) => {
@@ -34,6 +36,19 @@ class Restaurant extends Component {
         break;
       case 'ownerId':
         this.setState({ newRestaurantOwner: e.target.value });
+        break;
+      default:
+        break;
+    }
+  };
+
+  changeUserRestaurantHandler = (key, e) => {
+    switch (key) {
+      case 'restaurantID':
+        this.setState({ changeRestaurantID: e.target.value });
+        break;
+      case 'userId':
+        this.setState({ changeRestaurantUserUser: e.target.value });
         break;
       default:
         break;
@@ -96,6 +111,30 @@ class Restaurant extends Component {
     axios
       .post(
         `${BASE_URL}/restaurant/create-new-restaurant/${helpers.getUserId()}`,
+        data
+      )
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
+  };
+
+  changeUserAssignedToRestaurant = () => {
+    let data = {
+      restaurantId: this.state.changeRestaurantID,
+      newUserId: this.state.changeRestaurantUserUser,
+    };
+    this.setState({ isLoading: true });
+    axios
+      .post(
+        `${BASE_URL}/restaurant/change-user-assigned-to-restaurant/${helpers.getUserId()}`,
         data
       )
       .then((res) => {
@@ -234,7 +273,31 @@ class Restaurant extends Component {
               </Button>
             </div>
           </li>
-          <li>Change User Assigned To Restaurant</li>
+          {/* Change User Assigned to Restaurant */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Change User Assigned to Restaurant</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={(e) =>
+                  this.changeUserRestaurantHandler('restaurantID', e)
+                }
+              />
+              <input
+                placeholder={'User ID'}
+                type="text"
+                onChange={(e) => this.changeUserRestaurantHandler('userId', e)}
+              />
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.changeUserAssignedToRestaurant}
+              >
+                Change User
+              </Button>
+            </div>
+          </li>
           <li>Change Restaurant isActive Status</li>
           <li>Edit Restaurant Name</li>
           <li>Delete Restaurant</li>

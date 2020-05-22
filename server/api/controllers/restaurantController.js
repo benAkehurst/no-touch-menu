@@ -159,6 +159,13 @@ exports.change_user_assigned_to_restaurant = async (req, res) => {
   const restaurantId = req.body.restaurantId;
   const newUserId = req.body.newUserId;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'User not authorised for this action',
+      data: err,
+    });
+  }
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
     if (!user.isAdmin) {
