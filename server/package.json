@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "reset:modules": "rm -rf node_modules && npm i",
+    "reset": "rm -rf node_modules && npm i",
     "security:fix": "npm audit fix"
   },
   "repository": {
