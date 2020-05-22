@@ -15,6 +15,12 @@ class Menu extends Component {
   state = {
     isLoading: false,
     allMenus: null,
+    chosenRestaurantId: null,
+    chosenRestaurantData: null,
+  };
+
+  restaurantIdHandler = (e) => {
+    this.setState({ chosenRestaurantId: e.target.value });
   };
 
   getAllMenus = () => {
@@ -35,6 +41,26 @@ class Menu extends Component {
       });
   };
 
+  getSingleRestaurant = () => {
+    this.setState({ isLoading: true });
+    axios
+      .get(
+        `${BASE_URL}/restaurant/get-single-restaurant/${this.state.chosenRestaurantId}`
+      )
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+            chosenRestaurantData: res.data.data,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
+  };
+
   render() {
     return (
       <Aux>
@@ -43,7 +69,6 @@ class Menu extends Component {
             <Spinner size={'large'} />
           </div>
         ) : null}
-        Menu
         <ul>
           {/* Get All Menus */}
           <li className={classes.SingleOption}>
@@ -60,19 +85,42 @@ class Menu extends Component {
             {this.state.allMenus ? <p>All menus retreived</p> : null}
           </li>
           {/* View Current Menu */}
-          {/* get restraunt by id and extract just id */}
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
-              <h4> Get All Menus</h4>
+              <h4>View Current Menu Restaurant</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={this.restaurantIdHandler}
+              ></input>
               <Button
                 color="primary"
                 variant="contained"
-                onClick={this.getAllMenus}
+                onClick={this.getSingleRestaurant}
               >
-                Fetch
+                Get Restaurant
               </Button>
             </div>
-            {this.state.allMenus ? <p>All menus retreived</p> : null}
+            {this.state.chosenRestaurantData ? (
+              <div className={classes.SingleListItem}>
+                <span>
+                  Current Menu Link -{' '}
+                  <a
+                    href={
+                      this.state.chosenRestaurantData.currentMenu.menuPdfLink
+                    }
+                  >
+                    Link
+                  </a>
+                </span>
+                <span>
+                  Created On -{' '}
+                  {timeDateHelpers.formatDate(
+                    this.state.chosenRestaurantData.currentMenu.createdAt
+                  )}
+                </span>
+              </div>
+            ) : null}
           </li>
           <li>View Current Menu QR Code</li>
           {/* View Current Menu QR Code */}
