@@ -25,8 +25,8 @@ class Restaurant extends Component {
     changeRestaurantUserUser: null,
   };
 
-  restaurantIdHandler = (event) => {
-    this.setState({ chosenRestaurantId: event.target.value });
+  restaurantIdHandler = (e) => {
+    this.setState({ chosenRestaurantId: e.target.value });
   };
 
   newRestaurantHandler = (key, e) => {
@@ -135,6 +135,30 @@ class Restaurant extends Component {
     axios
       .post(
         `${BASE_URL}/restaurant/change-user-assigned-to-restaurant/${helpers.getUserId()}`,
+        data
+      )
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
+  };
+
+  handleRestaurantActiveChange = () => {
+    this.setState({ isLoading: true });
+    let data = {
+      restaurantId: this.state.chosenRestaurantId,
+      newStatus: this.state.chosenRestaurantData.isActive ? false : true,
+    };
+    axios
+      .post(
+        `${BASE_URL}/restaurant/change-restaurant-isActive-status/${helpers.getUserId()}`,
         data
       )
       .then((res) => {
@@ -298,7 +322,37 @@ class Restaurant extends Component {
               </Button>
             </div>
           </li>
-          <li>Change Restaurant isActive Status</li>
+          {/* Change Restaurant isActive Status */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Change Restaurant isActive Status</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={this.restaurantIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getSingleRestaurant}
+              >
+                Get Restaurant
+              </Button>
+            </div>
+            {this.state.chosenRestaurantData ? (
+              <div className={classes.ChangeAdminStatus}>
+                <label>Is Active?</label>
+                <p>{this.state.chosenRestaurantData.isActive ? 'Yes' : 'No'}</p>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={this.handleRestaurantActiveChange}
+                >
+                  Change Status
+                </Button>
+              </div>
+            ) : null}
+          </li>
           <li>Edit Restaurant Name</li>
           <li>Delete Restaurant</li>
           <li>Upload Restaurant Logo</li>
