@@ -104,6 +104,30 @@ class Uploader extends Component {
             });
           });
         break;
+      case 'newMenuAdmin':
+        formData.append('menuFile', this.state.uploadedFile);
+        formData.append('restaurantId', this.props.restarantId);
+        this.setState({ isLoading: true });
+        axios
+          .post(
+            `${BASE_URL}/restaurant/add-menu-to-restaurant-admin/${this.props.requesterId}`,
+            formData
+          )
+          .then((res) => {
+            this.setState({
+              isLoading: false,
+              isSuccess: true,
+              successMessage: res.data.message,
+            });
+          })
+          .catch((err) => {
+            this.setState({
+              isLoading: false,
+              isSuccess: false,
+              successMessage: err,
+            });
+          });
+        break;
       default:
         break;
     }
