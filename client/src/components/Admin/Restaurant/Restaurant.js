@@ -23,6 +23,7 @@ class Restaurant extends Component {
     newRestaurantOwner: null,
     changeRestaurantID: null,
     changeRestaurantUserUser: null,
+    updatedRestaurantName: null,
   };
 
   restaurantIdHandler = (e) => {
@@ -53,6 +54,10 @@ class Restaurant extends Component {
       default:
         break;
     }
+  };
+
+  changeRestaurantNameHandler = (e) => {
+    this.setState({ updatedRestaurantName: e.target.value });
   };
 
   getAllRestaurants = () => {
@@ -159,6 +164,30 @@ class Restaurant extends Component {
     axios
       .post(
         `${BASE_URL}/restaurant/change-restaurant-isActive-status/${helpers.getUserId()}`,
+        data
+      )
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
+  };
+
+  updateRestaurantName = () => {
+    this.setState({ isLoading: true });
+    let data = {
+      restaurantId: this.state.chosenRestaurantId,
+      newRestaurantName: this.state.updatedRestaurantName,
+    };
+    axios
+      .post(
+        `${BASE_URL}/restaurant/edit-restaurant-name/${helpers.getUserId()}`,
         data
       )
       .then((res) => {
@@ -353,7 +382,40 @@ class Restaurant extends Component {
               </div>
             ) : null}
           </li>
-          <li>Edit Restaurant Name</li>
+          {/* Edit Restaurant Name */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Edit Restaurant Name</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={this.restaurantIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getSingleRestaurant}
+              >
+                Get Restaurant
+              </Button>
+              {this.state.chosenRestaurantData ? (
+                <div>
+                  <input
+                    placeholder={this.state.chosenRestaurantData.restaurantName}
+                    type="text"
+                    onChange={(e) => this.changeRestaurantNameHandler(e)}
+                  ></input>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={this.updateRestaurantName}
+                  >
+                    Submit
+                  </Button>
+                </div>
+              ) : null}
+            </div>
+          </li>
           <li>Delete Restaurant</li>
           <li>Upload Restaurant Logo</li>
         </ul>
