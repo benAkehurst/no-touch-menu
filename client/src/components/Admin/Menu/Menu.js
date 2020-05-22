@@ -12,7 +12,28 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Uploader from '../../../components/Uploader/Uploader';
 
 class Menu extends Component {
-  state = {};
+  state = {
+    isLoading: false,
+    allMenus: null,
+  };
+
+  getAllMenus = () => {
+    this.setState({ isLoading: true });
+    axios
+      .get(`${BASE_URL}/menus/view-all-menus/${helpers.getUserId()}`)
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            isLoading: false,
+            allMenus: res.data.data,
+          });
+        }
+      })
+      .catch((err) => {
+        helpers.clearStorage();
+        this.props.history.push({ pathName: '/auth' });
+      });
+  };
 
   render() {
     return (
@@ -24,10 +45,35 @@ class Menu extends Component {
         ) : null}
         Menu
         <ul>
-          <li>View All Menus</li>
-          {/* View All Menus */}
-          <li>View Current Menu</li>
+          {/* Get All Menus */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4> Get All Menus</h4>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getAllMenus}
+              >
+                Fetch
+              </Button>
+            </div>
+            {this.state.allMenus ? <p>All menus retreived</p> : null}
+          </li>
           {/* View Current Menu */}
+          {/* get restraunt by id and extract just id */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4> Get All Menus</h4>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={this.getAllMenus}
+              >
+                Fetch
+              </Button>
+            </div>
+            {this.state.allMenus ? <p>All menus retreived</p> : null}
+          </li>
           <li>View Current Menu QR Code</li>
           {/* View Current Menu QR Code */}
           <li>Get Menu as PDF</li>
