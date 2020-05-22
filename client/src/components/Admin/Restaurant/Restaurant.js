@@ -24,6 +24,7 @@ class Restaurant extends Component {
     changeRestaurantID: null,
     changeRestaurantUserUser: null,
     updatedRestaurantName: null,
+    updatedLogoFile: null,
   };
 
   restaurantIdHandler = (e) => {
@@ -468,7 +469,17 @@ class Restaurant extends Component {
               ) : null}
             </div>
           </li>
-          <li>Upload Restaurant Logo</li>
+          {/* Upload Restaurant Logo */}
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <Uploader
+                title={'Upload Restaurant Logo'}
+                uploadType={'newLogoAdmin'}
+                restarantId={this.state.chosenRestaurantId}
+                requesterId={helpers.getUserId()}
+              ></Uploader>
+            </div>
+          </li>
         </ul>
       </Aux>
     );
