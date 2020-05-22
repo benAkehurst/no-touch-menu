@@ -5,7 +5,6 @@ import { PrivateRoute } from './hoc/PrivateRoute/PrivateRoute';
 import Layout from './hoc/Layout/Layout';
 import Auth from './Containers/Auth/Auth';
 import Restaurant from './Containers/Restaurant/Restaurant';
-import Profile from './Containers/Profile/Profile';
 import Admin from './Containers/Admin/Admin';
 
 class App extends Component {
@@ -19,7 +18,6 @@ class App extends Component {
               path="/restaurant"
               component={Restaurant}
             ></PrivateRoute>
-            <PrivateRoute path="/profile" component={Profile}></PrivateRoute>
             <PrivateRoute path="/admin" component={Admin}></PrivateRoute>
           </Switch>
         </Layout>

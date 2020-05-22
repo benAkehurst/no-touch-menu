@@ -302,7 +302,6 @@ class Restaurant extends Component {
           <li>Edit Restaurant Name</li>
           <li>Delete Restaurant</li>
           <li>Upload Restaurant Logo</li>
-          <li></li>
         </ul>
       </Aux>
     );
