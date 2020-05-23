@@ -19,8 +19,7 @@ class Banner extends Component {
 
   showUserButtons = () => {
     return (
-      <div className={'Buttons-wrapper'}>
-        <Button color="inherit">Restaurant</Button>
+      <div style={{ 'margin-left': 'auto' }}>
         <Button color="inherit" onClick={() => this.logout()}>
           Logout
         </Button>
