@@ -227,8 +227,16 @@ exports.get_single_user = async (req, res) => {
   }
 };
 
+/**
+ * Checks if a user ID has isAdmin true
+ * This is an open request and you dont
+ * need to be an admin to request it
+ * GET
+ * Param: userId
+ */
 exports.check_if_admin = async (req, res) => {
   const userId = req.params.userId;
+
   if (!userId || userId === null) {
     res.status(400).json({
       success: false,
@@ -236,6 +244,7 @@ exports.check_if_admin = async (req, res) => {
       data: null,
     });
   }
+
   let isAdminCheck;
   await User.findById(userId, (err, user) => {
     if (user === null || !user) {
