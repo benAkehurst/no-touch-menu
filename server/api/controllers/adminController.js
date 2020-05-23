@@ -12,8 +12,18 @@ const User = mongoose.model('User');
  */
 exports.get_all_users = async (req, res) => {
   const userId = req.body.userId;
+  if (!userId || userId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
   let isAdminCheck;
   await User.findById(userId, (err, user) => {
+    if (user === null) {
+      return false;
+    }
     if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
@@ -56,8 +66,18 @@ exports.change_user_admin_role = async (req, res) => {
   const user = req.body.userId;
   const isAdminValue = req.body.isAdminValue;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
+    if (user === null) {
+      return false;
+    }
     if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
@@ -105,8 +125,19 @@ exports.change_user_status = async (req, res) => {
   const user = req.body.userId;
   const userActiveValue = req.body.userActiveValue;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
+    if (user === null) {
+      return false;
+    }
     if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
@@ -151,22 +182,21 @@ exports.change_user_status = async (req, res) => {
 exports.get_single_user = async (req, res) => {
   const requesterId = req.body.requesterId;
   const userIdToFind = req.body.userId;
-  if (requesterId === null) {
+
+  if (!requesterId || requesterId === null) {
     res.status(400).json({
       success: false,
-      message: "Couldn't find user",
-      data: err,
+      message: 'Incorrect Request Paramters',
+      data: null,
     });
   }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
     if (user === null) {
-      res.status(400).json({
-        success: false,
-        message: "Couldn't find user",
-        data: err,
-      });
-    } else if (user.isAdmin) {
+      return false;
+    }
+    if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
   });
@@ -199,28 +229,19 @@ exports.get_single_user = async (req, res) => {
 
 exports.check_if_admin = async (req, res) => {
   const userId = req.params.userId;
-  if (userId === null) {
+  if (!userId || userId === null) {
     res.status(400).json({
       success: false,
-      message: "Couldn't find user",
-      data: err,
+      message: 'Incorrect Request Paramters',
+      data: null,
     });
   }
   let isAdminCheck;
   await User.findById(userId, (err, user) => {
-    if (!user) {
-      res.status(400).json({
-        success: false,
-        message: "Couldn't find user",
-        data: err,
-      });
-    } else if (!user.isAdmin) {
-      res.status(400).json({
-        success: false,
-        message: "Couldn't find user",
-        data: err,
-      });
-    } else if (user.isAdmin) {
+    if (user === null || !user) {
+      return false;
+    }
+    if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
   });
