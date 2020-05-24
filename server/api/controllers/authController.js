@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
-
 const middleware = require('../../middlewares/middleware');
-
 const User = mongoose.model('User');
 
 /**
@@ -122,7 +120,13 @@ exports.login_user = (req, res) => {
 exports.reset_password = async (req, res) => {
   const userId = req.params.userId;
   const newPassword = bcrypt.hashSync(req.body.newPassword, 10);
-
+  if (!userId || userId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
   User.findByIdAndUpdate(
     userId,
     { $set: { password: newPassword } },
@@ -156,7 +160,13 @@ exports.reset_password = async (req, res) => {
  */
 exports.check_token_valid = async (req, res) => {
   const token = req.params.token;
-
+  if (!token || token === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
   let tokenValid;
   await middleware
     .checkToken(token)
@@ -195,6 +205,13 @@ exports.check_token_valid = async (req, res) => {
  */
 exports.check_user_is_admin = async (req, res) => {
   const userId = req.params.userId;
+  if (!userId || userId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
   let isAdmin;
   User.findById(userId, (err, user) => {
     if (err) {
@@ -206,7 +223,7 @@ exports.check_user_is_admin = async (req, res) => {
     }
     if (!user.isAdmin) {
       res.status(400).json({
-        success: true,
+        success: false,
         message: 'User not valid',
         data: null,
       });

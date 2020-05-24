@@ -1,11 +1,7 @@
 'use strict';
-
 const mongoose = require('mongoose');
 const PDFDocument = require('pdfkit');
-const fs = require('fs');
-
 const middleware = require('../../middlewares/middleware');
-
 const User = mongoose.model('User');
 const Menu = mongoose.model('Menu');
 const Restaurant = mongoose.model('Restaurant');
@@ -19,8 +15,19 @@ const Restaurant = mongoose.model('Restaurant');
 exports.view_all_menus = async (req, res) => {
   const requesterId = req.params.requesterId;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
+    if (user === null) {
+      return false;
+    }
     if (!user.isAdmin) {
       res.status(400).json({
         success: false,
@@ -32,7 +39,13 @@ exports.view_all_menus = async (req, res) => {
       isAdminCheck = user.isAdmin;
     }
   });
-
+  if (isAdminCheck === undefined) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     Menu.find({}, (err, menus) => {
       if (err) {
@@ -42,11 +55,19 @@ exports.view_all_menus = async (req, res) => {
           data: err,
         });
       }
-      res.status(200).json({
-        success: true,
-        message: 'All menus found',
-        data: menus,
-      });
+      if (!menus || menus === null) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'All menus found',
+          data: menus,
+        });
+      }
     });
   }
 };
@@ -62,6 +83,14 @@ exports.view_current_menu_user = async (req, res) => {
   const token = req.params.token;
   const restaurantId = req.params.restaurantId;
 
+  if (!token || token === null || !restaurantId || restaurantId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let tokenValid;
   await middleware
     .checkToken(token)
@@ -88,11 +117,19 @@ exports.view_current_menu_user = async (req, res) => {
           data: err,
         });
       }
-      res.status(200).json({
-        success: true,
-        message: 'Current menu found',
-        data: restaurant.currentMenu,
-      });
+      if (!restaurant || restaurant === null) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'Current menu found',
+          data: restaurant.currentMenu,
+        });
+      }
     });
   }
 };
@@ -107,21 +144,42 @@ exports.view_current_menu_user = async (req, res) => {
 exports.view_current_menu_admin = async (req, res) => {
   const requesterId = req.params.requesterId;
   const restaurantId = req.body.restaurantId;
+  if (
+    !requesterId ||
+    requesterId === null ||
+    !restaurantId ||
+    restaurantId === null
+  ) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
 
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
-    if (!user.isAdmin) {
+    if (err) {
       res.status(400).json({
         success: false,
-        message: 'User not authorised for this action',
+        message: 'Error getting user',
         data: err,
       });
+    }
+    if (user === null) {
+      return false;
     }
     if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
   });
-
+  if (isAdminCheck === undefined) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     Restaurant.findById(restaurantId, (err, restaurant) => {
       if (err) {
@@ -131,11 +189,19 @@ exports.view_current_menu_admin = async (req, res) => {
           data: err,
         });
       }
-      res.status(200).json({
-        success: true,
-        message: 'Current menu found',
-        data: restaurant.currentMenu,
-      });
+      if (!restaurant || restaurant === null) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'Current menu found',
+          data: restaurant.currentMenu,
+        });
+      }
     });
   }
 };
@@ -151,6 +217,14 @@ exports.view_current_menu_qrcode_user = async (req, res) => {
   const token = req.params.token;
   const restaurantId = req.params.restaurantId;
 
+  if (!token || token === null || !restaurantId || restaurantId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let tokenValid;
   await middleware
     .checkToken(token)
@@ -171,6 +245,13 @@ exports.view_current_menu_qrcode_user = async (req, res) => {
   if (tokenValid) {
     Restaurant.findById(restaurantId, (err, restaurant) => {
       if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      if (!restaurant) {
         res.status(400).json({
           success: false,
           message: 'Error getting all menus',
@@ -197,23 +278,45 @@ exports.view_current_menu_qrcode_admin = async (req, res) => {
   const requesterId = req.params.requesterId;
   const restaurantId = req.body.restaurantId;
 
+  if (
+    !requesterId ||
+    requesterId === null ||
+    !restaurantId ||
+    restaurantId === null
+  ) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
-    if (!user.isAdmin) {
-      res.status(400).json({
-        success: false,
-        message: 'User not authorised for this action',
-        data: err,
-      });
+    if (user === null) {
+      return false;
     }
     if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
   });
-
+  if (isAdminCheck === undefined) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     Restaurant.findById(restaurantId, (err, restaurant) => {
       if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      if (!restaurant) {
         res.status(400).json({
           success: false,
           message: 'Error getting all menus',
@@ -240,11 +343,26 @@ exports.get_menu_pdf_user = async (req, res) => {
   const token = req.params.token;
   const restaurantId = req.params.restaurantId;
 
+  if (!token || token === null || !restaurantId || restaurantId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let currentRestaurant = await Restaurant.findById(
     restaurantId,
     (err, restaurant) => {
       if (err) {
         res.status(500).json({
+          success: false,
+          message: 'Error finding restaurent',
+          data: err,
+        });
+      }
+      if (!restaurant) {
+        res.status(400).json({
           success: false,
           message: 'Error finding restaurent',
           data: err,
@@ -338,6 +456,19 @@ exports.get_menu_pdf_admin = async (req, res) => {
   const requesterId = req.params.requesterId;
   const restaurantId = req.body.restaurantId;
 
+  if (
+    !requesterId ||
+    requesterId === null ||
+    !restaurantId ||
+    restaurantId === null
+  ) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let currentRestaurant = await Restaurant.findById(
     restaurantId,
     (err, restaurant) => {
@@ -348,18 +479,27 @@ exports.get_menu_pdf_admin = async (req, res) => {
           data: err,
         });
       }
+      if (!restaurant) {
+        res.status(400).json({
+          success: false,
+          message: 'Error finding restaurent',
+          data: err,
+        });
+      }
       return restaurant;
     }
   );
-
+  if (isAdminCheck === undefined) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
-    if (!user.isAdmin) {
-      res.status(400).json({
-        success: false,
-        message: 'User not authorised for this action',
-        data: err,
-      });
+    if (user === null) {
+      return false;
     }
     if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
