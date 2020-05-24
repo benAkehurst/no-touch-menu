@@ -1002,12 +1002,13 @@ exports.delete_restaurant = async (req, res) => {
               message: 'Error deleting restaurant',
               data: err,
             });
+          } else if (success) {
+            res.status(200).json({
+              success: true,
+              message: 'Restaurant deleted',
+              data: null,
+            });
           }
-          res.status(200).json({
-            success: true,
-            message: 'Restaurant deleted',
-            data: null,
-          });
         });
       }
     });
@@ -1037,6 +1038,9 @@ exports.upload_restaurant_logo_admin = async (req, res) => {
 
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
+    if (user === undefined || user === null) {
+      return false;
+    }
     if (!user.isAdmin) {
       res.status(400).json({
         success: false,
@@ -1048,6 +1052,13 @@ exports.upload_restaurant_logo_admin = async (req, res) => {
       isAdminCheck = user.isAdmin;
     }
   });
+  if (isAdminCheck === undefined || !isAdminCheck) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     let imageS3Upload = await uploadFile(
       logoFile,
@@ -1076,12 +1087,13 @@ exports.upload_restaurant_logo_admin = async (req, res) => {
               message: 'Error saving logo to restaurant model',
               data: err,
             });
+          } else if (success) {
+            res.status(201).json({
+              success: true,
+              message: 'Logo added to restaurant successfully',
+              data: success,
+            });
           }
-          res.status(201).json({
-            success: true,
-            message: 'Logo added to restaurant successfully',
-            data: success,
-          });
         }
       );
     }
@@ -1155,11 +1167,13 @@ exports.upload_restaurant_logo_user = async (req, res) => {
               data: err,
             });
           }
-          res.status(201).json({
-            success: true,
-            message: 'Logo added to restaurant successfully',
-            data: success,
-          });
+          if (success) {
+            res.status(201).json({
+              success: true,
+              message: 'Logo added to restaurant successfully',
+              data: success,
+            });
+          }
         }
       );
     }
@@ -1203,6 +1217,13 @@ exports.get_single_restaurant = async (req, res) => {
   });
 };
 
+/**
+ * Used to upload files to S3 Buckets
+ * @param {file} file
+ * @param {string} restaurantId
+ * @param {string} subfolder
+ * @param {string} contenttype
+ */
 const uploadFile = async (file, restaurantId, subfolder, contenttype) => {
   const params = {
     Bucket: `${process.env.BUCKET_NAME}/${subfolder}`,
@@ -1221,6 +1242,10 @@ const uploadFile = async (file, restaurantId, subfolder, contenttype) => {
   });
 };
 
+/**
+ * Generates a QR Code from a url string
+ * @param {string} url
+ */
 const generateQRCode = async (url) => {
   return QRCode.toDataURL(url)
     .then((url) => {
