@@ -1,23 +1,19 @@
 'use strict';
-
 const mongoose = require('mongoose');
+const middleware = require('../../middlewares/middleware');
+const Restaurant = mongoose.model('Restaurant');
+const User = mongoose.model('User');
+const Menu = mongoose.model('Menu');
 const _ = require('lodash');
 const AWS = require('aws-sdk');
 const fetch = require('node-fetch');
 const QRCode = require('qrcode');
 
 AWS.config.update({ region: 'eu-west-2' });
-
 const s3 = new AWS.S3({
   accessKeyId: process.env.BUCKET_ID,
   secretAccessKey: process.env.BUCKET_SECRET,
 });
-
-let middleware = require('../../middlewares/middleware');
-
-const Restaurant = mongoose.model('Restaurant');
-const User = mongoose.model('User');
-const Menu = mongoose.model('Menu');
 
 /**
  * Gets all the restaurants in the DB
@@ -28,20 +24,37 @@ const Menu = mongoose.model('Menu');
 exports.view_all_restaurants = async (req, res) => {
   const requesterId = req.params.requesterId;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
-    if (!user.isAdmin) {
+    if (err) {
       res.status(400).json({
         success: false,
-        message: 'User not authorised for this action',
+        message: 'Error getting user',
         data: err,
       });
+    }
+    if (user === undefined || user === null) {
+      return false;
     }
     if (user.isAdmin) {
       isAdminCheck = user.isAdmin;
     }
   });
-
+  if (isAdminCheck === undefined || !isAdminCheck) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     Restaurant.find({}, (err, restaurants) => {
       if (err) {
@@ -51,11 +64,19 @@ exports.view_all_restaurants = async (req, res) => {
           data: err,
         });
       }
-      res.status(200).json({
-        success: true,
-        message: 'All restaurants found',
-        data: restaurants,
-      });
+      if (!restaurants || restaurants === null) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all restaurants',
+          data: err,
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'All restaurants found',
+          data: restaurants,
+        });
+      }
     });
   }
 };
@@ -82,12 +103,16 @@ exports.create_new_restaurant = async (req, res) => {
   if (!requesterId || requesterId === null) {
     res.status(400).json({
       success: false,
-      message: 'User not authorised for this action',
-      data: err,
+      message: 'Incorrect Request Paramters',
+      data: null,
     });
   }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
+    if (user === undefined || user === null) {
+      return false;
+    }
     if (!user.isAdmin) {
       res.status(400).json({
         success: false,
@@ -99,7 +124,13 @@ exports.create_new_restaurant = async (req, res) => {
       isAdminCheck = user.isAdmin;
     }
   });
-
+  if (isAdminCheck === undefined || !isAdminCheck) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     let userObj;
     await User.findById(userId, (err, user) => {
@@ -135,12 +166,13 @@ exports.create_new_restaurant = async (req, res) => {
           message: 'Error creating new restaurant',
           data: err,
         });
+      } else {
+        res.status(201).json({
+          success: true,
+          message: 'Restaurant created',
+          data: restaurant,
+        });
       }
-      res.status(201).json({
-        success: true,
-        message: 'Restaurant created',
-        data: restaurant,
-      });
     });
   }
 };
@@ -162,12 +194,16 @@ exports.change_user_assigned_to_restaurant = async (req, res) => {
   if (!requesterId || requesterId === null) {
     res.status(400).json({
       success: false,
-      message: 'User not authorised for this action',
-      data: err,
+      message: 'Incorrect Request Paramters',
+      data: null,
     });
   }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
+    if (user === undefined || user === null) {
+      return false;
+    }
     if (!user.isAdmin) {
       res.status(400).json({
         success: false,
@@ -179,7 +215,13 @@ exports.change_user_assigned_to_restaurant = async (req, res) => {
       isAdminCheck = user.isAdmin;
     }
   });
-
+  if (isAdminCheck === undefined || !isAdminCheck) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     let newUser;
     await User.findById(newUserId, (err, user) => {
@@ -225,12 +267,13 @@ exports.change_user_assigned_to_restaurant = async (req, res) => {
             message: 'Error updating user assigned to restaurant',
             data: err,
           });
+        } else {
+          res.status(201).json({
+            success: true,
+            message: 'Restaurant updated',
+            data: updatedRestaurant,
+          });
         }
-        res.status(201).json({
-          success: true,
-          message: 'Restaurant updated',
-          data: updatedRestaurant,
-        });
       }
     );
   }
@@ -250,20 +293,38 @@ exports.change_restaurant_isActive_status = async (req, res) => {
   const restaurantId = req.body.restaurantId;
   const newStatus = req.body.newStatus;
 
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
+    if (user === undefined || user === null) {
+      return false;
+    }
     if (!user.isAdmin) {
       res.status(400).json({
         success: false,
         message: 'User not authorised for this action',
         data: err,
       });
+      return false;
     }
     if (user.isAdmin) {
-      isAdminCheck = user.isAdmin;
+      return (isAdminCheck = user.isAdmin);
     }
   });
-
+  if (isAdminCheck === undefined || !isAdminCheck) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
   if (isAdminCheck) {
     Restaurant.updateOne(
       { _id: restaurantId },
@@ -275,12 +336,13 @@ exports.change_restaurant_isActive_status = async (req, res) => {
             message: 'Error updating isActive status restaurant',
             data: err,
           });
+        } else {
+          res.status(201).json({
+            success: true,
+            message: 'Restaurant isActive status updated',
+            data: updatedRestaurant,
+          });
         }
-        res.status(201).json({
-          success: true,
-          message: 'Restaurant isActive status updated',
-          data: updatedRestaurant,
-        });
       }
     );
   }
