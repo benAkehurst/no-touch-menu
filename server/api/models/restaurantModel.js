@@ -16,6 +16,15 @@ const RestaurantSchema = new Schema(
     currentMenu: {
       type: Object,
     },
+    deliverooObject: {
+      type: Object,
+    },
+    justEatModel: {
+      type: Object,
+    },
+    uberEatsModel: {
+      type: Object,
+    },
     oldMenus: {
       type: Array,
     },
