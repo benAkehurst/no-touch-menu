@@ -306,6 +306,125 @@ exports.get_deliveroo_PDF_user = async (req, res) => {
 };
 
 /**
+ * Gets deliverro menu as pdf
+ * ADMIN PROCEDURE
+ * GET
+ * param: requesterId
+ * param: restaurantId
+ */
+exports.get_deliveroo_PDF_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.params.restaurantId;
+
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (err) {
+      res.status(400).json({
+        success: false,
+        message: 'Error getting user',
+        data: err,
+      });
+    }
+    if (user === undefined || user === null) {
+      return false;
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+  if (isAdminCheck === undefined || !isAdminCheck) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
+
+  let currentRestaurant = await Restaurant.findById(
+    restaurantId,
+    (err, restaurant) => {
+      if (err) {
+        res.status(500).json({
+          success: false,
+          message: 'Error finding restaurent',
+          data: err,
+        });
+      }
+      if (!restaurant) {
+        res.status(400).json({
+          success: false,
+          message: 'Error finding restaurent',
+          data: err,
+        });
+      }
+      return restaurant;
+    }
+  );
+
+  if (isAdminCheck) {
+    // Config Elements
+    res.writeHead(200, {
+      'Content-Type': 'application/pdf',
+      'Access-Control-Allow-Origin': '*',
+      'Content-Disposition': 'attachment; filename=DELIVEROO_QR_CODE_MENU.pdf',
+    });
+    const font = 'Helvetica-Bold';
+    const explainerText = 'Scan the QR code below to see us on Deliveroo! ';
+    const url = currentRestaurant.deliverooObject.shortUrlLink;
+    const urlNoProtocol = url.replace(/^https?\:\/\//i, '');
+    const subText = `Or ${urlNoProtocol} if the QR code doesn't scan!`;
+
+    // Create a document
+    const doc = new PDFDocument();
+    doc.pipe(res);
+    // Creating PDF File
+    doc
+      // RESTAURANT NAME
+      .font(font)
+      .fontSize(42)
+      .text(currentRestaurant.restaurantName, {
+        align: 'center',
+        valign: 'center',
+        height: 200,
+        width: 465,
+      })
+      // QR EXPLAINER TEXT
+      .font(font)
+      .fontSize(36)
+      .text(explainerText, {
+        align: 'center',
+        valign: 'center',
+        height: 100,
+        width: 465,
+      })
+      // SUB EXPLAINER TEXT
+      .font(font)
+      .fontSize(30)
+      .text(subText, {
+        align: 'center',
+        valign: 'center',
+        height: 100,
+        width: 465,
+      })
+      // QR CODE
+      .image(currentRestaurant.deliverooObject.qrCodeBase64, {
+        width: 400,
+        height: 400,
+      });
+    // Finalize making PDF file
+    doc.end();
+  }
+};
+
+/**
  * Generates a QR Code from a url string
  * @param {string} url
  */
