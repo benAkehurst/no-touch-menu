@@ -25,4 +25,16 @@ module.exports = (app) => {
   app
     .route('/api/mealApps/get-justEat-PDF-admin/:requesterId/:restaurantId')
     .get(mealAppsContorller.get_justEat_PDF_admin);
+  app
+    .route('/api/mealApps/add-uberEats-link-user/:token')
+    .post(mealAppsContorller.add_uberEats_link_user);
+  app
+    .route('/api/mealApps/add-uberEats-link-admin')
+    .post(mealAppsContorller.add_uberEats_link_admin);
+  app
+    .route('/api/mealApps/get-uberEats-PDF-user/:token/:restaurantId')
+    .get(mealAppsContorller.get_uberEats_PDF_user);
+  app
+    .route('/api/mealApps/get-uberEats-PDF-admin/:requesterId/:restaurantId')
+    .get(mealAppsContorller.get_uberEats_PDF_admin);
 };
