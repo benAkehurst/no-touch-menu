@@ -288,6 +288,7 @@ class Restaurant extends Component {
               title={'Deliveroo'}
               deliveryAppColor={'deliveroo'}
               inputPlaceholder={'Deliveroo URL'}
+              restaurantId={this.state.restaurantData._id}
             />
           ) : null}
           {this.state.restaurantData.justEatModel ? (
@@ -295,6 +296,7 @@ class Restaurant extends Component {
               title={'JustEat'}
               deliveryAppColor={'justEat'}
               inputPlaceholder={'Just Eat URL'}
+              restaurantId={this.state.restaurantData._id}
             />
           ) : null}
           {this.state.restaurantData.uberEatsModel ? (
@@ -302,6 +304,7 @@ class Restaurant extends Component {
               title={'Uber Eats'}
               deliveryAppColor={'uberEats'}
               inputPlaceholder={'Uber Eats URL'}
+              restaurantId={this.state.restaurantData._id}
             />
           ) : null}
         </div>
