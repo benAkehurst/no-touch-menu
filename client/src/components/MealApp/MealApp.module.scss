@@ -16,8 +16,31 @@
     align-items: center;
     justify-content: space-evenly;
     margin: 0.25rem 0;
-    input {
-      margin-bottom: 1rem;
+    .FormInputWrapper {
+      border: 1px solid;
+      border-color: #ccc;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      input {
+        outline: none;
+        border: 1px solid #ccc;
+        background-color: white;
+        font: inherit;
+        padding: 0.5rem 10px;
+        display: block;
+        width: 100%;
+        border-radius: 0.5rem;
+        box-sizing: border-box;
+      }
+      input:focus {
+        outline: none;
+        background-color: #ccc;
+      }
     }
   }
 }

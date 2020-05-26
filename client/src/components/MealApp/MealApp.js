@@ -3,13 +3,11 @@ import classes from './MealApp.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import helpers from '../../Helpers/localStorage';
-import timeDateHelpers from '../../Helpers/timeAndDate';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
 import Button from '@material-ui/core/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Uploader from '../../components/Uploader/Uploader';
 
 class MealApp extends Component {
   state = {
@@ -227,6 +225,22 @@ class MealApp extends Component {
     }
   };
 
+  downloadMealAppPDF = (key) => {
+    window.open(
+      `${BASE_URL}/mealApps/get-${key}-PDF-user/${helpers.getUserToken()}/${
+        this.props.restaurantId
+      }`
+    );
+  };
+
+  downloadMealAppPDFAdmin = (key) => {
+    window.open(
+      `${BASE_URL}/mealApps/get-${key}-PDF-admin/${helpers.getUserId()}/${
+        this.props.restaurantId
+      }`
+    );
+  };
+
   render() {
     const spinner = <Spinner size={'large'} />;
     return (
@@ -241,13 +255,15 @@ class MealApp extends Component {
           <h2>{this.props.title}</h2>
           <h3>Add Link to your page:</h3>
           <div className={classes.CardItem}>
-            <input
-              placeholder={this.props.inputPlaceholder}
-              type="text"
-              onChange={(e) =>
-                this.newUrlInputHandler(this.props.deliveryAppColor, e)
-              }
-            ></input>
+            <div className={classes.FormInputWrapper}>
+              <input
+                placeholder={this.props.inputPlaceholder}
+                type="text"
+                onChange={(e) =>
+                  this.newUrlInputHandler(this.props.deliveryAppColor, e)
+                }
+              />
+            </div>
             <Button
               variant="contained"
               color="default"
@@ -261,11 +277,22 @@ class MealApp extends Component {
             {this.state.isSuccess ? this.state.successMessage : null}
             {this.state.isError ? this.state.errorMessage : null}
           </div>
-          <div className={classes.CardItem}>Download</div>
-          {/* I need to be able to:
-            1. add a url link to be uploaded
-            2. see the qr code or download the attached pdf
-          */}
+          <div className={classes.CardItem}>Download Options</div>
+          <Button
+            variant="contained"
+            color={this.props.buttonColors}
+            onClick={
+              this.state.isAdmin
+                ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
+                : () =>
+                    this.downloadMealAppPDFAdmin(
+                      this.props.deliveryAppColor,
+                      this.state.restaurantId
+                    )
+            }
+          >
+            Download {this.props.title} PDF
+          </Button>
         </div>
       </Aux>
     );
