@@ -1255,6 +1255,175 @@ exports.get_uberEats_PDF_admin = async (req, res) => {
 };
 
 /**
+ * Gets current menu qr code
+ * USER PROCEDURE
+ * GET
+ * param: token
+ * param: requesterId
+ */
+exports.get_takeaway_qrcode_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.params.restaurantId;
+  const service = req.params.service;
+
+  if (!token || token === null || !restaurantId || restaurantId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      if (!restaurant) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      switch (service) {
+        case 'deliveroo':
+          res.status(200).json({
+            success: true,
+            message: 'Current QR Code found',
+            data: restaurant.deliverooObject.qrCodeBase64,
+          });
+          break;
+        case 'justEat':
+          res.status(200).json({
+            success: true,
+            message: 'Current QR Code found',
+            data: restaurant.justEatModel.qrCodeBase64,
+          });
+          break;
+        case 'uberEats':
+          res.status(200).json({
+            success: true,
+            message: 'Current QR Code found',
+            data: restaurant.uberEatsModel.qrCodeBase64,
+          });
+          break;
+        default:
+          break;
+      }
+    });
+  }
+};
+
+/**
+ * Gets current menu qr code
+ * ADMIN PROCEDURE
+ * POST
+ * param: requesterId
+ * body: restaurantId
+ * body: service
+ */
+exports.get_takeaway_qrcode_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+  const service = req.body.service;
+
+  if (
+    !requesterId ||
+    requesterId === null ||
+    !restaurantId ||
+    restaurantId === null
+  ) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (user === null) {
+      return false;
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+  if (isAdminCheck === undefined) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
+  if (isAdminCheck) {
+    Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      if (!restaurant) {
+        res.status(400).json({
+          success: false,
+          message: 'Error getting all menus',
+          data: err,
+        });
+      }
+      switch (service) {
+        case 'deliveroo':
+          res.status(200).json({
+            success: true,
+            message: 'Current QR Code found',
+            data: restaurant.deliverooObject.qrCodeBase64,
+          });
+          break;
+        case 'justEat':
+          res.status(200).json({
+            success: true,
+            message: 'Current QR Code found',
+            data: restaurant.justEatModel.qrCodeBase64,
+          });
+          break;
+        case 'uberEats':
+          res.status(200).json({
+            success: true,
+            message: 'Current QR Code found',
+            data: restaurant.uberEatsModel.qrCodeBase64,
+          });
+          break;
+        default:
+          break;
+      }
+    });
+  }
+};
+
+/**
  * Generates a QR Code from a url string
  * @param {string} url
  */

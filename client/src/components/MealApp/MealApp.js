@@ -22,6 +22,8 @@ class MealApp extends Component {
     justEatUrl: null,
     uberEatsUrl: null,
     downloadButtonVisable: false,
+    showQRImage: false,
+    QRCode: null,
   };
 
   componentDidMount() {
@@ -241,6 +243,25 @@ class MealApp extends Component {
     );
   };
 
+  viewQrCode = () => {
+    axios
+      .get(
+        `${BASE_URL}/mealApps/get-takeaway-qrcode-user/${helpers.getUserToken()}/${
+          this.props.restaurantId
+        }/${this.props.deliveryAppColor}`
+      )
+      .then((res) => {
+        if (res.data.data) {
+          this.setState({
+            isLoading: false,
+            showQRImage: true,
+            QRCode: res.data.data,
+          });
+        }
+      })
+      .catch((err) => this.setState({ isError: true, errorMessage: err }));
+  };
+
   render() {
     const spinner = <Spinner size={'large'} />;
     return (
@@ -280,7 +301,6 @@ class MealApp extends Component {
           <div className={classes.CardItem}>Download Options</div>
           <Button
             variant="contained"
-            color={this.props.buttonColors}
             onClick={
               this.state.isAdmin
                 ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
@@ -293,6 +313,12 @@ class MealApp extends Component {
           >
             Download {this.props.title} PDF
           </Button>
+          <Button variant="contained" onClick={this.viewQrCode}>
+            Veiw {this.props.title} QR Code
+          </Button>
+          {this.state.showQRImage ? (
+            <img id="qrCodeImage" src={this.state.QRCode} alt="Menu QR Code" />
+          ) : null}
         </div>
       </Aux>
     );
