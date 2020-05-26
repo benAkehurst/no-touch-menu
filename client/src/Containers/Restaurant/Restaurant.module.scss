@@ -186,13 +186,12 @@
     }
   }
   .MealAppsContainer {
+    width: 100%;
     border: 1px solid black;
     @include flex-row();
-    section {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }

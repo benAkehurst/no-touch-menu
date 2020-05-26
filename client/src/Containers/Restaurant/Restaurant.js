@@ -281,18 +281,17 @@ class Restaurant extends Component {
             {this.renderMenuOptions()}
           </section>
         </div>
+        <h2>Meal Apps Options</h2>
         <div className={classes.MealAppsContainer}>
-          <section>
-            {this.state.restaurantData.deliverooObject ? (
-              <MealApp title={'Deliveroo'} />
-            ) : null}
-            {this.state.restaurantData.justEatModel ? (
-              <MealApp title={'JustEat'} />
-            ) : null}
-            {this.state.restaurantData.uberEatsModel ? (
-              <MealApp title={'Uber Eats'} />
-            ) : null}
-          </section>
+          {this.state.restaurantData.deliverooObject ? (
+            <MealApp title={'Deliveroo'} deliveryAppColor={'deliveroo'} />
+          ) : null}
+          {this.state.restaurantData.justEatModel ? (
+            <MealApp title={'JustEat'} deliveryAppColor={'justEat'} />
+          ) : null}
+          {this.state.restaurantData.uberEatsModel ? (
+            <MealApp title={'Uber Eats'} deliveryAppColor={'uberEats'} />
+          ) : null}
         </div>
       </main>
     );
