@@ -52,41 +52,178 @@ class MealApp extends Component {
   };
 
   saveLinkButtonHandler = (key) => {
-    if (helpers.getAdminStatus()) {
-      // api calls as admin
-      return;
-    }
-    switch (key) {
-      case 'deliveroo':
-        let data = {
-          restaurantId: helpers.getRestaurantId(),
-          deliverooLink: this.state.deliverooUrl,
-        };
-        this.setState({ isLoading: true });
-        axios
-          .post(
-            `/mealApps/add-deliveroo-link-user/${helpers.getUserToken()}`,
-            data
-          )
-          .then((res) => {
-            if (res.status === 201) {
+    if (!this.state.isAdmin) {
+      switch (key) {
+        case 'deliveroo':
+          let deliverooData = {
+            restaurantId: helpers.getRestaurantId(),
+            deliverooLink: this.state.deliverooUrl,
+          };
+          this.setState({ isLoading: true });
+          axios
+            .post(
+              `/mealApps/add-${key}-link-user/${helpers.getUserToken()}`,
+              deliverooData
+            )
+            .then((res) => {
+              if (res.status === 201) {
+                this.setState({
+                  isLoading: false,
+                  isSuccess: true,
+                  successMessage: res.data.message,
+                });
+              }
+            })
+            .catch((err) => {
               this.setState({
                 isLoading: false,
-                isSuccess: true,
-                successMessage: res.data.message,
+                isError: true,
+                errorMessage: err.message,
               });
-            }
-          })
-          .catch((err) => {
-            this.setState({
-              isLoading: false,
-              isError: true,
-              errorMessage: err.message,
             });
-          });
-        break;
-      default:
-        break;
+          break;
+        case 'justEat':
+          let justEatData = {
+            restaurantId: helpers.getRestaurantId(),
+            justEatLink: this.state.justEatUrl,
+          };
+          this.setState({ isLoading: true });
+          axios
+            .post(
+              `/mealApps/add-${key}-link-user/${helpers.getUserToken()}`,
+              justEatData
+            )
+            .then((res) => {
+              if (res.status === 201) {
+                this.setState({
+                  isLoading: false,
+                  isSuccess: true,
+                  successMessage: res.data.message,
+                });
+              }
+            })
+            .catch((err) => {
+              this.setState({
+                isLoading: false,
+                isError: true,
+                errorMessage: err.message,
+              });
+            });
+          break;
+        case 'uberEats':
+          let uberEatsData = {
+            restaurantId: helpers.getRestaurantId(),
+            uberEatsLink: this.state.uberEatsUrl,
+          };
+          this.setState({ isLoading: true });
+          axios
+            .post(
+              `/mealApps/add-${key}-link-user/${helpers.getUserToken()}`,
+              uberEatsData
+            )
+            .then((res) => {
+              if (res.status === 201) {
+                this.setState({
+                  isLoading: false,
+                  isSuccess: true,
+                  successMessage: res.data.message,
+                });
+              }
+            })
+            .catch((err) => {
+              this.setState({
+                isLoading: false,
+                isError: true,
+                errorMessage: err.message,
+              });
+            });
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (key) {
+        case 'deliveroo':
+          let deliverooData = {
+            requesterId: helpers.getUserId(),
+            restaurantId: helpers.getRestaurantId(),
+            deliverooLink: this.state.deliverooUrl,
+          };
+          this.setState({ isLoading: true });
+          axios
+            .post(`/mealApps/add-${key}-link-admin`, deliverooData)
+            .then((res) => {
+              if (res.status === 201) {
+                this.setState({
+                  isLoading: false,
+                  isSuccess: true,
+                  successMessage: res.data.message,
+                });
+              }
+            })
+            .catch((err) => {
+              this.setState({
+                isLoading: false,
+                isError: true,
+                errorMessage: err.message,
+              });
+            });
+          break;
+        case 'justEat':
+          let justEatData = {
+            requesterId: helpers.getUserId(),
+            restaurantId: helpers.getRestaurantId(),
+            justEatLink: this.state.justEatUrl,
+          };
+          this.setState({ isLoading: true });
+          axios
+            .post(`/mealApps/add-${key}-link-admin`, justEatData)
+            .then((res) => {
+              if (res.status === 201) {
+                this.setState({
+                  isLoading: false,
+                  isSuccess: true,
+                  successMessage: res.data.message,
+                });
+              }
+            })
+            .catch((err) => {
+              this.setState({
+                isLoading: false,
+                isError: true,
+                errorMessage: err.message,
+              });
+            });
+          break;
+        case 'uberEats':
+          let uberEatsData = {
+            requesterId: helpers.getUserId(),
+            restaurantId: helpers.getRestaurantId(),
+            uberEatsLink: this.state.uberEatsUrl,
+          };
+          this.setState({ isLoading: true });
+          axios
+            .post(`/mealApps/add-${key}-link-admin`, uberEatsData)
+            .then((res) => {
+              if (res.status === 201) {
+                this.setState({
+                  isLoading: false,
+                  isSuccess: true,
+                  successMessage: res.data.message,
+                });
+              }
+            })
+            .catch((err) => {
+              this.setState({
+                isLoading: false,
+                isError: true,
+                errorMessage: err.message,
+              });
+            });
+          break;
+        default:
+          break;
+      }
     }
   };
 
