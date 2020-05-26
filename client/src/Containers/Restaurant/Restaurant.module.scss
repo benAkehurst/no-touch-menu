@@ -26,159 +26,171 @@
 }
 
 .RestaurantContainer {
-  @include flex-row();
-  height: calc(100% - 4rem);
+  @include flex-column();
   box-sizing: border-box;
   padding: 1rem;
-  .OptionsContainer {
-    @include flex-column();
-    border-right: 1px solid #eee;
-    width: 50%;
-    .RestaurantOptions {
+  .RestaurantOptionContainer {
+    @include flex-row();
+    height: calc(100% - 4rem);
+    width: 100%;
+    .OptionsContainer {
       @include flex-column();
-      width: 100%;
-      padding: 1rem;
-      .RestaurantOption {
+      border-right: 1px solid #eee;
+      width: 50%;
+      .RestaurantOptions {
+        @include flex-column();
         width: 100%;
-        margin-bottom: 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        .RestaurantInformation {
-          @include border();
-          border-color: #ccc;
-          width: 85%;
-          box-sizing: border-box;
-          box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-          border-radius: 0.5rem;
-          padding: 0.5rem;
+        padding: 1rem;
+        .RestaurantOption {
+          width: 100%;
+          margin-bottom: 1rem;
           display: flex;
           flex-direction: column;
-          .RestaurantSingleInfo {
+          align-items: flex-start;
+          .RestaurantInformation {
+            @include border();
+            border-color: #ccc;
+            width: 85%;
+            box-sizing: border-box;
+            box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            .RestaurantSingleInfo {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              height: 3rem;
+              h4 {
+                margin-right: 1rem;
+              }
+            }
+          }
+          .FormInputWrapper {
+            @include border();
+            border-color: #ccc;
+            width: 85%;
+            box-sizing: border-box;
+            box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
             display: flex;
             flex-direction: row;
             align-items: center;
-            height: 3rem;
-            h4 {
-              margin-right: 1rem;
+            justify-content: space-evenly;
+            input {
+              outline: none;
+              border: 1px solid #ccc;
+              background-color: white;
+              font: inherit;
+              padding: 0.5rem 10px;
+              display: block;
+              width: 80%;
+              border-radius: 0.5rem;
+              box-sizing: border-box;
+            }
+            input:focus {
+              outline: none;
+              background-color: #ccc;
             }
           }
         }
-        .FormInputWrapper {
-          @include border();
-          border-color: #ccc;
-          width: 85%;
-          box-sizing: border-box;
-          box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-          border-radius: 0.5rem;
-          padding: 0.5rem;
+      }
+    }
+    .MenuContainer {
+      @include flex-column();
+      width: 50%;
+      .MenuOptions {
+        @include flex-column();
+        width: 100%;
+        padding: 1rem;
+        .MenuOption {
+          width: 100%;
+          margin-bottom: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .MenuCards {
+          width: 100%;
+          margin-bottom: 1rem;
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: space-evenly;
-          input {
-            outline: none;
-            border: 1px solid #ccc;
-            background-color: white;
-            font: inherit;
-            padding: 0.5rem 10px;
-            display: block;
-            width: 80%;
-            border-radius: 0.5rem;
+          .MenuCard {
+            @include border();
+            border-color: #ccc;
+            width: 45%;
             box-sizing: border-box;
-          }
-          input:focus {
-            outline: none;
-            background-color: #ccc;
-          }
-        }
-      }
-    }
-  }
-  .MenuContainer {
-    @include flex-column();
-    width: 50%;
-    .MenuOptions {
-      @include flex-column();
-      width: 100%;
-      padding: 1rem;
-      .MenuOption {
-        width: 100%;
-        margin-bottom: 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .MenuCards {
-        width: 100%;
-        margin-bottom: 1rem;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-        .MenuCard {
-          @include border();
-          border-color: #ccc;
-          width: 45%;
-          box-sizing: border-box;
-          box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-          border-radius: 0.5rem;
-          padding: 0.5rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .MenuCardRepeater {
-          @include border();
-          overflow: scroll;
-          height: 62vh;
-          border-color: #ccc;
-          width: 45%;
-          box-sizing: border-box;
-          box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-          border-radius: 0.5rem;
-          padding: 0.5rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          .MeanCardRepeaded {
-            margin: 0.5rem;
-            width: 100%;
-            border-bottom: 1px solid black;
+            box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
           }
+          .MenuCardRepeater {
+            @include border();
+            overflow: scroll;
+            height: 62vh;
+            border-color: #ccc;
+            width: 45%;
+            box-sizing: border-box;
+            box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .MeanCardRepeaded {
+              margin: 0.5rem;
+              width: 100%;
+              border-bottom: 1px solid black;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            }
+          }
+        }
+      }
+      .FormInputWrapper {
+        @include border();
+        border-color: #ccc;
+        width: 85%;
+        box-sizing: border-box;
+        box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        input {
+          outline: none;
+          border: 1px solid #ccc;
+          background-color: white;
+          font: inherit;
+          padding: 0.5rem 10px;
+          display: block;
+          width: 80%;
+          border-radius: 0.5rem;
+          box-sizing: border-box;
+        }
+        input:focus {
+          outline: none;
+          background-color: #ccc;
         }
       }
     }
-    .FormInputWrapper {
-      @include border();
-      border-color: #ccc;
-      width: 85%;
-      box-sizing: border-box;
-      box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-      border-radius: 0.5rem;
-      padding: 0.5rem;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-evenly;
-      input {
-        outline: none;
-        border: 1px solid #ccc;
-        background-color: white;
-        font: inherit;
-        padding: 0.5rem 10px;
-        display: block;
-        width: 80%;
-        border-radius: 0.5rem;
-        box-sizing: border-box;
-      }
-      input:focus {
-        outline: none;
-        background-color: #ccc;
-      }
-    }
+  }
+  .MealAppsContainer {
+    width: 100%;
+    @include flex-row();
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }

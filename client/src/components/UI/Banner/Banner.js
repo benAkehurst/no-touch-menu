@@ -19,7 +19,7 @@ class Banner extends Component {
 
   showUserButtons = () => {
     return (
-      <div style={{ 'margin-left': 'auto' }}>
+      <div style={{ marginLeft: 'auto' }}>
         <Button color="inherit" onClick={() => this.logout()}>
           Logout
         </Button>

@@ -1,0 +1,61 @@
+.SingleCard {
+  border: 1px solid;
+  border-color: #ccc;
+  width: 33%;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .CardItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0.25rem 0;
+    .FormInputWrapper {
+      border: 1px solid;
+      border-color: #ccc;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      input {
+        outline: none;
+        border: 1px solid #ccc;
+        background-color: white;
+        font: inherit;
+        padding: 0.5rem 10px;
+        display: block;
+        width: 100%;
+        border-radius: 0.5rem;
+        box-sizing: border-box;
+      }
+      input:focus {
+        outline: none;
+        background-color: #ccc;
+      }
+    }
+  }
+}
+
+.deliveroo {
+  background-color: #00cdbc;
+  color: white;
+}
+
+.justEat {
+  background-color: #d50525;
+  color: white;
+}
+
+.uberEats {
+  background-color: #262626;
+  color: #5fb709;
+}

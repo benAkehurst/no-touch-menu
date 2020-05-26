@@ -7,6 +7,7 @@ import timeDateHelpers from '../../Helpers/timeAndDate';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
+import MealApp from '../../components/MealApp/MealApp';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -272,12 +273,41 @@ class Restaurant extends Component {
   renderRestaurantPage = () => {
     return (
       <main className={classes.RestaurantContainer}>
-        <section className={classes.OptionsContainer}>
-          {this.renderRestaurantOptions()}
-        </section>
-        <section className={classes.MenuContainer}>
-          {this.renderMenuOptions()}
-        </section>
+        <div className={classes.RestaurantOptionContainer}>
+          <section className={classes.OptionsContainer}>
+            {this.renderRestaurantOptions()}
+          </section>
+          <section className={classes.MenuContainer}>
+            {this.renderMenuOptions()}
+          </section>
+        </div>
+        <h2>Meal Apps Options</h2>
+        <div className={classes.MealAppsContainer}>
+          {this.state.restaurantData.deliverooObject ? (
+            <MealApp
+              title={'Deliveroo'}
+              deliveryAppColor={'deliveroo'}
+              inputPlaceholder={'Deliveroo URL'}
+              restaurantId={this.state.restaurantData._id}
+            />
+          ) : null}
+          {this.state.restaurantData.justEatModel ? (
+            <MealApp
+              title={'JustEat'}
+              deliveryAppColor={'justEat'}
+              inputPlaceholder={'Just Eat URL'}
+              restaurantId={this.state.restaurantData._id}
+            />
+          ) : null}
+          {this.state.restaurantData.uberEatsModel ? (
+            <MealApp
+              title={'Uber Eats'}
+              deliveryAppColor={'uberEats'}
+              inputPlaceholder={'Uber Eats URL'}
+              restaurantId={this.state.restaurantData._id}
+            />
+          ) : null}
+        </div>
       </main>
     );
   };

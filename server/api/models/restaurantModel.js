@@ -18,12 +18,15 @@ const RestaurantSchema = new Schema(
     },
     deliverooObject: {
       type: Object,
+      default: null,
     },
     justEatModel: {
       type: Object,
+      default: null,
     },
     uberEatsModel: {
       type: Object,
+      default: null,
     },
     oldMenus: {
       type: Array,

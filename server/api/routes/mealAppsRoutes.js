@@ -37,4 +37,12 @@ module.exports = (app) => {
   app
     .route('/api/mealApps/get-uberEats-PDF-admin/:requesterId/:restaurantId')
     .get(mealAppsContorller.get_uberEats_PDF_admin);
+  app
+    .route(
+      '/api/mealApps/get-takeaway-qrcode-user/:token/:restaurantId/:service'
+    )
+    .get(mealAppsContorller.get_takeaway_qrcode_user);
+  app
+    .route('/api/mealApps/get-takeaway-qrcode-admin/:requesterId')
+    .post(mealAppsContorller.get_takeaway_qrcode_admin);
 };
