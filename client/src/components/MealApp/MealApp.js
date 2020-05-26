@@ -14,25 +14,37 @@ import Uploader from '../../components/Uploader/Uploader';
 class MealApp extends Component {
   state = {
     isLoading: false,
+    isAdmin: false,
     isError: false,
+    isSuccess: false,
     errorMessage: null,
     successMessage: null,
+    saveButtonEnabled: false,
     deliverooUrl: null,
     justEatUrl: null,
     uberEatsUrl: null,
     downloadButtonVisable: false,
   };
 
+  componentDidMount() {
+    if (helpers.getAdminStatus()) {
+      this.setState({ isAdmin: helpers.getAdminStatus() });
+    }
+  }
+
   newUrlInputHandler = (key, e) => {
     switch (key) {
-      case 'deliverooUrl':
-        this.setState({ deliverooUrl: e.target.value });
+      case 'deliveroo':
+        this.setState({
+          deliverooUrl: e.target.value,
+          saveButtonEnabled: true,
+        });
         break;
-      case 'justEatUrl':
-        this.setState({ justEatUrl: e.target.value });
+      case 'justEat':
+        this.setState({ justEatUrl: e.target.value, saveButtonEnabled: true });
         break;
-      case 'uberEatsUrl':
-        this.setState({ uberEatsUrl: e.target.value });
+      case 'uberEats':
+        this.setState({ uberEatsUrl: e.target.value, saveButtonEnabled: true });
         break;
       default:
         break;
@@ -40,13 +52,41 @@ class MealApp extends Component {
   };
 
   saveLinkButtonHandler = (key) => {
-    let mealAppSerice = key;
-    let isAdmin = helpers.getAdminStatus() ? true : false;
-
-    if (isAdmin) {
+    if (helpers.getAdminStatus()) {
       // api calls as admin
-    } else {
-      // api calls as user
+      return;
+    }
+    switch (key) {
+      case 'deliveroo':
+        let data = {
+          restaurantId: helpers.getRestaurantId(),
+          deliverooLink: this.state.deliverooUrl,
+        };
+        this.setState({ isLoading: true });
+        axios
+          .post(
+            `/mealApps/add-deliveroo-link-user/${helpers.getUserToken()}`,
+            data
+          )
+          .then((res) => {
+            if (res.status === 201) {
+              this.setState({
+                isLoading: false,
+                isSuccess: true,
+                successMessage: res.data.message,
+              });
+            }
+          })
+          .catch((err) => {
+            this.setState({
+              isLoading: false,
+              isError: true,
+              errorMessage: err.message,
+            });
+          });
+        break;
+      default:
+        break;
     }
   };
 
@@ -60,8 +100,30 @@ class MealApp extends Component {
             classes[this.props.deliveryAppColor],
           ].join(' ')}
         >
+          {this.state.isLoading ? spinner : null}
           <h2>{this.props.title}</h2>
-          <div className={classes.CardItem}>Upload</div>
+          <h3>Add Link to your page:</h3>
+          <div className={classes.CardItem}>
+            <input
+              placeholder={this.props.inputPlaceholder}
+              type="text"
+              onChange={(e) =>
+                this.newUrlInputHandler(this.props.deliveryAppColor, e)
+              }
+            ></input>
+            <Button
+              variant="contained"
+              color="default"
+              onClick={() =>
+                this.saveLinkButtonHandler(this.props.deliveryAppColor)
+              }
+              disabled={!this.state.saveButtonEnabled}
+            >
+              Save {this.props.title} Menu
+            </Button>
+            {this.state.isSuccess ? this.state.successMessage : null}
+            {this.state.isError ? this.state.errorMessage : null}
+          </div>
           <div className={classes.CardItem}>Download</div>
           {/* I need to be able to:
             1. add a url link to be uploaded
