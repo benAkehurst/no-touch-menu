@@ -15,6 +15,7 @@ class MealApp extends Component {
     isAdmin: false,
     isError: false,
     isSuccess: false,
+    showAddMessage: 'Add a Link',
     errorMessage: null,
     successMessage: null,
     saveButtonEnabled: false,
@@ -52,7 +53,7 @@ class MealApp extends Component {
   };
 
   saveLinkButtonHandler = (key) => {
-    if (!this.state.isAdmin) {
+    if (this.state.isAdmin) {
       switch (key) {
         case 'deliveroo':
           let deliverooData = {
@@ -262,6 +263,64 @@ class MealApp extends Component {
       .catch((err) => this.setState({ isError: true, errorMessage: err }));
   };
 
+  removeMealAppObject = () => {
+    if (!this.state.isAdmin) {
+      let data = {
+        restaurantId: helpers.getRestaurantId(),
+        service: this.props.deliveryAppColor,
+      };
+      this.setState({ isLoading: true });
+      axios
+        .post(
+          `/mealApps/remove-meal-app-object-admin/${helpers.getUserId()}`,
+          data
+        )
+        .then((res) => {
+          if (res.status === 201) {
+            this.setState({
+              isLoading: false,
+              isSuccess: true,
+              successMessage: res.data.message,
+            });
+          }
+        })
+        .catch((err) => {
+          this.setState({
+            isLoading: false,
+            isError: true,
+            errorMessage: err.message,
+          });
+        });
+    } else {
+      let data = {
+        restaurantId: helpers.getRestaurantId(),
+        service: this.props.deliveryAppColor,
+      };
+      this.setState({ isLoading: true });
+      axios
+        .post(
+          `/mealApps/remove-meal-app-object-user/${helpers.getUserToken()}`,
+          data
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            this.setState({
+              isLoading: false,
+              isSuccess: true,
+              successMessage: res.data.message,
+            });
+          }
+        })
+        .catch((err) => {
+          this.setState({
+            isLoading: false,
+            isError: true,
+            errorMessage: err.message,
+          });
+        });
+    }
+  };
+
   render() {
     const spinner = <Spinner size={'large'} />;
     return (
@@ -274,11 +333,18 @@ class MealApp extends Component {
         >
           {this.state.isLoading ? spinner : null}
           <h2>{this.props.title}</h2>
+          {this.props.showAddMessage ? (
+            <span>{this.state.showAddMessage}</span>
+          ) : null}
           <h3>Add Link to your page:</h3>
           <div className={classes.CardItem}>
             <div className={classes.FormInputWrapper}>
               <input
-                placeholder={this.props.inputPlaceholder}
+                placeholder={
+                  this.props.inputPlaceholder
+                    ? this.props.inputPlaceholder
+                    : this.props.menuAppLink
+                }
                 type="text"
                 onChange={(e) =>
                   this.newUrlInputHandler(this.props.deliveryAppColor, e)
@@ -295,30 +361,42 @@ class MealApp extends Component {
             >
               Save {this.props.title} Menu
             </Button>
-            {this.state.isSuccess ? this.state.successMessage : null}
-            {this.state.isError ? this.state.errorMessage : null}
           </div>
-          <div className={classes.CardItem}>Download Options</div>
-          <Button
-            variant="contained"
-            onClick={
-              this.state.isAdmin
-                ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
-                : () =>
-                    this.downloadMealAppPDFAdmin(
-                      this.props.deliveryAppColor,
-                      this.state.restaurantId
-                    )
-            }
-          >
-            Download {this.props.title} PDF
-          </Button>
-          <Button variant="contained" onClick={this.viewQrCode}>
-            Veiw {this.props.title} QR Code
-          </Button>
+          <div className={classes.CardItem}>Options</div>
+          {this.props.showAddMessage !== null ? (
+            <Button
+              variant="contained"
+              onClick={
+                this.state.isAdmin
+                  ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
+                  : () =>
+                      this.downloadMealAppPDFAdmin(
+                        this.props.deliveryAppColor,
+                        this.state.restaurantId
+                      )
+              }
+            >
+              Download {this.props.title} PDF
+            </Button>
+          ) : null}
+          {this.props.showAddMessage !== null ? (
+            <Button variant="contained" onClick={this.viewQrCode}>
+              Veiw {this.props.title} QR Code
+            </Button>
+          ) : null}
           {this.state.showQRImage ? (
             <img id="qrCodeImage" src={this.state.QRCode} alt="Menu QR Code" />
           ) : null}
+          {this.props.showAddMessage !== null ? (
+            <Button
+              variant="contained"
+              onClick={() => this.removeMealAppObject()}
+            >
+              Remove Link
+            </Button>
+          ) : null}
+          {this.state.isSuccess ? this.state.successMessage : null}
+          {this.state.isError ? this.state.errorMessage : null}
         </div>
       </Aux>
     );
