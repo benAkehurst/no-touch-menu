@@ -363,32 +363,38 @@ class MealApp extends Component {
             </Button>
           </div>
           <div className={classes.CardItem}>Options</div>
-          <Button
-            variant="contained"
-            onClick={
-              this.state.isAdmin
-                ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
-                : () =>
-                    this.downloadMealAppPDFAdmin(
-                      this.props.deliveryAppColor,
-                      this.state.restaurantId
-                    )
-            }
-          >
-            Download {this.props.title} PDF
-          </Button>
-          <Button variant="contained" onClick={this.viewQrCode}>
-            Veiw {this.props.title} QR Code
-          </Button>
+          {this.props.showAddMessage !== null ? (
+            <Button
+              variant="contained"
+              onClick={
+                this.state.isAdmin
+                  ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
+                  : () =>
+                      this.downloadMealAppPDFAdmin(
+                        this.props.deliveryAppColor,
+                        this.state.restaurantId
+                      )
+              }
+            >
+              Download {this.props.title} PDF
+            </Button>
+          ) : null}
+          {this.props.showAddMessage !== null ? (
+            <Button variant="contained" onClick={this.viewQrCode}>
+              Veiw {this.props.title} QR Code
+            </Button>
+          ) : null}
           {this.state.showQRImage ? (
             <img id="qrCodeImage" src={this.state.QRCode} alt="Menu QR Code" />
           ) : null}
-          <Button
-            variant="contained"
-            onClick={() => this.removeMealAppObject()}
-          >
-            Remove Link
-          </Button>
+          {this.props.showAddMessage !== null ? (
+            <Button
+              variant="contained"
+              onClick={() => this.removeMealAppObject()}
+            >
+              Remove Link
+            </Button>
+          ) : null}
           {this.state.isSuccess ? this.state.successMessage : null}
           {this.state.isError ? this.state.errorMessage : null}
         </div>
