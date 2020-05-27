@@ -1561,7 +1561,131 @@ exports.remove_meal_app_object_user = async (req, res) => {
  * body: restaurantId
  * body: service
  */
-exports.remove_meal_app_object_admin = async (req, res) => {};
+exports.remove_meal_app_object_admin = async (req, res) => {
+  const requesterId = req.params.requesterId;
+  const restaurantId = req.body.restaurantId;
+  const service = req.body.service;
+
+  if (
+    !requesterId ||
+    requesterId === null ||
+    !restaurantId ||
+    restaurantId === null
+  ) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (user === null) {
+      return false;
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+  if (isAdminCheck === undefined) {
+    res.status(400).json({
+      success: false,
+      message: 'Error user',
+      data: null,
+    });
+  }
+  if (isAdminCheck) {
+    switch (service) {
+      case 'deliveroo':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { deliverooObject: {} } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            }
+            if (!restaurant) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            } else {
+              res.status(200).json({
+                success: true,
+                message: 'Deliveroo Link deleted',
+                data: null,
+              });
+            }
+          }
+        );
+        break;
+      case 'justEat':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { justEatModel: {} } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            }
+            if (!restaurant) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            } else {
+              res.status(200).json({
+                success: true,
+                message: 'Just Eat Link deleted',
+                data: null,
+              });
+            }
+          }
+        );
+        break;
+      case 'uberEats':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { uberEatsModel: {} } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            }
+            if (!restaurant) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            } else {
+              res.status(200).json({
+                success: true,
+                message: 'Uber Eats Link deleted',
+                data: null,
+              });
+            }
+          }
+        );
+        break;
+      default:
+        break;
+    }
+  }
+};
 
 /**
  * Generates a QR Code from a url string

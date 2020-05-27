@@ -45,8 +45,10 @@ module.exports = (app) => {
   app
     .route('/api/mealApps/get-takeaway-qrcode-admin/:requesterId')
     .post(mealAppsContorller.get_takeaway_qrcode_admin);
-
   app
     .route('/api/mealApps/remove-meal-app-object-user/:token')
     .post(mealAppsContorller.remove_meal_app_object_user);
+  app
+    .route('/api/mealApps/remove-meal-app-object-admin/:requesterId')
+    .post(mealAppsContorller.remove_meal_app_object_admin);
 };
