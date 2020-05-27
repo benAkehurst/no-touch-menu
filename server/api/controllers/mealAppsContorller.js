@@ -1466,7 +1466,7 @@ exports.remove_meal_app_object_user = async (req, res) => {
       case 'deliveroo':
         Restaurant.findByIdAndUpdate(
           restaurantId,
-          { $set: { deliverooObject: {} } },
+          { $set: { deliverooObject: { data: null } } },
           (err, restaurant) => {
             if (err) {
               res.status(400).json({
@@ -1494,7 +1494,7 @@ exports.remove_meal_app_object_user = async (req, res) => {
       case 'justEat':
         Restaurant.findByIdAndUpdate(
           restaurantId,
-          { $set: { justEatModel: {} } },
+          { $set: { justEatModel: { data: null } } },
           (err, restaurant) => {
             if (err) {
               res.status(400).json({
@@ -1522,7 +1522,7 @@ exports.remove_meal_app_object_user = async (req, res) => {
       case 'uberEats':
         Restaurant.findByIdAndUpdate(
           restaurantId,
-          { $set: { uberEatsModel: {} } },
+          { $set: { uberEatsModel: { data: null } } },
           (err, restaurant) => {
             if (err) {
               res.status(400).json({

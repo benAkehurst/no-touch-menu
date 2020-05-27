@@ -289,6 +289,12 @@ class Restaurant extends Component {
               deliveryAppColor={'deliveroo'}
               inputPlaceholder={'Deliveroo URL'}
               restaurantId={this.state.restaurantData._id}
+              showAddMessage={this.state.restaurantData.deliverooObject.data}
+              menuAppLink={
+                this.state.restaurantData.deliverooObject.menuPdfLink
+                  ? this.state.restaurantData.deliverooObject.menuPdfLink
+                  : null
+              }
             />
           ) : null}
           {this.state.restaurantData.justEatModel ? (
@@ -297,6 +303,12 @@ class Restaurant extends Component {
               deliveryAppColor={'justEat'}
               inputPlaceholder={'Just Eat URL'}
               restaurantId={this.state.restaurantData._id}
+              showAddMessage={this.state.restaurantData.justEatModel.data}
+              menuAppLink={
+                this.state.restaurantData.justEatModel.menuPdfLink
+                  ? this.state.restaurantData.justEatModel.menuPdfLink
+                  : null
+              }
             />
           ) : null}
           {this.state.restaurantData.uberEatsModel ? (
@@ -305,6 +317,12 @@ class Restaurant extends Component {
               deliveryAppColor={'uberEats'}
               inputPlaceholder={'Uber Eats URL'}
               restaurantId={this.state.restaurantData._id}
+              showAddMessage={this.state.restaurantData.uberEatsModel.data}
+              menuAppLink={
+                this.state.restaurantData.uberEatsModel.menuPdfLink
+                  ? this.state.restaurantData.uberEatsModel.menuPdfLink
+                  : null
+              }
             />
           ) : null}
         </div>
