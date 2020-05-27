@@ -262,6 +262,8 @@ class MealApp extends Component {
       .catch((err) => this.setState({ isError: true, errorMessage: err }));
   };
 
+  removeMealAppObject = (key, restaurantId) => {};
+
   render() {
     const spinner = <Spinner size={'large'} />;
     return (
@@ -295,10 +297,8 @@ class MealApp extends Component {
             >
               Save {this.props.title} Menu
             </Button>
-            {this.state.isSuccess ? this.state.successMessage : null}
-            {this.state.isError ? this.state.errorMessage : null}
           </div>
-          <div className={classes.CardItem}>Download Options</div>
+          <div className={classes.CardItem}>Options</div>
           <Button
             variant="contained"
             onClick={
@@ -319,6 +319,22 @@ class MealApp extends Component {
           {this.state.showQRImage ? (
             <img id="qrCodeImage" src={this.state.QRCode} alt="Menu QR Code" />
           ) : null}
+          <Button
+            variant="contained"
+            onClick={
+              this.state.isAdmin
+                ? () => this.removeMealAppObject(this.props.deliveryAppColor)
+                : () =>
+                    this.removeMealAppObject(
+                      this.props.deliveryAppColor,
+                      this.state.restaurantId
+                    )
+            }
+          >
+            Remove Link
+          </Button>
+          {this.state.isSuccess ? this.state.successMessage : null}
+          {this.state.isError ? this.state.errorMessage : null}
         </div>
       </Aux>
     );
