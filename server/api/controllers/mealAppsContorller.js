@@ -1424,6 +1424,146 @@ exports.get_takeaway_qrcode_admin = async (req, res) => {
 };
 
 /**
+ * Removes a meal app option on a restaurant
+ * USER PROCEDURE
+ * POST
+ * param: token
+ * body: restaurantId
+ * body: service
+ */
+exports.remove_meal_app_object_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.body.restaurantId;
+  const service = req.body.service;
+
+  if (!token || token === null || !restaurantId || restaurantId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    switch (service) {
+      case 'deliveroo':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { deliverooObject: {} } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            }
+            if (!restaurant) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            } else {
+              res.status(200).json({
+                success: true,
+                message: 'Deliveroo Link deleted',
+                data: null,
+              });
+            }
+          }
+        );
+        break;
+      case 'justEat':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { justEatModel: {} } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            }
+            if (!restaurant) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            } else {
+              res.status(200).json({
+                success: true,
+                message: 'Just Eat Link deleted',
+                data: null,
+              });
+            }
+          }
+        );
+        break;
+      case 'uberEats':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { uberEatsModel: {} } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            }
+            if (!restaurant) {
+              res.status(400).json({
+                success: false,
+                message: 'Error getting restaurant',
+                data: err,
+              });
+            } else {
+              res.status(200).json({
+                success: true,
+                message: 'Uber Eats Link deleted',
+                data: null,
+              });
+            }
+          }
+        );
+        break;
+      default:
+        break;
+    }
+  }
+};
+
+/**
+ * Removes a meal app option on a restaurant
+ * ADMIN PROCEDURE
+ * POST
+ * param: requesterId
+ * body: restaurantId
+ * body: service
+ */
+exports.remove_meal_app_object_admin = async (req, res) => {};
+
+/**
  * Generates a QR Code from a url string
  * @param {string} url
  */
