@@ -58,12 +58,13 @@ class MealApp extends Component {
         case 'deliveroo':
           let deliverooData = {
             restaurantId: helpers.getRestaurantId(),
-            deliverooLink: this.state.deliverooUrl,
+            service: this.props.deliveryAppColor,
+            serviceLink: this.state.deliverooUrl,
           };
           this.setState({ isLoading: true });
           axios
             .post(
-              `/mealApps/add-${key}-link-user/${helpers.getUserToken()}`,
+              `/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
               deliverooData
             )
             .then((res) => {
@@ -86,12 +87,13 @@ class MealApp extends Component {
         case 'justEat':
           let justEatData = {
             restaurantId: helpers.getRestaurantId(),
-            justEatLink: this.state.justEatUrl,
+            service: this.props.deliveryAppColor,
+            serviceLink: this.state.justEatUrl,
           };
           this.setState({ isLoading: true });
           axios
             .post(
-              `/mealApps/add-${key}-link-user/${helpers.getUserToken()}`,
+              `/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
               justEatData
             )
             .then((res) => {
@@ -114,12 +116,13 @@ class MealApp extends Component {
         case 'uberEats':
           let uberEatsData = {
             restaurantId: helpers.getRestaurantId(),
-            uberEatsLink: this.state.uberEatsUrl,
+            service: this.props.deliveryAppColor,
+            serviceLink: this.state.uberEatsUrl,
           };
           this.setState({ isLoading: true });
           axios
             .post(
-              `/mealApps/add-${key}-link-user/${helpers.getUserToken()}`,
+              `/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
               uberEatsData
             )
             .then((res) => {
@@ -148,11 +151,12 @@ class MealApp extends Component {
           let deliverooData = {
             requesterId: helpers.getUserId(),
             restaurantId: helpers.getRestaurantId(),
-            deliverooLink: this.state.deliverooUrl,
+            service: this.props.deliveryAppColor,
+            serviceLink: this.state.deliverooUrl,
           };
           this.setState({ isLoading: true });
           axios
-            .post(`/mealApps/add-${key}-link-admin`, deliverooData)
+            .post(`/mealApps/add-link-mealApp-admin`, deliverooData)
             .then((res) => {
               if (res.status === 201) {
                 this.setState({
@@ -174,11 +178,12 @@ class MealApp extends Component {
           let justEatData = {
             requesterId: helpers.getUserId(),
             restaurantId: helpers.getRestaurantId(),
-            justEatLink: this.state.justEatUrl,
+            service: this.props.deliveryAppColor,
+            serviceLink: this.state.justEatUrl,
           };
           this.setState({ isLoading: true });
           axios
-            .post(`/mealApps/add-${key}-link-admin`, justEatData)
+            .post(`/mealApps/add-link-mealApp-admin`, justEatData)
             .then((res) => {
               if (res.status === 201) {
                 this.setState({
@@ -200,11 +205,12 @@ class MealApp extends Component {
           let uberEatsData = {
             requesterId: helpers.getUserId(),
             restaurantId: helpers.getRestaurantId(),
-            uberEatsLink: this.state.uberEatsUrl,
+            service: this.props.deliveryAppColor,
+            serviceLink: this.state.uberEatsUrl,
           };
           this.setState({ isLoading: true });
           axios
-            .post(`/mealApps/add-${key}-link-admin`, uberEatsData)
+            .post(`/mealApps/add-link-mealApp-admin`, uberEatsData)
             .then((res) => {
               if (res.status === 201) {
                 this.setState({

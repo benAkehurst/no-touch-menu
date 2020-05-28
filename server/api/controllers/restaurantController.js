@@ -157,6 +157,9 @@ exports.create_new_restaurant = async (req, res) => {
       currentMenu: currentMenu,
       oldMenus: oldMenus,
       isActive: isActive,
+      deliverooObject: { data: null },
+      justEatModel: { data: null },
+      uberEatsModel: { data: null },
     });
 
     newRestaurant.save(newRestaurant, (err, restaurant) => {
