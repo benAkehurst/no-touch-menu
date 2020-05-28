@@ -2,6 +2,12 @@
 module.exports = (app) => {
   const mealAppsContorller = require('../controllers/mealAppsContorller');
   app
+    .route('/api/mealApps/add-link-mealApp-user/:token')
+    .post(mealAppsContorller.add_link_mealApp_user);
+  app
+    .route('/api/mealApps/add-link-mealApp-admin')
+    .post(mealAppsContorller.add_link_mealApp_admin);
+  app
     .route('/api/mealApps/add-deliveroo-link-user/:token')
     .post(mealAppsContorller.add_deliveroo_link_user);
   app

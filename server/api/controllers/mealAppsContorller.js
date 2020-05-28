@@ -5,9 +5,293 @@ const Restaurant = mongoose.model('Restaurant');
 const User = mongoose.model('User');
 const Menu = mongoose.model('Menu');
 const fetch = require('node-fetch');
-const _ = require('lodash');
 const QRCode = require('qrcode');
 const PDFDocument = require('pdfkit');
+
+/**
+ * Adds a mealApp link to menu to the restaurant
+ * USER PROCEDURE
+ * POST
+ * param: token
+ * {
+ *  restaurantId: 'string',
+ *  service: 'string',
+ *  serviceLink: 'string'
+ *
+ * }
+ */
+exports.add_link_mealApp_user = async (req, res) => {
+  const token = req.params.token;
+  const restaurantId = req.body.restaurantId;
+  const service = req.body.service;
+  const serviceLink = req.body.serviceLink;
+
+  let tokenValid;
+  await middleware
+    .checkToken(token)
+    .then((promiseResponse) => {
+      if (promiseResponse.success) {
+        tokenValid = true;
+      }
+    })
+    .catch((promiseError) => {
+      if (promiseError) {
+        return res.status(500).json({
+          success: false,
+          message: 'Bad Token',
+          data: null,
+        });
+      }
+    });
+  if (tokenValid) {
+    let restaurantUser;
+    await Restaurant.findById(restaurantId, (err, restaurant) => {
+      if (restaurant.user._id) {
+        restaurantUser = true;
+      } else {
+        res.status(400).json({
+          success: false,
+          message: 'User not authorised for this action',
+          data: err,
+        });
+      }
+    });
+    if (restaurantUser) {
+      const createShortLink = await fetch(
+        'https://api-ssl.bitly.com/v4/shorten',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${process.env.BITLY_TOKEN}`,
+            'content-type': 'application/json',
+          },
+          body: [JSON.stringify({ long_url: serviceLink })],
+        }
+      );
+      const shortenedLink = await createShortLink.json();
+      const qrCode = await generateQRCode(serviceLink);
+      let newMenu = new Menu({
+        menuPdfLink: serviceLink,
+        shortUrlLink: shortenedLink.link,
+        qrCodeBase64: qrCode,
+      });
+      newMenu.save((err, menu) => {
+        if (err) {
+          res.status(400).json({
+            success: false,
+            message: 'Error saving Deliveroo Object',
+            data: err,
+          });
+        }
+      });
+      switch (service) {
+        case 'deliveroo':
+          Restaurant.findByIdAndUpdate(
+            restaurantId,
+            { $set: { deliverooObject: newMenu } },
+            (err, restaurant) => {
+              if (err) {
+                res.status(400).json({
+                  success: false,
+                  message: 'Error adding Deliveroo Data',
+                  data: err,
+                });
+              } else {
+                res.status(201).json({
+                  success: true,
+                  message: 'Deliveroo data added successfully',
+                  data: restaurant,
+                });
+              }
+            }
+          );
+          break;
+        case 'justEat':
+          Restaurant.findByIdAndUpdate(
+            restaurantId,
+            { $set: { justEatModel: newMenu } },
+            (err, restaurant) => {
+              if (err) {
+                res.status(400).json({
+                  success: false,
+                  message: 'Error adding Deliveroo Data',
+                  data: err,
+                });
+              } else {
+                res.status(201).json({
+                  success: true,
+                  message: 'Deliveroo data added successfully',
+                  data: restaurant,
+                });
+              }
+            }
+          );
+          break;
+        case 'uberEats':
+          Restaurant.findByIdAndUpdate(
+            restaurantId,
+            { $set: { uberEatsModel: newMenu } },
+            (err, restaurant) => {
+              if (err) {
+                res.status(400).json({
+                  success: false,
+                  message: 'Error adding Deliveroo Data',
+                  data: err,
+                });
+              } else {
+                res.status(201).json({
+                  success: true,
+                  message: 'Deliveroo data added successfully',
+                  data: restaurant,
+                });
+              }
+            }
+          );
+          break;
+        default:
+          break;
+      }
+    }
+  }
+};
+
+/**
+ * Adds a deliveroo menu to the restaurant
+ * USER PROCEDURE
+ * POST
+ * {
+ *  requesterId: 'string',
+ *  restaurantId: 'string',
+ *  service: 'string',
+ *  serviceLink: 'string'
+ * }
+ */
+exports.add_link_mealApp_admin = async (req, res) => {
+  const requesterId = req.body.requesterId;
+  const restaurantId = req.body.restaurantId;
+  const service = req.body.service;
+  const serviceLink = req.body.serviceLink;
+
+  if (!requesterId || requesterId === null) {
+    res.status(400).json({
+      success: false,
+      message: 'Incorrect Request Paramters',
+      data: null,
+    });
+  }
+  let isAdminCheck;
+  await User.findById(requesterId, (err, user) => {
+    if (user === null) {
+      return false;
+    }
+    if (user.isAdmin) {
+      isAdminCheck = user.isAdmin;
+    }
+  });
+
+  if (isAdminCheck) {
+    const createShortLink = await fetch(
+      'https://api-ssl.bitly.com/v4/shorten',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.BITLY_TOKEN}`,
+          'content-type': 'application/json',
+        },
+        body: [JSON.stringify({ long_url: serviceLink })],
+      }
+    );
+    const shortenedLink = await createShortLink.json();
+    const qrCode = await generateQRCode(serviceLink);
+    let newMenu = new Menu({
+      menuPdfLink: serviceLink,
+      shortUrlLink: shortenedLink.link,
+      qrCodeBase64: qrCode,
+    });
+    newMenu.save((err, menu) => {
+      if (err) {
+        res.status(400).json({
+          success: false,
+          message: 'Error saving Deliveroo Object',
+          data: err,
+        });
+      }
+    });
+    switch (service) {
+      case 'deliveroo':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { deliverooObject: newMenu } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error adding Deliveroo Data',
+                data: err,
+              });
+            } else {
+              res.status(201).json({
+                success: true,
+                message: 'Deliveroo data added successfully',
+                data: restaurant,
+              });
+            }
+          }
+        );
+        break;
+      case 'justEat':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { justEatModel: newMenu } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error adding Deliveroo Data',
+                data: err,
+              });
+            } else {
+              res.status(201).json({
+                success: true,
+                message: 'Deliveroo data added successfully',
+                data: restaurant,
+              });
+            }
+          }
+        );
+        break;
+      case 'uberEats':
+        Restaurant.findByIdAndUpdate(
+          restaurantId,
+          { $set: { uberEatsModel: newMenu } },
+          (err, restaurant) => {
+            if (err) {
+              res.status(400).json({
+                success: false,
+                message: 'Error adding Deliveroo Data',
+                data: err,
+              });
+            } else {
+              res.status(201).json({
+                success: true,
+                message: 'Deliveroo data added successfully',
+                data: restaurant,
+              });
+            }
+          }
+        );
+        break;
+      default:
+        break;
+    }
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'Not authorized',
+      data: null,
+    });
+  }
+};
 
 /**
  * Adds a deliveroo menu to the restaurant
