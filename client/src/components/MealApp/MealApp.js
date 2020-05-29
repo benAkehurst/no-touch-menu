@@ -329,6 +329,58 @@ class MealApp extends Component {
 
   render() {
     const spinner = <Spinner size={'large'} />;
+    const saveMenuInput = (
+      <input
+        placeholder={
+          this.props.inputPlaceholder
+            ? this.props.inputPlaceholder
+            : this.props.menuAppLink
+        }
+        type="text"
+        onChange={(e) =>
+          this.newUrlInputHandler(this.props.deliveryAppColor, e)
+        }
+      />
+    );
+    const saveMenuButton = (
+      <Button
+        variant="contained"
+        color="default"
+        onClick={() => this.saveLinkButtonHandler(this.props.deliveryAppColor)}
+        disabled={!this.state.saveButtonEnabled}
+      >
+        Save {this.props.title} Menu
+      </Button>
+    );
+    const downloadPDFButton = (
+      <Button
+        variant="contained"
+        onClick={
+          this.state.isAdmin
+            ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
+            : () =>
+                this.downloadMealAppPDFAdmin(
+                  this.props.deliveryAppColor,
+                  this.state.restaurantId
+                )
+        }
+      >
+        Download {this.props.title} PDF
+      </Button>
+    );
+    const viewQRCodeButton = (
+      <Button variant="contained" onClick={this.viewQrCode}>
+        Veiw {this.props.title} QR Code
+      </Button>
+    );
+    const removeLinkButton = (
+      <Button variant="contained" onClick={() => this.removeMealAppObject()}>
+        Remove Link
+      </Button>
+    );
+    const qrCodeImageEl = (
+      <img id="qrCodeImage" src={this.state.QRCode} alt="Menu QR Code" />
+    );
     return (
       <Aux>
         <div
@@ -344,63 +396,14 @@ class MealApp extends Component {
           ) : null}
           <h3>Add Link to your page:</h3>
           <div className={classes.CardItem}>
-            <div className={classes.FormInputWrapper}>
-              <input
-                placeholder={
-                  this.props.inputPlaceholder
-                    ? this.props.inputPlaceholder
-                    : this.props.menuAppLink
-                }
-                type="text"
-                onChange={(e) =>
-                  this.newUrlInputHandler(this.props.deliveryAppColor, e)
-                }
-              />
-            </div>
-            <Button
-              variant="contained"
-              color="default"
-              onClick={() =>
-                this.saveLinkButtonHandler(this.props.deliveryAppColor)
-              }
-              disabled={!this.state.saveButtonEnabled}
-            >
-              Save {this.props.title} Menu
-            </Button>
+            <div className={classes.FormInputWrapper}>{saveMenuInput}</div>
+            {saveMenuButton}
           </div>
           <div className={classes.CardItem}>Options</div>
-          {this.props.showAddMessage !== null ? (
-            <Button
-              variant="contained"
-              onClick={
-                this.state.isAdmin
-                  ? () => this.downloadMealAppPDF(this.props.deliveryAppColor)
-                  : () =>
-                      this.downloadMealAppPDFAdmin(
-                        this.props.deliveryAppColor,
-                        this.state.restaurantId
-                      )
-              }
-            >
-              Download {this.props.title} PDF
-            </Button>
-          ) : null}
-          {this.props.showAddMessage !== null ? (
-            <Button variant="contained" onClick={this.viewQrCode}>
-              Veiw {this.props.title} QR Code
-            </Button>
-          ) : null}
-          {this.state.showQRImage ? (
-            <img id="qrCodeImage" src={this.state.QRCode} alt="Menu QR Code" />
-          ) : null}
-          {this.props.showAddMessage !== null ? (
-            <Button
-              variant="contained"
-              onClick={() => this.removeMealAppObject()}
-            >
-              Remove Link
-            </Button>
-          ) : null}
+          {this.props.showAddMessage !== null ? { downloadPDFButton } : null}
+          {this.props.showAddMessage !== null ? { viewQRCodeButton } : null}
+          {this.state.showQRImage ? { qrCodeImageEl } : null}
+          {this.props.showAddMessage !== null ? { removeLinkButton } : null}
           {this.state.isSuccess ? this.state.successMessage : null}
           {this.state.isError ? this.state.errorMessage : null}
         </div>
