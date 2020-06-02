@@ -28,7 +28,7 @@ exports.create_new_user = (req, res) => {
 
   newUser.save((err, user) => {
     if (err) {
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         message: 'Error creating new user',
         data: err,
@@ -132,7 +132,7 @@ exports.reset_password = async (req, res) => {
     { $set: { password: newPassword } },
     (err, user) => {
       if (err) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: 'Error updating password',
           data: err,
@@ -144,7 +144,7 @@ exports.reset_password = async (req, res) => {
         '_id',
         'restaurantId',
       ]);
-      res.status(201).json({
+      res.status(200).json({
         success: true,
         message: 'Password Updated',
         data: userFiltered,
@@ -215,7 +215,7 @@ exports.check_user_is_admin = async (req, res) => {
   let isAdmin;
   User.findById(userId, (err, user) => {
     if (err) {
-      res.status(400).json({
+      res.status(404).json({
         success: false,
         message: 'Error finding user',
         data: err,
