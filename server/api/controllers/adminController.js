@@ -85,7 +85,7 @@ exports.change_user_admin_role = async (req, res) => {
       { $set: { isAdmin: isAdminValue } },
       (err, user) => {
         if (err) {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "Couldn't find user",
             data: err,
@@ -145,7 +145,7 @@ exports.change_user_status = async (req, res) => {
       { $set: { userActive: userActiveValue } },
       (err, user) => {
         if (err) {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: "Couldn't find user",
             data: err,
@@ -200,7 +200,7 @@ exports.get_single_user = async (req, res) => {
   if (isAdminCheck) {
     User.findById(userIdToFind, (err, foundUser) => {
       if (err) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "Couldn't find user",
           data: err,
@@ -254,7 +254,7 @@ exports.check_if_admin = async (req, res) => {
   if (isAdminCheck) {
     User.findById(userId, (err, user) => {
       if (err) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
           message: "Couldn't find user",
           data: err,

@@ -36,7 +36,7 @@ exports.add_link_mealApp_user = async (req, res) => {
     })
     .catch((promiseError) => {
       if (promiseError) {
-        return res.status(500).json({
+        return res.status(400).json({
           success: false,
           message: 'Bad Token',
           data: null,
@@ -49,7 +49,7 @@ exports.add_link_mealApp_user = async (req, res) => {
       if (restaurant.user._id) {
         restaurantUser = true;
       } else {
-        res.status(400).json({
+        res.status(401).json({
           success: false,
           message: 'User not authorised for this action',
           data: err,
@@ -77,7 +77,7 @@ exports.add_link_mealApp_user = async (req, res) => {
       });
       newMenu.save((err, menu) => {
         if (err) {
-          res.status(400).json({
+          res.status(404).json({
             success: false,
             message: 'Error saving Deliveroo Object',
             data: err,
@@ -91,13 +91,13 @@ exports.add_link_mealApp_user = async (req, res) => {
             { $set: { deliverooObject: newMenu } },
             (err, restaurant) => {
               if (err) {
-                res.status(400).json({
+                res.status(404).json({
                   success: false,
                   message: 'Error adding Deliveroo Data',
                   data: err,
                 });
               } else {
-                res.status(201).json({
+                res.status(200).json({
                   success: true,
                   message: 'Deliveroo data added successfully',
                   data: restaurant,
@@ -112,15 +112,15 @@ exports.add_link_mealApp_user = async (req, res) => {
             { $set: { justEatModel: newMenu } },
             (err, restaurant) => {
               if (err) {
-                res.status(400).json({
+                res.status(404).json({
                   success: false,
-                  message: 'Error adding Deliveroo Data',
+                  message: 'Error adding Just Eat Data',
                   data: err,
                 });
               } else {
-                res.status(201).json({
+                res.status(200).json({
                   success: true,
-                  message: 'Deliveroo data added successfully',
+                  message: 'Just Eat data added successfully',
                   data: restaurant,
                 });
               }
@@ -133,15 +133,15 @@ exports.add_link_mealApp_user = async (req, res) => {
             { $set: { uberEatsModel: newMenu } },
             (err, restaurant) => {
               if (err) {
-                res.status(400).json({
+                res.status(404).json({
                   success: false,
-                  message: 'Error adding Deliveroo Data',
+                  message: 'Error adding Uber Eats Data',
                   data: err,
                 });
               } else {
-                res.status(201).json({
+                res.status(200).json({
                   success: true,
-                  message: 'Deliveroo data added successfully',
+                  message: 'Uber Eats data added successfully',
                   data: restaurant,
                 });
               }
@@ -210,9 +210,9 @@ exports.add_link_mealApp_admin = async (req, res) => {
     });
     newMenu.save((err, menu) => {
       if (err) {
-        res.status(400).json({
+        res.status(404).json({
           success: false,
-          message: 'Error saving Deliveroo Object',
+          message: 'Error saving new menu Object',
           data: err,
         });
       }
@@ -224,13 +224,13 @@ exports.add_link_mealApp_admin = async (req, res) => {
           { $set: { deliverooObject: newMenu } },
           (err, restaurant) => {
             if (err) {
-              res.status(400).json({
+              res.status(404).json({
                 success: false,
-                message: 'Error adding Deliveroo Data',
+                message: 'Error adding deliveroo Data',
                 data: err,
               });
             } else {
-              res.status(201).json({
+              res.status(200).json({
                 success: true,
                 message: 'Deliveroo data added successfully',
                 data: restaurant,
@@ -245,15 +245,15 @@ exports.add_link_mealApp_admin = async (req, res) => {
           { $set: { justEatModel: newMenu } },
           (err, restaurant) => {
             if (err) {
-              res.status(400).json({
+              res.status(404).json({
                 success: false,
-                message: 'Error adding Deliveroo Data',
+                message: 'Error adding just eat Data',
                 data: err,
               });
             } else {
-              res.status(201).json({
+              res.status(200).json({
                 success: true,
-                message: 'Deliveroo data added successfully',
+                message: 'just eat data added successfully',
                 data: restaurant,
               });
             }
@@ -266,15 +266,15 @@ exports.add_link_mealApp_admin = async (req, res) => {
           { $set: { uberEatsModel: newMenu } },
           (err, restaurant) => {
             if (err) {
-              res.status(400).json({
+              res.status(404).json({
                 success: false,
-                message: 'Error adding Deliveroo Data',
+                message: 'Error adding uber eats Data',
                 data: err,
               });
             } else {
-              res.status(201).json({
+              res.status(200).json({
                 success: true,
-                message: 'Deliveroo data added successfully',
+                message: 'uber eats data added successfully',
                 data: restaurant,
               });
             }
@@ -318,14 +318,14 @@ exports.get_deliveroo_PDF_user = async (req, res) => {
       if (err) {
         res.status(500).json({
           success: false,
-          message: 'Error finding restaurent',
+          message: 'Error finding restaurant',
           data: err,
         });
       }
       if (!restaurant) {
-        res.status(400).json({
+        res.status(500).json({
           success: false,
-          message: 'Error finding restaurent',
+          message: 'Error finding restaurant',
           data: err,
         });
       }
@@ -427,7 +427,7 @@ exports.get_deliveroo_PDF_admin = async (req, res) => {
   let isAdminCheck;
   await User.findById(requesterId, (err, user) => {
     if (err) {
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         message: 'Error getting user',
         data: err,
@@ -441,7 +441,7 @@ exports.get_deliveroo_PDF_admin = async (req, res) => {
     }
   });
   if (isAdminCheck === undefined || !isAdminCheck) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: 'Error user',
       data: null,
