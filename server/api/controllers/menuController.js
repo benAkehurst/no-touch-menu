@@ -337,7 +337,7 @@ exports.view_current_menu_qrcode_admin = async (req, res) => {
  * USER PROCEDURE
  * GET
  * param: token
- * param: requesterId
+ * param: restaurantId
  */
 exports.get_menu_pdf_user = async (req, res) => {
   const token = req.params.token;
@@ -436,10 +436,10 @@ exports.get_menu_pdf_user = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.currentMenu.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }
