@@ -396,10 +396,10 @@ exports.get_deliveroo_PDF_user = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.deliverooObject.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }
@@ -515,10 +515,10 @@ exports.get_deliveroo_PDF_admin = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.deliverooObject.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }
@@ -627,10 +627,10 @@ exports.get_justEat_PDF_user = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.justEatModel.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }
@@ -746,10 +746,10 @@ exports.get_justEat_PDF_admin = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.justEatModel.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }
@@ -858,10 +858,10 @@ exports.get_uberEats_PDF_user = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.uberEatsModel.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }
@@ -977,10 +977,10 @@ exports.get_uberEats_PDF_admin = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.uberEatsModel.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }

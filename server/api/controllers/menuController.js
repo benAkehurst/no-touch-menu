@@ -553,10 +553,10 @@ exports.get_menu_pdf_admin = async (req, res) => {
         width: 465,
       })
       // QR CODE
-      .image(currentRestaurant.currentMenu.qrCodeBase64, {
-        width: 400,
-        height: 400,
-      });
+      .image(
+        currentRestaurant.currentMenu.qrCodeBase64,
+        (doc.page.width - 200) / 2
+      );
     // Finalize making PDF file
     doc.end();
   }
