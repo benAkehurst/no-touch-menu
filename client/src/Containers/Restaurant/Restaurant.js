@@ -201,6 +201,15 @@ class Restaurant extends Component {
           </div>
         </section>
         <section className={classes.RestaurantOption}>
+          {this.state.restaurantData.restaurantLogo ? (
+            <Aux>
+              <h4>Current Logo:</h4>
+              <img
+                src={this.state.restaurantData.restaurantLogo}
+                style={{ width: '250px', height: '150px' }}
+              />
+            </Aux>
+          ) : null}
           <Uploader
             title={'Upload New Restaurant Logo'}
             uploadType={'newLogo'}
