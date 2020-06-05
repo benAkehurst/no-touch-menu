@@ -610,7 +610,7 @@ exports.get_justEat_PDF_user = async (req, res) => {
       'Content-Disposition': 'attachment; filename=JUSTEAT_QR_CODE_MENU.pdf',
     });
     const font = 'Helvetica-Bold';
-    const explainerText = 'Scan the QR code below to see us on Deliveroo! ';
+    const explainerText = 'Scan the QR code below to see us on Just Eat! ';
     const url = currentRestaurant.justEatModel.shortUrlLink;
     const urlNoProtocol = url.replace(/^https?\:\/\//i, '');
     const subText = `Or ${urlNoProtocol} if the QR code doesn't scan!`;
@@ -737,7 +737,7 @@ exports.get_justEat_PDF_admin = async (req, res) => {
       'Content-Disposition': 'attachment; filename=JUSTEAT_QR_CODE_MENU.pdf',
     });
     const font = 'Helvetica-Bold';
-    const explainerText = 'Scan the QR code below to see us on Deliveroo! ';
+    const explainerText = 'Scan the QR code below to see us on Just Eat! ';
     const url = currentRestaurant.justEatModel.shortUrlLink;
     const urlNoProtocol = url.replace(/^https?\:\/\//i, '');
     const subText = `Or ${urlNoProtocol} if the QR code doesn't scan!`;
@@ -857,7 +857,7 @@ exports.get_uberEats_PDF_user = async (req, res) => {
       'Content-Disposition': 'attachment; filename=UBEREATS_QR_CODE_MENU.pdf',
     });
     const font = 'Helvetica-Bold';
-    const explainerText = 'Scan the QR code below to see us on Deliveroo! ';
+    const explainerText = 'Scan the QR code below to see us on Uber Eats! ';
     const url = currentRestaurant.uberEatsModel.shortUrlLink;
     const urlNoProtocol = url.replace(/^https?\:\/\//i, '');
     const subText = `Or ${urlNoProtocol} if the QR code doesn't scan!`;
@@ -984,7 +984,7 @@ exports.get_uberEats_PDF_admin = async (req, res) => {
       'Content-Disposition': 'attachment; filename=JUSTEAT_QR_CODE_MENU.pdf',
     });
     const font = 'Helvetica-Bold';
-    const explainerText = 'Scan the QR code below to see us on Deliveroo! ';
+    const explainerText = 'Scan the QR code below to see us on Uber Eats! ';
     const url = currentRestaurant.uberEatsModel.shortUrlLink;
     const urlNoProtocol = url.replace(/^https?\:\/\//i, '');
     const subText = `Or ${urlNoProtocol} if the QR code doesn't scan!`;
