@@ -400,10 +400,10 @@ class MealApp extends Component {
             {saveMenuButton}
           </div>
           <div className={classes.CardItem}>Options</div>
-          {this.props.showAddMessage !== null ? { downloadPDFButton } : null}
-          {this.props.showAddMessage !== null ? { viewQRCodeButton } : null}
-          {this.state.showQRImage ? { qrCodeImageEl } : null}
-          {this.props.showAddMessage !== null ? { removeLinkButton } : null}
+          {this.props.showAddMessage !== null ? downloadPDFButton : null}
+          {this.props.showAddMessage !== null ? viewQRCodeButton : null}
+          {this.state.showQRImage ? qrCodeImageEl : null}
+          {this.props.showAddMessage !== null ? removeLinkButton : null}
           {this.state.isSuccess ? this.state.successMessage : null}
           {this.state.isError ? this.state.errorMessage : null}
         </div>
