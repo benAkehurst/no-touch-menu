@@ -407,7 +407,7 @@ exports.get_deliveroo_PDF_user = async (req, res) => {
       })
       // QR CODE
       .image(
-        currentRestaurant.currentMenu.qrCodeBase64,
+        currentRestaurant.deliverooObject.qrCodeBase64,
         (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
@@ -534,7 +534,7 @@ exports.get_deliveroo_PDF_admin = async (req, res) => {
       })
       // QR CODE
       .image(
-        currentRestaurant.currentMenu.qrCodeBase64,
+        currentRestaurant.deliverooObject.qrCodeBase64,
         (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
@@ -654,7 +654,7 @@ exports.get_justEat_PDF_user = async (req, res) => {
       })
       // QR CODE
       .image(
-        currentRestaurant.currentMenu.qrCodeBase64,
+        currentRestaurant.justEatModel.qrCodeBase64,
         (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
@@ -781,7 +781,7 @@ exports.get_justEat_PDF_admin = async (req, res) => {
       })
       // QR CODE
       .image(
-        currentRestaurant.currentMenu.qrCodeBase64,
+        currentRestaurant.justEatModel.qrCodeBase64,
         (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
@@ -901,7 +901,7 @@ exports.get_uberEats_PDF_user = async (req, res) => {
       })
       // QR CODE
       .image(
-        currentRestaurant.currentMenu.qrCodeBase64,
+        currentRestaurant.uberEatsModel.qrCodeBase64,
         (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
@@ -1028,7 +1028,7 @@ exports.get_uberEats_PDF_admin = async (req, res) => {
       })
       // QR CODE
       .image(
-        currentRestaurant.currentMenu.qrCodeBase64,
+        currentRestaurant.uberEatsModel.qrCodeBase64,
         (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
