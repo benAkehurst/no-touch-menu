@@ -70,9 +70,10 @@ exports.add_link_mealApp_user = async (req, res) => {
         }
       );
       const shortenedLink = await createShortLink.json();
-      const qrCode = await generateQRCode(serviceLink);
+      const qrCode = await generateQRCode(shortenedLink.link);
       let newMenu = new Menu({
         menuPdfLink: serviceLink,
+        linkToTrack: shortenedLink.link,
         shortUrlLink: shortenedLink.link,
         qrCodeBase64: qrCode,
       });
@@ -203,9 +204,10 @@ exports.add_link_mealApp_admin = async (req, res) => {
       }
     );
     const shortenedLink = await createShortLink.json();
-    const qrCode = await generateQRCode(serviceLink);
+    const qrCode = await generateQRCode(shortenedLink.link);
     let newMenu = new Menu({
       menuPdfLink: serviceLink,
+      linkToTrack: shortenedLink.link,
       shortUrlLink: shortenedLink.link,
       qrCodeBase64: qrCode,
     });
