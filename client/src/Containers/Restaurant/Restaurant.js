@@ -205,6 +205,7 @@ class Restaurant extends Component {
             <Aux>
               <h4>Current Logo:</h4>
               <img
+                alt="restaurant logo"
                 src={this.state.restaurantData.restaurantLogo}
                 style={{ width: '250px', height: '150px' }}
               />
