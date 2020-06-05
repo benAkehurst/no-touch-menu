@@ -7,6 +7,7 @@ const Menu = mongoose.model('Menu');
 const fetch = require('node-fetch');
 const QRCode = require('qrcode');
 const PDFDocument = require('pdfkit');
+const axios = require('axios');
 
 /**
  * Adds a mealApp link to menu to the restaurant
@@ -351,6 +352,11 @@ exports.get_deliveroo_PDF_user = async (req, res) => {
       }
     });
   if (tokenValid) {
+    // TRANSFORM RESTAUTRANT LOGO
+    const result = await axios.get(currentRestaurant.restaurantLogo, {
+      responseType: 'arraybuffer',
+    });
+    const logo = new Buffer.from(result.data, 'base64');
     // Config Elements
     res.writeHead(200, {
       'Content-Type': 'application/pdf',
@@ -362,12 +368,13 @@ exports.get_deliveroo_PDF_user = async (req, res) => {
     const url = currentRestaurant.deliverooObject.shortUrlLink;
     const urlNoProtocol = url.replace(/^https?\:\/\//i, '');
     const subText = `Or ${urlNoProtocol} if the QR code doesn't scan!`;
-
     // Create a document
     const doc = new PDFDocument();
     doc.pipe(res);
     // Creating PDF File
     doc
+      // RESTAURANT LOGO
+      .image(logo, 200, 10, { fit: [250, 150] })
       // RESTAURANT NAME
       .font(font)
       .fontSize(42)
