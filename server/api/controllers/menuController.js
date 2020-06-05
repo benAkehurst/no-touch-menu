@@ -5,6 +5,7 @@ const middleware = require('../../middlewares/middleware');
 const User = mongoose.model('User');
 const Menu = mongoose.model('Menu');
 const Restaurant = mongoose.model('Restaurant');
+const axios = require('axios');
 
 /**
  * Gets all the menus in the DB
@@ -390,6 +391,11 @@ exports.get_menu_pdf_user = async (req, res) => {
       }
     });
   if (tokenValid) {
+    // TRANSFORM RESTAUTRANT LOGO
+    const result = await axios.get(currentRestaurant.restaurantLogo, {
+      responseType: 'arraybuffer',
+    });
+    const logo = new Buffer.from(result.data, 'base64');
     // Config Elements
     res.writeHead(200, {
       'Content-Type': 'application/pdf',
@@ -408,27 +414,30 @@ exports.get_menu_pdf_user = async (req, res) => {
     doc.pipe(res);
     // Creating PDF File
     doc
+      // RESTAURANT LOGO
+      .image(logo, 200, 10, { fit: [250, 150] })
       // RESTAURANT NAME
       .font(font)
       .fontSize(42)
+      .moveDown(2)
       .text(currentRestaurant.restaurantName, {
-        align: 'center',
-        valign: 'center',
-        height: 200,
-        width: 465,
-      })
-      // QR EXPLAINER TEXT
-      .font(font)
-      .fontSize(36)
-      .text(explainerText, {
         align: 'center',
         valign: 'center',
         height: 100,
         width: 465,
       })
+      // QR EXPLAINER TEXT
+      .font(font)
+      .fontSize(32)
+      .text(explainerText, {
+        align: 'center',
+        valign: 'center',
+        height: 150,
+        width: 465,
+      })
       // SUB EXPLAINER TEXT
       .font(font)
-      .fontSize(30)
+      .fontSize(32)
       .text(subText, {
         align: 'center',
         valign: 'center',
@@ -438,7 +447,7 @@ exports.get_menu_pdf_user = async (req, res) => {
       // QR CODE
       .image(
         currentRestaurant.currentMenu.qrCodeBase64,
-        (doc.page.width - 200) / 2
+        (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
     doc.end();
@@ -507,6 +516,11 @@ exports.get_menu_pdf_admin = async (req, res) => {
   });
 
   if (isAdminCheck) {
+    // TRANSFORM RESTAUTRANT LOGO
+    const result = await axios.get(currentRestaurant.restaurantLogo, {
+      responseType: 'arraybuffer',
+    });
+    const logo = new Buffer.from(result.data, 'base64');
     // Config Elements
     res.writeHead(200, {
       'Content-Type': 'application/pdf',
@@ -525,27 +539,31 @@ exports.get_menu_pdf_admin = async (req, res) => {
     doc.pipe(res);
     // Creating PDF File
     doc
+      // RESTAURANT LOGO
+      .image(logo, 200, 10, { fit: [250, 150] })
       // RESTAURANT NAME
       .font(font)
       .fontSize(42)
+      .moveDown(2)
       .text(currentRestaurant.restaurantName, {
-        align: 'center',
-        valign: 'center',
-        height: 200,
-        width: 465,
-      })
-      // QR EXPLAINER TEXT
-      .font(font)
-      .fontSize(36)
-      .text(explainerText, {
         align: 'center',
         valign: 'center',
         height: 100,
         width: 465,
       })
+      // QR EXPLAINER TEXT
+      .font(font)
+      .fontSize(32)
+      .moveDown(1)
+      .text(explainerText, {
+        align: 'center',
+        valign: 'center',
+        height: 150,
+        width: 465,
+      })
       // SUB EXPLAINER TEXT
       .font(font)
-      .fontSize(30)
+      .fontSize(32)
       .text(subText, {
         align: 'center',
         valign: 'center',
@@ -555,7 +573,7 @@ exports.get_menu_pdf_admin = async (req, res) => {
       // QR CODE
       .image(
         currentRestaurant.currentMenu.qrCodeBase64,
-        (doc.page.width - 200) / 2
+        (doc.page.width - 225) / 2
       );
     // Finalize making PDF file
     doc.end();
