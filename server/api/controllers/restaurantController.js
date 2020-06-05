@@ -535,9 +535,10 @@ exports.add_menu_to_restaurant_restaurant_user = async (req, res) => {
           }
         );
         const shortenedLink = await createShortLink.json();
-        const qrCode = await generateQRCode(pdfS3Url);
+        const qrCode = await generateQRCode(shortenedLink.link);
         let newMenu = new Menu({
           menuPdfLink: pdfS3Url,
+          linkToTrack: shortenedLink.link,
           shortUrlLink: shortenedLink.link,
           qrCodeBase64: qrCode,
         });
@@ -664,9 +665,10 @@ exports.add_menu_to_restaurant_restaurant_admin = async (req, res) => {
         }
       );
       const shortenedLink = await createShortLink.json();
-      const qrCode = await generateQRCode(pdfS3Url);
+      const qrCode = await generateQRCode(shortenedLink.link);
       let newMenu = await new Menu({
         menuPdfLink: pdfS3Url,
+        linkToTrack: shortenedLink.link,
         shortUrlLink: shortenedLink.link,
         qrCodeBase64: qrCode,
       });

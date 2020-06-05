@@ -7,6 +7,9 @@ const MenuSchema = new Schema(
     menuPdfLink: {
       type: String,
     },
+    linkToTrack: {
+      type: String,
+    },
     shortUrlLink: {
       type: String,
     },
