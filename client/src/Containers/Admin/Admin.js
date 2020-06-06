@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import User from '../../components/Admin/User/User';
 import Restaurant from '../../components/Admin/Restaurant/Restaurant';
 import Menu from '../../components/Admin/Menu/Menu';
+import ExternalData from '../../components/Admin/ExternalData/ExternalData';
 
 class Admin extends Component {
   state = {
@@ -115,6 +116,16 @@ class Admin extends Component {
               restaurantId={this.state.selectedRestaurantId}
               userIdClick={this.setUserId}
             />
+          </ExpansionPanel>
+          <ExpansionPanel>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography className={classes.heading}>Bitly Data</Typography>
+            </ExpansionPanelSummary>
+            <ExternalData></ExternalData>
           </ExpansionPanel>
         </main>
       </Aux>
