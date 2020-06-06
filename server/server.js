@@ -67,12 +67,14 @@ const taskRoutes = require('./api/routes/todoListRoutes');
 const restaurantRoutes = require('./api/routes/restaurantRoutes');
 const menuRoutes = require('./api/routes/menuRoutes');
 const mealAppsRoutes = require('./api/routes/mealAppsRoutes');
+const externalDataRoutes = require('./api/routes/externalDataRoutes');
 adminRoutes(app);
 authRoutes(app);
 taskRoutes(app);
 restaurantRoutes(app);
 menuRoutes(app);
 mealAppsRoutes(app);
+externalDataRoutes(app);
 
 // 404 Handling
 app.use((req, res) => {
