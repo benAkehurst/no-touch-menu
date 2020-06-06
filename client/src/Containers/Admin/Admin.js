@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import User from '../../components/Admin/User/User';
 import Restaurant from '../../components/Admin/Restaurant/Restaurant';
 import Menu from '../../components/Admin/Menu/Menu';
-import ExternalData from '../../components/Admin/ExternalData/ExternalData';
+import BitlyData from '../../components/Admin/ExternalData/BitlyData/BitlyData';
 
 class Admin extends Component {
   state = {
@@ -125,7 +125,7 @@ class Admin extends Component {
             >
               <Typography className={classes.heading}>Bitly Data</Typography>
             </ExpansionPanelSummary>
-            <ExternalData></ExternalData>
+            <BitlyData></BitlyData>
           </ExpansionPanel>
         </main>
       </Aux>
