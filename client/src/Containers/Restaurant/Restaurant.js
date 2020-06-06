@@ -7,6 +7,7 @@ import timeDateHelpers from '../../Helpers/timeAndDate';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
+import RestaurantOptions from '../../components/Restaurant/RestaurantOptions/RestaurantOptions';
 import MenuOptions from '../../components/Restaurant/MenuOptions/MenuOptions';
 import MealApp from '../../components/MealApp/MealApp';
 import Button from '@material-ui/core/Button';
@@ -162,28 +163,6 @@ class Restaurant extends Component {
   renderRestaurantOptions = () => {
     return (
       <div className={classes.RestaurantOptions}>
-        <h2>Restaurant Options</h2>
-        <section className={classes.RestaurantOption}>
-          <h3>Restaurant Information</h3>
-          <div className={classes.RestaurantInformation}>
-            <div className={classes.RestaurantSingleInfo}>
-              <h4>Restaurant Name</h4>
-              <p>{this.state.restaurantData.restaurantName}</p>
-            </div>
-            <div className={classes.RestaurantSingleInfo}>
-              <h4>Main User</h4>
-              <p>{this.state.restaurantData.user.name}</p>
-            </div>
-            <div className={classes.RestaurantSingleInfo}>
-              <h4>Created On Date</h4>
-              <p>
-                {timeDateHelpers.formatDate(
-                  this.state.restaurantData.createdAt
-                )}
-              </p>
-            </div>
-          </div>
-        </section>
         <section className={classes.RestaurantOption}>
           <h3>Update Restaurant Name</h3>
           <div className={classes.FormInputWrapper}>
@@ -201,22 +180,6 @@ class Restaurant extends Component {
             </Button>
           </div>
         </section>
-        <section className={classes.RestaurantOption}>
-          {this.state.restaurantData.restaurantLogo ? (
-            <Aux>
-              <h4>Current Logo:</h4>
-              <img
-                alt="restaurant logo"
-                src={this.state.restaurantData.restaurantLogo}
-                style={{ width: '250px', height: '150px' }}
-              />
-            </Aux>
-          ) : null}
-          <Uploader
-            title={'Upload New Restaurant Logo'}
-            uploadType={'newLogo'}
-          ></Uploader>
-        </section>
       </div>
     );
   };
@@ -224,8 +187,6 @@ class Restaurant extends Component {
   renderMenuOptions = () => {
     return (
       <div className={classes.MenuOptions}>
-        <h2>Menu Options</h2>
-        <MenuOptions></MenuOptions>
         <section className={classes.MenuCards}>
           {this.state.restaurantData.currentMenu ? (
             <section className={classes.MenuCard}>
@@ -275,9 +236,15 @@ class Restaurant extends Component {
       <main className={classes.RestaurantContainer}>
         <div className={classes.RestaurantOptionContainer}>
           <section className={classes.OptionsContainer}>
+            <h2>Restaurant Options</h2>
+            <RestaurantOptions
+              data={this.state.restaurantData}
+            ></RestaurantOptions>
             {this.renderRestaurantOptions()}
           </section>
           <section className={classes.MenuContainer}>
+            <h2>Menu Options</h2>
+            <MenuOptions></MenuOptions>
             {this.renderMenuOptions()}
           </section>
         </div>
@@ -339,17 +306,20 @@ class Restaurant extends Component {
   };
 
   render() {
+    const banner = (
+      <Banner
+        siteName={
+          this.state.restaurantData
+            ? this.state.restaurantData.restaurantName
+            : 'Loading Restaurant'
+        }
+        showLogo={false}
+        showUserButtons={true}
+      ></Banner>
+    );
     return (
       <Aux>
-        <Banner
-          siteName={
-            this.state.restaurantData
-              ? this.state.restaurantData.restaurantName
-              : 'Loading Restaurant'
-          }
-          showLogo={false}
-          showUserButtons={true}
-        ></Banner>
+        {banner}
         {this.state.isLoading ? (
           <div className={classes.LoadingBg}>
             <Spinner size={'large'} />
