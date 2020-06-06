@@ -33,7 +33,6 @@ exports.get_bitly_link_data = async (req, res) => {
       isAdminCheck = user.isAdmin;
     }
   });
-
   if (isAdminCheck) {
     // find restaurant
     let restaurant = await Restaurant.findById(restaurantId, (err, data) => {
@@ -61,8 +60,7 @@ exports.get_bitly_link_data = async (req, res) => {
     if (restaurant.uberEatsModel.linkToTrack) {
       bitlyLinks.push(removeHttps(restaurant.uberEatsModel.linkToTrack));
     }
-    // console.log(bitlyLinks);
-    // loop though and call bitly api for data
+    // loop though and call bitly api for data and package into json and return to client
     let currentMenu = await getBitlyData(bitlyLinks[0]);
     let deliveroo = await getBitlyData(bitlyLinks[1]);
     let justEat = await getBitlyData(bitlyLinks[2]);
@@ -72,12 +70,20 @@ exports.get_bitly_link_data = async (req, res) => {
     linkData.push(deliveroo);
     linkData.push(justEat);
     linkData.push(uberEats);
-    // package into json and return to client
-    res.status(200).json({
-      success: true,
-      message: 'Data aggregated',
-      data: linkData,
-    });
+    // Return to client data
+    if (linkData.length > 0) {
+      res.status(200).json({
+        success: true,
+        message: 'Data aggregated',
+        data: linkData,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'Data not aggregated',
+        data: null,
+      });
+    }
   } else {
     res.status(401).json({
       success: false,
