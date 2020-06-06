@@ -7,6 +7,7 @@ import timeDateHelpers from '../../Helpers/timeAndDate';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
+import MenuOptions from '../../components/Restaurant/MenuOptions/MenuOptions';
 import MealApp from '../../components/MealApp/MealApp';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
@@ -224,18 +225,7 @@ class Restaurant extends Component {
     return (
       <div className={classes.MenuOptions}>
         <h2>Menu Options</h2>
-        <section className={classes.MenuOption}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => this.clickHandler('downloadMenu')}
-          >
-            Download PDF Menu
-          </Button>
-        </section>
-        <section className={classes.MenuOption}>
-          <Uploader title={'Upload New Menu'} uploadType={'newMenu'}></Uploader>
-        </section>
+        <MenuOptions></MenuOptions>
         <section className={classes.MenuCards}>
           {this.state.restaurantData.currentMenu ? (
             <section className={classes.MenuCard}>
