@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Restaurant = mongoose.model('Restaurant');
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 /**
  * Gets the amount of clicks on a bit.ly link
@@ -10,7 +10,7 @@ const fetch = require('node-fetch');
  * POST
  * {
  *  requesterId: 'string',
- *  restaurantId: 'string'
+ *  restaurantId: 'string',
  * }
  */
 exports.get_bitly_link_data = async (req, res) => {
@@ -47,28 +47,36 @@ exports.get_bitly_link_data = async (req, res) => {
         return data;
       }
     });
+    // get current menu bitly link and get deliveroo / justeat / uber eats links
     let bitlyLinks = [];
     if (restaurant.currentMenu.linkToTrack) {
-      bitlyLinks.push(restaurant.currentMenu.linkToTrack);
+      bitlyLinks.push(removeHttps(restaurant.currentMenu.linkToTrack));
     }
     if (restaurant.deliverooObject.linkToTrack) {
-      bitlyLinks.push(restaurant.deliverooObject.linkToTrack);
+      bitlyLinks.push(removeHttps(restaurant.deliverooObject.linkToTrack));
     }
     if (restaurant.justEatModel.linkToTrack) {
-      bitlyLinks.push(restaurant.justEatModel.linkToTrack);
+      bitlyLinks.push(removeHttps(restaurant.justEatModel.linkToTrack));
     }
     if (restaurant.uberEatsModel.linkToTrack) {
-      bitlyLinks.push(restaurant.uberEatsModel.linkToTrack);
+      bitlyLinks.push(removeHttps(restaurant.uberEatsModel.linkToTrack));
     }
-    console.log(bitlyLinks);
-    // get current menu bitly link
-    // get deliveroo / justeat / uber eats links
+    // console.log(bitlyLinks);
     // loop though and call bitly api for data
+    let currentMenu = await getBitlyData(bitlyLinks[0]);
+    let deliveroo = await getBitlyData(bitlyLinks[1]);
+    let justEat = await getBitlyData(bitlyLinks[2]);
+    let uberEats = await getBitlyData(bitlyLinks[3]);
+    let linkData = [];
+    linkData.push(currentMenu);
+    linkData.push(deliveroo);
+    linkData.push(justEat);
+    linkData.push(uberEats);
     // package into json and return to client
     res.status(200).json({
       success: true,
       message: 'Data aggregated',
-      data: null,
+      data: linkData,
     });
   } else {
     res.status(401).json({
@@ -77,4 +85,24 @@ exports.get_bitly_link_data = async (req, res) => {
       data: null,
     });
   }
+};
+
+function removeHttps(url) {
+  let urlNoProtocol = url.replace(/^https?\:\/\//i, '');
+  return urlNoProtocol;
+}
+
+const getBitlyData = async (url) => {
+  return axios
+    .get(`https://api-ssl.bitly.com/v4/bitlinks/${url}/clicks`, {
+      headers: { Authorization: `Bearer ${process.env.BITLY_TOKEN}` },
+    })
+    .then((response) => {
+      if (response.data) {
+        return response.data;
+      }
+    })
+    .catch((err) => {
+      return err;
+    });
 };
