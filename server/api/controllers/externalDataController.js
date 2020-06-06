@@ -36,6 +36,31 @@ exports.get_bitly_link_data = async (req, res) => {
 
   if (isAdminCheck) {
     // find restaurant
+    let restaurant = await Restaurant.findById(restaurantId, (err, data) => {
+      if (err) {
+        res.status(404).json({
+          success: false,
+          message: 'Restaurant not found',
+          data: null,
+        });
+      } else {
+        return data;
+      }
+    });
+    let bitlyLinks = [];
+    if (restaurant.currentMenu.linkToTrack) {
+      bitlyLinks.push(restaurant.currentMenu.linkToTrack);
+    }
+    if (restaurant.deliverooObject.linkToTrack) {
+      bitlyLinks.push(restaurant.deliverooObject.linkToTrack);
+    }
+    if (restaurant.justEatModel.linkToTrack) {
+      bitlyLinks.push(restaurant.justEatModel.linkToTrack);
+    }
+    if (restaurant.uberEatsModel.linkToTrack) {
+      bitlyLinks.push(restaurant.uberEatsModel.linkToTrack);
+    }
+    console.log(bitlyLinks);
     // get current menu bitly link
     // get deliveroo / justeat / uber eats links
     // loop though and call bitly api for data
