@@ -1,9 +1,175 @@
 import React, { Component } from 'react';
+import classes from './BitlyData.module.scss';
+import axios from '../../../../axios-connector';
+import withErrorHandler from '../../../../hoc/withErrorHandler/withErrorHandler';
+import helpers from '../../../../Helpers/localStorage';
+import timeDateHelpers from '../../../../Helpers/timeAndDate';
+import BASE_URL from '../../../../Helpers/BASE_URL';
+
+import Aux from '../../../../hoc/Aux/Aux';
+import Spinner from '../../../UI/Spinner/Spinner';
+import Button from '@material-ui/core/Button';
 
 class BitlyData extends Component {
+  state = {
+    isLoading: false,
+    isError: false,
+    isErrorMessage: '',
+    chosenRestaurantId: null,
+    currentMenuVisable: false,
+    currentMenuData: null,
+    deliverooVisable: false,
+    deliverooData: null,
+    justEatVisable: false,
+    justEatData: null,
+    uberEatsVisable: false,
+    uberEatsData: null,
+  };
+
+  restaurantIdHandler = (e) => {
+    this.setState({ chosenRestaurantId: e.target.value });
+  };
+
+  clickHandler = (buttonType) => {
+    switch (buttonType) {
+      case 'allData':
+        this.getBitlyData();
+        break;
+      case 'currentMenuData':
+        if (!this.state.currentMenuVisable) {
+          this.setState({ currentMenuVisable: true });
+        } else {
+          this.setState({ currentMenuVisable: false });
+        }
+        break;
+      case 'deliverooData':
+        break;
+      case 'justEatButton':
+        break;
+      case 'uberEatsButton':
+        break;
+      default:
+        break;
+    }
+  };
+
+  getBitlyData = () => {
+    this.setState({ isLoading: true });
+    const data = {
+      requesterId: helpers.getUserId(),
+      restaurantId: this.state.chosenRestaurantId,
+    };
+    axios
+      .post(`${BASE_URL}/external-data/get-bitly-link-data`, data)
+      .then((response) => {
+        if (response.data.success) {
+          this.setState({
+            isLoading: false,
+            currentMenuData: response.data.data[0],
+            deliverooData: response.data.data[1],
+            justEatData: response.data.data[2],
+            uberEatsData: response.data.data[3],
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          isError: true,
+          isErrorMessage: 'Error retreving click data',
+        });
+      });
+  };
+
   render() {
-    return <div>Bitly Data</div>;
+    return (
+      <Aux>
+        {this.state.isLoading ? (
+          <div className={classes.LoadingBg}>
+            <Spinner size={'large'} />
+          </div>
+        ) : null}
+        <ul>
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Get Restaurant Link Data</h4>
+              <input
+                placeholder={'Restaurant ID'}
+                type="text"
+                onChange={this.restaurantIdHandler}
+              ></input>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => this.clickHandler('allData')}
+              >
+                Get All Data
+              </Button>
+            </div>
+          </li>
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Current Menu Data</h4>
+
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={!this.state.currentMenuData}
+                onClick={() => this.clickHandler('currentMenuData')}
+              >
+                {this.state.currentMenuVisable ? 'Hide Data' : 'Show Data'}
+              </Button>
+              {this.state.currentMenuVisable ? (
+                <div>
+                  {timeDateHelpers.formatDate(
+                    this.state.currentMenuData.unit_reference
+                  )}
+                </div>
+              ) : null}
+            </div>
+          </li>
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Deliveroo Data</h4>
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={!this.state.deliverooData}
+                onClick={() => this.clickHandler('deliverooData')}
+              >
+                {this.state.deliverooVisable ? 'Hide Data' : 'Show Data'}
+              </Button>
+            </div>
+          </li>
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Just Eat Data</h4>
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={!this.state.justEatData}
+                onClick={() => this.clickHandler('justEatButton')}
+              >
+                {this.state.justEatVisable ? 'Hide Data' : 'Show Data'}
+              </Button>
+            </div>
+          </li>
+          <li className={classes.SingleOption}>
+            <div className={classes.SingleOptionHeader}>
+              <h4>Uber Eats Data</h4>
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={!this.state.uberEatsData}
+                onClick={() => this.clickHandler('uberEatsButton')}
+              >
+                {this.state.uberEatsVisable ? 'Hide Data' : 'Show Data'}
+              </Button>
+            </div>
+          </li>
+        </ul>
+      </Aux>
+    );
   }
 }
 
-export default BitlyData;
+export default withErrorHandler(BitlyData, axios);
