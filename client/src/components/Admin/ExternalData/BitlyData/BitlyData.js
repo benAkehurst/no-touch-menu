@@ -167,6 +167,24 @@ class BitlyData extends Component {
                 {this.state.deliverooVisable ? 'Hide Data' : 'Show Data'}
               </Button>
             </div>
+            {this.state.deliverooVisable ? (
+              <div className={classes.SingleOption}>
+                <span>
+                  {' '}
+                  Date of Request -
+                  {timeDateHelpers.formatDate(
+                    this.state.deliverooData.unit_reference
+                  )}
+                </span>
+                {this.state.deliverooData.link_clicks.map((item) => (
+                  <div>
+                    <div>Date - {timeDateHelpers.formatDate(item.date)}</div>
+                    <div>Clicks - {item.clicks}</div>
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </li>
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
@@ -180,6 +198,24 @@ class BitlyData extends Component {
                 {this.state.justEatVisable ? 'Hide Data' : 'Show Data'}
               </Button>
             </div>
+            {this.state.justEatVisable ? (
+              <div className={classes.SingleOption}>
+                <span>
+                  {' '}
+                  Date of Request -
+                  {timeDateHelpers.formatDate(
+                    this.state.justEatData.unit_reference
+                  )}
+                </span>
+                {this.state.justEatData.link_clicks.map((item) => (
+                  <div>
+                    <div>Date - {timeDateHelpers.formatDate(item.date)}</div>
+                    <div>Clicks - {item.clicks}</div>
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </li>
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
@@ -193,6 +229,24 @@ class BitlyData extends Component {
                 {this.state.uberEatsVisable ? 'Hide Data' : 'Show Data'}
               </Button>
             </div>
+            {this.state.uberEatsVisable ? (
+              <div className={classes.SingleOption}>
+                <span>
+                  {' '}
+                  Date of Request -
+                  {timeDateHelpers.formatDate(
+                    this.state.uberEatsData.unit_reference
+                  )}
+                </span>
+                {this.state.uberEatsData.link_clicks.map((item) => (
+                  <div>
+                    <div>Date - {timeDateHelpers.formatDate(item.date)}</div>
+                    <div>Clicks - {item.clicks}</div>
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </li>
         </ul>
       </Aux>
