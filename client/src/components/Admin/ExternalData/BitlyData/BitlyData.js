@@ -43,10 +43,25 @@ class BitlyData extends Component {
         }
         break;
       case 'deliverooData':
+        if (!this.state.deliverooVisable) {
+          this.setState({ deliverooVisable: true });
+        } else {
+          this.setState({ deliverooVisable: false });
+        }
         break;
       case 'justEatButton':
+        if (!this.state.justEatVisable) {
+          this.setState({ justEatVisable: true });
+        } else {
+          this.setState({ justEatVisable: false });
+        }
         break;
       case 'uberEatsButton':
+        if (!this.state.uberEatsVisable) {
+          this.setState({ uberEatsVisable: true });
+        } else {
+          this.setState({ uberEatsVisable: false });
+        }
         break;
       default:
         break;
@@ -88,6 +103,7 @@ class BitlyData extends Component {
             <Spinner size={'large'} />
           </div>
         ) : null}
+        {this.state.isError ? <span>{this.state.isErrorMessage}</span> : null}
         <ul>
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
@@ -100,6 +116,7 @@ class BitlyData extends Component {
               <Button
                 color="primary"
                 variant="contained"
+                disabled={!this.state.chosenRestaurantId}
                 onClick={() => this.clickHandler('allData')}
               >
                 Get All Data
@@ -118,14 +135,25 @@ class BitlyData extends Component {
               >
                 {this.state.currentMenuVisable ? 'Hide Data' : 'Show Data'}
               </Button>
-              {this.state.currentMenuVisable ? (
-                <div>
+            </div>
+            {this.state.currentMenuVisable ? (
+              <div className={classes.SingleOption}>
+                <span>
+                  {' '}
+                  Date of Request -
                   {timeDateHelpers.formatDate(
                     this.state.currentMenuData.unit_reference
                   )}
-                </div>
-              ) : null}
-            </div>
+                </span>
+                {this.state.currentMenuData.link_clicks.map((item) => (
+                  <div>
+                    <div>Date - {timeDateHelpers.formatDate(item.date)}</div>
+                    <div>Clicks - {item.clicks}</div>
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </li>
           <li className={classes.SingleOption}>
             <div className={classes.SingleOptionHeader}>
