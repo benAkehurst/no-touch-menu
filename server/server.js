@@ -1,6 +1,7 @@
 // Server Dependencies
 const express = require('express');
 const http = require('http');
+const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -19,8 +20,8 @@ require('dotenv').config();
 // DB Connection
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  // `mongodb://${process.env.DB_CONNECT}`,
-  `mongodb://localhost:27017/no_touch_menu_db`,
+  `mongodb://${process.env.LOCAL_DB}`,
+  // `mongodb://${process.env.PROD_DB}`,
   {
     useNewUrlParser: true,
     useFindAndModify: false,
