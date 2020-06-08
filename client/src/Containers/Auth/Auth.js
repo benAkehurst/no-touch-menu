@@ -137,7 +137,7 @@ class Auth extends Component {
       };
       this.setState({ showLoader: true });
       axios
-        .post('/auth/create-new-user', data)
+        .post('/api/auth/create-new-user', data)
         .then((res) => {
           if (res.status === 201) {
             this.setState({
@@ -162,7 +162,7 @@ class Auth extends Component {
       };
       this.setState({ showLoader: false });
       axios
-        .post('/auth/login-user', data)
+        .post('/api/auth/login-user', data)
         .then((res) => {
           if (res.status === 200) {
             if (res.data.data.isAdmin) {
