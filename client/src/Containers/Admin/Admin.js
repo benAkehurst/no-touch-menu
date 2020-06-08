@@ -39,7 +39,7 @@ class Admin extends Component {
       this.props.history.push({ pathName: '/auth' });
     }
     axios
-      .get(`${BASE_URL}/admin/check-if-admin/${helpers.getUserId()}`)
+      .get(`${BASE_URL}api/admin/check-if-admin/${helpers.getUserId()}`)
       .then((res) => {
         if (res.data.success) {
           this.setState({ isLoading: false, isAuthorised: true });
