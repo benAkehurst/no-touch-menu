@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import classes from './Admin.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
@@ -36,7 +37,7 @@ class Admin extends Component {
       helpers.getUserId() === undefined
     ) {
       helpers.clearStorage();
-      this.props.history.push({ pathName: '/auth' });
+      this.props.history.replace('/');
     }
     axios
       .get(`${BASE_URL}api/admin/check-if-admin/${helpers.getUserId()}`)
@@ -62,7 +63,7 @@ class Admin extends Component {
   render() {
     return (
       <Aux>
-        <Banner siteName={'Admin Options'}></Banner>
+        <Banner siteName={'Admin Options'} showUserButtons={true}></Banner>
         {this.state.isLoading ? (
           <div className={classes.LoadingBg}>
             <Spinner size={'large'} />
