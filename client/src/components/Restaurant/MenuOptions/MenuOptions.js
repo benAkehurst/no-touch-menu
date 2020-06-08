@@ -12,7 +12,7 @@ import Uploader from '../../Uploader/Uploader';
 class MenuOptions extends Component {
   clickHandler = () => {
     window.open(
-      `${BASE_URL}/menus/get-menu-pdf-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
+      `${BASE_URL}api/menus/get-menu-pdf-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
     );
   };
 
