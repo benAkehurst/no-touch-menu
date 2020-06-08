@@ -13,7 +13,6 @@ import MealApp from '../../components/MealApp/MealApp';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Uploader from '../../components/Uploader/Uploader';
 
 class Restaurant extends Component {
   state = {
@@ -26,7 +25,6 @@ class Restaurant extends Component {
     updatedLogoFile: null,
     updatedMenuFile: null,
   };
-
   componentDidMount() {
     this.checkTokenValid();
   }
