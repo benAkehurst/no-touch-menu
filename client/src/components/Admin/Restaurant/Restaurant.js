@@ -64,7 +64,9 @@ class Restaurant extends Component {
   getAllRestaurants = () => {
     this.setState({ isLoading: true });
     axios
-      .get(`${BASE_URL}/restaurant/view-all-restaurants/${helpers.getUserId()}`)
+      .get(
+        `${BASE_URL}api/restaurant/view-all-restaurants/${helpers.getUserId()}`
+      )
       .then((res) => {
         if (res.data.success) {
           this.setState({
@@ -90,7 +92,7 @@ class Restaurant extends Component {
     this.setState({ isLoading: true });
     axios
       .get(
-        `${BASE_URL}/restaurant/get-single-restaurant/${this.state.chosenRestaurantId}`
+        `${BASE_URL}api/restaurant/get-single-restaurant/${this.state.chosenRestaurantId}`
       )
       .then((res) => {
         if (res.data.success) {
@@ -116,7 +118,7 @@ class Restaurant extends Component {
     this.setState({ isLoading: true });
     axios
       .post(
-        `${BASE_URL}/restaurant/create-new-restaurant/${helpers.getUserId()}`,
+        `${BASE_URL}api/restaurant/create-new-restaurant/${helpers.getUserId()}`,
         data
       )
       .then((res) => {
@@ -140,7 +142,7 @@ class Restaurant extends Component {
     this.setState({ isLoading: true });
     axios
       .post(
-        `${BASE_URL}/restaurant/change-user-assigned-to-restaurant/${helpers.getUserId()}`,
+        `${BASE_URL}api/restaurant/change-user-assigned-to-restaurant/${helpers.getUserId()}`,
         data
       )
       .then((res) => {
@@ -164,7 +166,7 @@ class Restaurant extends Component {
     };
     axios
       .post(
-        `${BASE_URL}/restaurant/change-restaurant-isActive-status/${helpers.getUserId()}`,
+        `${BASE_URL}api/restaurant/change-restaurant-isActive-status/${helpers.getUserId()}`,
         data
       )
       .then((res) => {
@@ -188,7 +190,7 @@ class Restaurant extends Component {
     };
     axios
       .post(
-        `${BASE_URL}/restaurant/edit-restaurant-name/${helpers.getUserId()}`,
+        `${BASE_URL}api/restaurant/edit-restaurant-name/${helpers.getUserId()}`,
         data
       )
       .then((res) => {
@@ -211,7 +213,7 @@ class Restaurant extends Component {
     };
     axios
       .post(
-        `${BASE_URL}/restaurant/delete-restaurant/${helpers.getUserId()}`,
+        `${BASE_URL}api/restaurant/delete-restaurant/${helpers.getUserId()}`,
         data
       )
       .then((res) => {

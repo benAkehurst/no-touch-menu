@@ -65,7 +65,7 @@ class User extends Component {
       userId: helpers.getUserId(),
     };
     axios
-      .post(`${BASE_URL}/admin/get-all-users`, data)
+      .post(`${BASE_URL}api/admin/get-all-users`, data)
       .then((res) => {
         if (res.data.success) {
           this.setState({
@@ -93,7 +93,7 @@ class User extends Component {
       userId: this.state.chosenUserId,
     };
     axios
-      .post(`${BASE_URL}/admin/get-single-user`, data)
+      .post(`${BASE_URL}api/admin/get-single-user`, data)
       .then((res) => {
         if (res.data.success) {
           this.setState({
@@ -116,7 +116,7 @@ class User extends Component {
       isAdminValue: this.state.singleUser.isAdmin ? false : true,
     };
     axios
-      .post(`${BASE_URL}/admin/change-user-admin-role`, data)
+      .post(`${BASE_URL}api/admin/change-user-admin-role`, data)
       .then((res) => {
         if (res.data.success) {
           this.setState({
@@ -139,7 +139,7 @@ class User extends Component {
       userActiveValue: this.state.singleUser.userActive ? false : true,
     };
     axios
-      .post(`${BASE_URL}/admin/change-user-status`, data)
+      .post(`${BASE_URL}api/admin/change-user-status`, data)
       .then((res) => {
         if (res.data.success) {
           this.setState({

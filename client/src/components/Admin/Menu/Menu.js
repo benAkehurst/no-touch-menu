@@ -26,7 +26,7 @@ class Menu extends Component {
   getAllMenus = () => {
     this.setState({ isLoading: true });
     axios
-      .get(`${BASE_URL}/menus/view-all-menus/${helpers.getUserId()}`)
+      .get(`${BASE_URL}api/menus/view-all-menus/${helpers.getUserId()}`)
       .then((res) => {
         if (res.data.success) {
           this.setState({
@@ -45,7 +45,7 @@ class Menu extends Component {
     this.setState({ isLoading: true });
     axios
       .get(
-        `${BASE_URL}/restaurant/get-single-restaurant/${this.state.chosenRestaurantId}`
+        `${BASE_URL}api/restaurant/get-single-restaurant/${this.state.chosenRestaurantId}`
       )
       .then((res) => {
         if (res.data.success) {
