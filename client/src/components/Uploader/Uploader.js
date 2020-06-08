@@ -38,7 +38,7 @@ class Uploader extends Component {
         this.setState({ isLoading: true });
         axios
           .post(
-            `${BASE_URL}/restaurant/add-menu-to-restaurant-user/${helpers.getUserToken()}`,
+            `${BASE_URL}api/restaurant/add-menu-to-restaurant-user/${helpers.getUserToken()}`,
             formData
           )
           .then((res) => {
@@ -62,7 +62,7 @@ class Uploader extends Component {
         this.setState({ isLoading: true });
         axios
           .post(
-            `${BASE_URL}/restaurant/upload-restaurant-logo-user/${helpers.getUserToken()}`,
+            `${BASE_URL}api/restaurant/upload-restaurant-logo-user/${helpers.getUserToken()}`,
             formData
           )
           .then((res) => {
@@ -86,7 +86,7 @@ class Uploader extends Component {
         this.setState({ isLoading: true });
         axios
           .post(
-            `${BASE_URL}/restaurant/upload-restaurant-logo/${this.props.requesterId}`,
+            `${BASE_URL}api/restaurant/upload-restaurant-logo/${this.props.requesterId}`,
             formData
           )
           .then((res) => {
@@ -110,7 +110,7 @@ class Uploader extends Component {
         this.setState({ isLoading: true });
         axios
           .post(
-            `${BASE_URL}/restaurant/add-menu-to-restaurant-admin/${this.props.requesterId}`,
+            `${BASE_URL}api/restaurant/add-menu-to-restaurant-admin/${this.props.requesterId}`,
             formData
           )
           .then((res) => {
