@@ -38,7 +38,7 @@ class Restaurant extends Component {
     }
     this.setState({ isLoading: true });
     axios
-      .get(`${BASE_URL}/auth/check-token-valid/${token}`)
+      .get(`${BASE_URL}api/auth/check-token-valid/${token}`)
       .then((res) => {
         if (res.status === 200) {
           this.setState({ isLoggedIn: true, isLoading: false });
@@ -55,7 +55,7 @@ class Restaurant extends Component {
     const restaurantId = helpers.getRestaurantId();
     this.setState({ isLoading: true });
     axios
-      .get(`${BASE_URL}/restaurant/get-single-restaurant/${restaurantId}`)
+      .get(`${BASE_URL}api/restaurant/get-single-restaurant/${restaurantId}`)
       .then((res) => {
         this.setState({ isLoading: false, restaurantData: res.data.data });
         this.viewQrCode();
@@ -97,7 +97,7 @@ class Restaurant extends Component {
 
   downloadMenu = () => {
     window.open(
-      `${BASE_URL}/menus/get-menu-pdf-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
+      `${BASE_URL}api/menus/get-menu-pdf-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
     );
   };
 
@@ -109,7 +109,7 @@ class Restaurant extends Component {
     let qrUri = '';
     axios
       .get(
-        `${BASE_URL}/menus/view-current-menu-qrcode-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
+        `${BASE_URL}api/menus/view-current-menu-qrcode-user/${helpers.getUserToken()}/${helpers.getRestaurantId()}`
       )
       .then((res) => {
         if (res.data.data) {
