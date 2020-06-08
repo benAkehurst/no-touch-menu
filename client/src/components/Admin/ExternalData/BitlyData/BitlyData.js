@@ -75,7 +75,7 @@ class BitlyData extends Component {
       restaurantId: this.state.chosenRestaurantId,
     };
     axios
-      .post(`${BASE_URL}/external-data/get-bitly-link-data`, data)
+      .post(`${BASE_URL}api/external-data/get-bitly-link-data`, data)
       .then((response) => {
         if (response.data.success) {
           this.setState({
