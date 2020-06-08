@@ -236,7 +236,7 @@ class MealApp extends Component {
 
   downloadMealAppPDF = (key) => {
     window.open(
-      `${BASE_URL}/mealApps/get-${key}-PDF-user/${helpers.getUserToken()}/${
+      `${BASE_URL}api/mealApps/get-${key}-PDF-user/${helpers.getUserToken()}/${
         this.props.restaurantId
       }`
     );
@@ -244,7 +244,7 @@ class MealApp extends Component {
 
   downloadMealAppPDFAdmin = (key) => {
     window.open(
-      `${BASE_URL}/mealApps/get-${key}-PDF-admin/${helpers.getUserId()}/${
+      `${BASE_URL}api/mealApps/get-${key}-PDF-admin/${helpers.getUserId()}/${
         this.props.restaurantId
       }`
     );
@@ -253,7 +253,7 @@ class MealApp extends Component {
   viewQrCode = () => {
     axios
       .get(
-        `${BASE_URL}/mealApps/get-takeaway-qrcode-user/${helpers.getUserToken()}/${
+        `${BASE_URL}api/mealApps/get-takeaway-qrcode-user/${helpers.getUserToken()}/${
           this.props.restaurantId
         }/${this.props.deliveryAppColor}`
       )
