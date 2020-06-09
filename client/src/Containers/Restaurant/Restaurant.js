@@ -13,6 +13,7 @@ import MealApp from '../../components/MealApp/MealApp';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import WarningBanner from '../../components/UI/WarningBanner/WarningBanner';
 
 class Restaurant extends Component {
   state = {
@@ -20,6 +21,8 @@ class Restaurant extends Component {
     isError: false,
     errorMessage: null,
     isLoggedIn: null,
+    isFreeTrail: false,
+    freeTrailCount: null,
     restaurantData: null,
     updatedRestaurantName: null,
     updatedLogoFile: null,
@@ -41,6 +44,7 @@ class Restaurant extends Component {
         if (res.status === 200) {
           this.setState({ isLoggedIn: true, isLoading: false });
           this.fetchResaurantData();
+          this.fetchFreeTrailData();
         }
       })
       .catch((err) => {
@@ -60,6 +64,18 @@ class Restaurant extends Component {
       })
       .catch((err) => {
         this.setState({ isLoading: false, isError: true, errorMessage: err });
+      });
+  };
+
+  fetchFreeTrailData = () => {
+    const userId = helpers.getUserId();
+    axios
+      .get(`${BASE_URL}api/subscription/free-trail-info/${userId}`)
+      .then((response) => {
+        this.setState({
+          isFreeTrail: response.data.data.isFreeTrail,
+          freeTrailCount: response.data.data.freeTrailCount,
+        });
       });
   };
 
@@ -317,6 +333,11 @@ class Restaurant extends Component {
     );
     return (
       <Aux>
+        {this.state.isFreeTrail ? (
+          <WarningBanner
+            freeTrailCount={this.state.freeTrailCount}
+          ></WarningBanner>
+        ) : null}
         {banner}
         {this.state.isLoading ? (
           <div className={classes.LoadingBg}>
