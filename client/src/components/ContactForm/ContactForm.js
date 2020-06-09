@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import classes from './ContactForm.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import helpers from '../../Helpers/localStorage';
 import BASE_URL from '../../Helpers/BASE_URL';
 
 import Aux from '../../hoc/Aux/Aux';
@@ -14,6 +13,8 @@ class ContactForm extends Component {
     isLoading: false,
     isError: false,
     errorMessage: '',
+    isSuccess: false,
+    successMessage: '',
     name: '',
     email: '',
     message: '',
@@ -57,12 +58,18 @@ class ContactForm extends Component {
   }
 
   resetForm() {
+    this.contactFormRef.reset();
     this.setState({ name: '', email: '', message: '' });
   }
 
   clearError = () => {
-    this.setState({ isError: false, errorMessage: '' });
-    this.contactFormRef.reset();
+    this.setState({
+      isError: false,
+      errorMessage: '',
+      isSuccess: false,
+      successMessage: '',
+    });
+    this.resetForm();
   };
 
   handleSubmit(event) {
@@ -76,22 +83,37 @@ class ContactForm extends Component {
     axios
       .post(`${BASE_URL}api/contact/landing-page-form`, data)
       .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        this.setState({
-          isLoading: false,
-          isError: true,
-          errorMessage: 'Something went wrong sending message.',
-        });
+        if (response.data.success === true) {
+          this.setState({
+            isLoading: false,
+            isSuccess: true,
+            successMessage: 'Message Sent Successfully',
+          });
+          this.resetForm();
+        } else {
+          this.setState({
+            isLoading: false,
+            isError: true,
+            errorMessage: 'Something went wrong sending message.',
+          });
+        }
       });
   }
 
   render() {
-    const spinner = <Spinner size={'large'} />;
+    const spinner = (
+      <div className={classes.LoadingBg}>
+        <Spinner size={'large'} />
+      </div>
+    );
     const errorMessage = (
       <h4 onClick={() => this.clearError()} className={classes.ErrorMessage}>
         {this.state.errorMessage}
+      </h4>
+    );
+    const successMessage = (
+      <h4 onClick={() => this.clearError()} className={classes.SuccessMessage}>
+        {this.state.successMessage}
       </h4>
     );
     return (
@@ -99,6 +121,7 @@ class ContactForm extends Component {
         <h3>{this.props.heading}</h3>
         {this.state.isLoading ? spinner : null}
         {this.state.isError ? errorMessage : null}
+        {this.state.isSuccess ? successMessage : null}
         <form
           id="contact-form"
           ref={(el) => (this.contactFormRef = el)}
