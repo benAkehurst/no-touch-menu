@@ -2,14 +2,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .TopSectionWrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    .Header {
+      font-size: 3.5rem;
+      font-weight: 900;
+    }
+    .Subheader {
+      font-weight: 400;
+      font-size: 1.5rem;
+      color: #50556c;
+      margin-bottom: 50px;
+      display: block;
+    }
+    .BetaRequest {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
   section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 85%;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
     padding: 1rem;
     margin: 1rem;

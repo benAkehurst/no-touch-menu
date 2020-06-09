@@ -3,17 +3,13 @@ import classes from './Landing.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-import data from './data.json';
-
 import Aux from '../../hoc/Aux/Aux';
 import ContactForm from '../../components/ContactForm/ContactForm';
+import BetaRequest from '../../components/ContactForm/BetaRequest/BetaRequest';
 import Banner from '../../components/UI/Banner/Banner';
-import Button from '@material-ui/core/Button';
 
 class Landing extends Component {
   // google analytics
-
-  // send email
 
   render() {
     return (
@@ -26,25 +22,24 @@ class Landing extends Component {
         ></Banner>
         <main className={classes.PageWrapper}>
           <section className={classes.TopSection}>
-            <p>{data[0].main_text}</p>
-          </section>
-          <section className={classes.MidSection}>
-            <p>{data[1].main_text}</p>
+            <div className={classes.TopSectionWrapper}>
+              <span className={classes.Header}>
+                Digitise your menus instantly
+              </span>
+              <span className={classes.Subheader}>
+                No Touch Menu makes it easy to get your menu into the hands of
+                your customers - without them having to touch the menu.
+              </span>
+              <div className={classes.BetaRequest}>
+                <BetaRequest></BetaRequest>
+                No Spam. Ever.
+              </div>
+            </div>
           </section>
           <section className={classes.BottomSection}>
             <ContactForm heading={'Contact Us'}></ContactForm>
           </section>
         </main>
-        {/* top section
-          tag line
-        */}
-        {/* mid section
-          sales text
-        */}
-        {/* bottom section
-          about me
-          contact us form
-        */}
       </Aux>
     );
   }
