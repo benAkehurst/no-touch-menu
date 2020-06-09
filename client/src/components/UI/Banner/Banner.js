@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { withRouter } from 'react-router';
 import Aux from '../../../hoc/Aux/Aux';
 import helpers from '../../../Helpers/localStorage';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,7 +10,11 @@ import Button from '@material-ui/core/Button';
 class Banner extends Component {
   logout = () => {
     helpers.clearStorage();
-    window.location.reload();
+    this.props.history.push('/');
+  };
+
+  redirectToLogin = () => {
+    this.props.history.push('/auth');
   };
 
   showLogo = () => {
@@ -27,6 +31,16 @@ class Banner extends Component {
     );
   };
 
+  showLoginButton = () => {
+    return (
+      <div style={{ marginLeft: 'auto' }}>
+        <Button color="inherit" onClick={() => this.redirectToLogin()}>
+          LOGIN TO APP
+        </Button>
+      </div>
+    );
+  };
+
   render() {
     return (
       <Aux>
@@ -37,6 +51,7 @@ class Banner extends Component {
             </Typography>
             {this.props.showLogo ? this.showLogo() : null}
             {this.props.showUserButtons ? this.showUserButtons() : null}
+            {this.props.showLoginButton ? this.showLoginButton() : null}
           </Toolbar>
         </AppBar>
       </Aux>
@@ -44,4 +59,4 @@ class Banner extends Component {
   }
 }
 
-export default Banner;
+export default withRouter(Banner);
