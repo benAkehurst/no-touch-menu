@@ -116,6 +116,17 @@ class ContactForm extends Component {
         {this.state.successMessage}
       </h4>
     );
+    const button = (
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        className={classes.SubmitButton}
+        disabled={this.state.buttonIsDisabled}
+      >
+        Submit
+      </Button>
+    );
     return (
       <Aux>
         <h3>{this.props.heading}</h3>
@@ -163,15 +174,7 @@ class ContactForm extends Component {
               onChange={(event) => this.onMessageChange(event)}
             ></textarea>
           </div>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.SubmitButton}
-            disabled={this.state.buttonIsDisabled}
-          >
-            Submit
-          </Button>
+          {!this.state.buttonIsDisabled ? button : null}
         </form>
       </Aux>
     );
