@@ -64,7 +64,7 @@ class MealApp extends Component {
           this.setState({ isLoading: true });
           axios
             .post(
-              `/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
+              `api/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
               deliverooData
             )
             .then((res) => {
@@ -93,7 +93,7 @@ class MealApp extends Component {
           this.setState({ isLoading: true });
           axios
             .post(
-              `/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
+              `api/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
               justEatData
             )
             .then((res) => {
@@ -122,7 +122,7 @@ class MealApp extends Component {
           this.setState({ isLoading: true });
           axios
             .post(
-              `/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
+              `api/mealApps/add-link-mealApp-user/${helpers.getUserToken()}`,
               uberEatsData
             )
             .then((res) => {
