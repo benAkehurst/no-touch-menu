@@ -162,7 +162,7 @@ class User extends Component {
     };
     this.setState({ isLoading: true });
     axios
-      .post('/auth/create-new-user', data)
+      .post(`${BASE_URL}api/auth/create-new-user`, data)
       .then((res) => {
         if (res.status === 201) {
           this.setState({
