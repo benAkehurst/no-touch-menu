@@ -65,6 +65,13 @@ class BetaRequest extends Component {
             errorMessage: 'Something went wrong sending request.',
           });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoading: false,
+          isError: true,
+          errorMessage: 'Something went wrong sending message.',
+        });
       });
   }
 

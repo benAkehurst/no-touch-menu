@@ -97,6 +97,13 @@ class ContactForm extends Component {
             errorMessage: 'Something went wrong sending message.',
           });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoading: false,
+          isError: true,
+          errorMessage: 'Something went wrong sending message.',
+        });
       });
   }
 
