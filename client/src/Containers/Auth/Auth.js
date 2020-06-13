@@ -223,9 +223,7 @@ class Auth extends Component {
             Go to {this.state.isRegister ? 'Login' : 'Register'}
           </Button>
           <h2>{!this.state.isRegister ? 'Login' : 'Register Now'}</h2>
-          <form>
-            {!this.state.isRegister ? loginForm : <RegisterFrom></RegisterFrom>}
-          </form>
+          {!this.state.isRegister ? loginForm : <RegisterFrom></RegisterFrom>}
           {!this.state.isRegister ? button : null}
         </section>
         {this.state.showLoader ? <Spinner size={'medium'} /> : null}
