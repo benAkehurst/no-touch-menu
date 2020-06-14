@@ -116,7 +116,7 @@ class RegisterForm extends Component {
     }
     switch (key) {
       case 'token':
-        this.setState({ tokenValue: event.target.value });
+        this.setState({ tokenValue: event.target.value, buttonIsDisabled: s });
         break;
       case 'email':
         this.setState({ userEmail: event.target.value });
