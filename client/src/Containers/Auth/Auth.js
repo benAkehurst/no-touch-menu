@@ -4,6 +4,7 @@ import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import helpers from '../../Helpers/localStorage';
 
+import RegisterFrom from '../../components/RegisterForm/RegisterForm';
 import Button from '@material-ui/core/Button';
 import Banner from '../../components/UI/Banner/Banner';
 import Input from '../../components/UI/Input/Input';
@@ -129,63 +130,35 @@ class Auth extends Component {
    * Called when user clicks button to submit login/register event
    */
   onSubmitHandler = () => {
-    if (this.state.isRegister) {
-      let data = {
-        name: this.state.controls.userName.value,
-        email: this.state.controls.email.value,
-        password: this.state.controls.password.value,
-      };
-      this.setState({ showLoader: true });
-      axios
-        .post('/api/auth/create-new-user', data)
-        .then((res) => {
-          if (res.status === 201) {
-            this.setState({
-              showLoader: false,
-              showMessage: false,
-              isRegister: false,
-              hasRegistered: true,
-            });
+    let data = {
+      email: this.state.controls.email.value,
+      password: this.state.controls.password.value,
+    };
+    this.setState({ showLoader: false });
+    axios
+      .post('/api/auth/login-user', data)
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data.data.isAdmin) {
+            helpers.addAdminStatus(true);
+            helpers.addUserId(res.data.data._id);
+            this.props.history.push({ pathname: '/admin' });
+          } else {
+            helpers.addAdminStatus(false);
+            helpers.addUserToken(res.data.data.token);
+            helpers.addUserId(res.data.data._id);
+            helpers.addRestaurantId(res.data.data.restaurantId);
+            this.props.history.push({ pathname: '/restaurant' });
           }
-        })
-        .catch((err) => {
-          this.setState({
-            showLoader: false,
-            showMessage: true,
-            isRegister: true,
-          });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          showLoader: false,
+          showMessage: true,
+          isRegister: true,
         });
-    } else {
-      let data = {
-        email: this.state.controls.email.value,
-        password: this.state.controls.password.value,
-      };
-      this.setState({ showLoader: false });
-      axios
-        .post('/api/auth/login-user', data)
-        .then((res) => {
-          if (res.status === 200) {
-            if (res.data.data.isAdmin) {
-              helpers.addAdminStatus(true);
-              helpers.addUserId(res.data.data._id);
-              this.props.history.push({ pathname: '/admin' });
-            } else {
-              helpers.addAdminStatus(false);
-              helpers.addUserToken(res.data.data.token);
-              helpers.addUserId(res.data.data._id);
-              helpers.addRestaurantId(res.data.data.restaurantId);
-              this.props.history.push({ pathname: '/restaurant' });
-            }
-          }
-        })
-        .catch((err) => {
-          this.setState({
-            showLoader: false,
-            showMessage: true,
-            isRegister: true,
-          });
-        });
-    }
+      });
   };
 
   /**
@@ -207,21 +180,6 @@ class Auth extends Component {
         config: this.state.controls[key],
       });
     }
-    const registerForm = formElementsArray.map((formElement) => {
-      return (
-        <Input
-          label={formElement.config.elementConfig.label}
-          key={formElement.id}
-          elementType={formElement.config.elementType}
-          elementConfig={formElement.config.elementConfig}
-          value={formElement.config.value}
-          invalid={!formElement.config.valid}
-          shouldValidate={formElement.config.validation}
-          touched={formElement.config.touched}
-          changed={(event) => this.inputChangedHandler(event, formElement.id)}
-        />
-      );
-    });
     const loginForm = formElementsArray.slice(1, 3).map((formElement) => {
       return (
         <Input
@@ -265,8 +223,8 @@ class Auth extends Component {
             Go to {this.state.isRegister ? 'Login' : 'Register'}
           </Button>
           <h2>{!this.state.isRegister ? 'Login' : 'Register Now'}</h2>
-          <form>{this.state.isRegister ? registerForm : loginForm}</form>
-          {button}
+          {!this.state.isRegister ? loginForm : <RegisterFrom></RegisterFrom>}
+          {!this.state.isRegister ? button : null}
         </section>
         {this.state.showLoader ? <Spinner size={'medium'} /> : null}
       </div>
