@@ -19,9 +19,8 @@ class RegisterForm extends Component {
     tokenValue: null,
     userName: null,
     userEmail: null,
-    userPassword: null,
-    restaurantName: null,
-    restaurantTelephone: null,
+    userPassword: '',
+    userTelephone: null,
     buttonIsDisabled: true,
   };
 
@@ -36,8 +35,7 @@ class RegisterForm extends Component {
       userName: '',
       userEmail: '',
       userPassword: '',
-      restaurantName: '',
-      restaurantTelephone: '',
+      userTelephone: '',
     });
   }
 
@@ -67,7 +65,6 @@ class RegisterForm extends Component {
         }
       })
       .catch((err) => {
-        console.log('err: ', err);
         this.setState({
           isLoading: false,
           isError: true,
@@ -83,34 +80,33 @@ class RegisterForm extends Component {
       name: this.state.userName,
       email: this.state.userEmail,
       password: this.state.userPassword,
-      restaurantName: this.state.restaurantName,
-      restaurantTelephone: this.state.restaurantTelephone,
+      telephone: this.state.userTelephone,
     };
-    // axios
-    //   .post(`${BASE_URL}api/auth/validate-access-token`, data)
-    //   .then((response) => {
-    //     if (response.data.success === true) {
-    //       this.setState({
-    //         isLoading: false,
-    //         isSuccess: true,
-    //         successMessage: `Your token is valid`,
-    //       });
-    //       this.resetTokenForm();
-    //     } else {
-    //       this.setState({
-    //         isLoading: false,
-    //         isError: true,
-    //         errorMessage: 'Something went wrong sending request.',
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     this.setState({
-    //       isLoading: false,
-    //       isError: true,
-    //       errorMessage: 'Something went wrong with your token.',
-    //     });
-    //   });
+    axios
+      .post(`${BASE_URL}api/auth/create-new-user`, data)
+      .then((response) => {
+        if (response.data.success === true) {
+          this.setState({
+            isLoading: false,
+            isSuccess: true,
+            successMessage: `User Created. Please Login!`,
+          });
+          this.resetRegUserForm();
+        } else {
+          this.setState({
+            isLoading: false,
+            isError: true,
+            errorMessage: 'Something went wrong sending request.',
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoading: false,
+          isError: true,
+          errorMessage: 'Something went wrong creating your user.',
+        });
+      });
   };
 
   onChangeHandler = (event, key) => {
@@ -120,12 +116,25 @@ class RegisterForm extends Component {
     }
     switch (key) {
       case 'token':
-        this.setState({ tokenValue: event.target.value, buttonIsDisabled: s });
+        this.setState({ tokenValue: event.target.value });
         break;
       case 'email':
-        this.setState({ userEmail: event.target.value, buttonIsDisabled: s });
+        this.setState({ userEmail: event.target.value });
         break;
-
+      case 'name':
+        this.setState({ userName: event.target.value });
+        break;
+      case 'password':
+        this.setState({
+          userPassword: event.target.value,
+          buttonIsDisabled: s,
+        });
+        break;
+      case 'phone':
+        this.setState({
+          userTelephone: event.target.value,
+        });
+        break;
       default:
         break;
     }
@@ -168,6 +177,7 @@ class RegisterForm extends Component {
       >
         <label>Token</label>
         <input
+          key={'token'}
           type="text"
           placeholder="Token"
           className={[classes.Input, classes.InputElement].join(' ')}
@@ -175,6 +185,7 @@ class RegisterForm extends Component {
         />
         <label>Email</label>
         <input
+          key={'email'}
           type="email"
           placeholder="Your Email"
           className={[classes.Input, classes.InputElement].join(' ')}
@@ -196,12 +207,13 @@ class RegisterForm extends Component {
       <form
         ref={(el) => (this.regUserForm = el)}
         className={classes.Form}
-        onSubmit={this.checkTokenHandler.bind(this)}
+        onSubmit={this.registerNewUserHandler.bind(this)}
         method="POST"
       >
         <h4>Registration From</h4>
         <label>Name</label>
         <input
+          key={'name'}
           type="text"
           placeholder="Name"
           className={[classes.Input, classes.InputElement].join(' ')}
@@ -209,10 +221,30 @@ class RegisterForm extends Component {
         />
         <label>Email</label>
         <input
+          key={'email'}
           type="email"
           placeholder="Your Email"
           className={[classes.Input, classes.InputElement].join(' ')}
           onChange={(event) => this.onChangeHandler(event, 'email')}
+        />
+        <label>Password</label>
+        <input
+          key={'password'}
+          type="password"
+          placeholder="Password"
+          className={[classes.Input, classes.InputElement].join(' ')}
+          onChange={(event) => this.onChangeHandler(event, 'password')}
+        />
+        {this.state.userPassword.length < 6
+          ? 'Password needs to be more than 6 characters'
+          : null}
+        <label>Telephone Number</label>
+        <input
+          key={'telephone'}
+          type="text"
+          placeholder="Telephone Number"
+          className={[classes.Input, classes.InputElement].join(' ')}
+          onChange={(event) => this.onChangeHandler(event, 'phone')}
         />
         <Button
           type="submit"
