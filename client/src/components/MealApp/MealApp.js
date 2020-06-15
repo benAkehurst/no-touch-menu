@@ -36,16 +36,46 @@ class MealApp extends Component {
   newUrlInputHandler = (key, e) => {
     switch (key) {
       case 'deliveroo':
-        this.setState({
-          deliverooUrl: e.target.value,
-          saveButtonEnabled: true,
-        });
+        const regExpDel = /deliveroo.co.uk/g;
+        let testStringDel = e.target.value;
+        if (regExpDel.test(testStringDel)) {
+          this.setState({
+            deliverooUrl: e.target.value,
+            isSuccess: true,
+            successMessage: `URL correct`,
+            saveButtonEnabled: true,
+          });
+        } else {
+          this.setState({ isError: true, errorMessage: `URL isn't correct` });
+        }
         break;
       case 'justEat':
-        this.setState({ justEatUrl: e.target.value, saveButtonEnabled: true });
+        const regExpJust = /just-eat.co.uk/g;
+        let testStringJust = e.target.value;
+        if (regExpJust.test(testStringJust)) {
+          this.setState({
+            justEatUrl: e.target.value,
+            isSuccess: true,
+            successMessage: `URL correct`,
+            saveButtonEnabled: true,
+          });
+        } else {
+          this.setState({ isError: true, errorMessage: `URL isn't correct` });
+        }
         break;
       case 'uberEats':
-        this.setState({ uberEatsUrl: e.target.value, saveButtonEnabled: true });
+        const regExpUber = /ubereats.com/g;
+        let testStringUber = e.target.value;
+        if (regExpUber.test(testStringUber)) {
+          this.setState({
+            uberEatsUrl: e.target.value,
+            isSuccess: true,
+            successMessage: `URL correct`,
+            saveButtonEnabled: true,
+          });
+        } else {
+          this.setState({ isError: true, errorMessage: `URL isn't correct` });
+        }
         break;
       default:
         break;
@@ -73,6 +103,8 @@ class MealApp extends Component {
                   isLoading: false,
                   isSuccess: true,
                   successMessage: res.data.message,
+                  isError: false,
+                  errorMessage: '',
                 });
               }
             })
@@ -102,6 +134,8 @@ class MealApp extends Component {
                   isLoading: false,
                   isSuccess: true,
                   successMessage: res.data.message,
+                  isError: false,
+                  errorMessage: '',
                 });
               }
             })
@@ -131,6 +165,8 @@ class MealApp extends Component {
                   isLoading: false,
                   isSuccess: true,
                   successMessage: res.data.message,
+                  isError: false,
+                  errorMessage: '',
                 });
               }
             })
