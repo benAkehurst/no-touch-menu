@@ -19,6 +19,7 @@ import User from '../../components/Admin/User/User';
 import Restaurant from '../../components/Admin/Restaurant/Restaurant';
 import Menu from '../../components/Admin/Menu/Menu';
 import BitlyData from '../../components/Admin/ExternalData/BitlyData/BitlyData';
+import Messages from '../../components/Admin/Messages/Messages';
 
 class Admin extends Component {
   state = {
@@ -117,6 +118,7 @@ class Admin extends Component {
                 ) : null}
               </div>
             </ExpansionPanelSummary>
+            <Messages></Messages>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary
