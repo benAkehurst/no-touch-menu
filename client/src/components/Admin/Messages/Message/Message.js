@@ -29,7 +29,13 @@ const message = (props) => (
         <div>Token: {props.token}</div>
         <div>
           Has been read?:{' '}
-          {props.hasRead ? 'Yes' : <Button>Mark as read</Button>}
+          {props.hasRead ? (
+            'Yes'
+          ) : (
+            <Button onClick={() => props.clicked(props.id)}>
+              Mark as read
+            </Button>
+          )}
         </div>
       </div>
     )}

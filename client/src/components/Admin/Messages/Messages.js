@@ -17,8 +17,8 @@ class Messages extends Component {
     successMessage: null,
     allMessages: [],
     unreadMessages: [],
-    betaRequests: null,
-    contactForm: null,
+    betaRequests: [],
+    contactForm: [],
   };
 
   componentDidMount() {
@@ -83,7 +83,7 @@ class Messages extends Component {
         ) : null}
         {this.state.errorMessage ? this.state.errorMessage : null}
         <div className={classes.MessagesWrapper}>
-          <div className={classes.UnreadMessages}>
+          <section className={classes.MessagesSection}>
             <h4>Unread Messages</h4>
             {this.state.unreadMessages.length
               ? this.state.unreadMessages.map((message) => {
@@ -103,11 +103,51 @@ class Messages extends Component {
                   );
                 })
               : null}
-          </div>
-          <div>
-            All messages
-            <div>Beta Requests</div>
-            <div>Contact Form</div>
+          </section>
+          <div className={classes.MessagesWrapper}>
+            <h4>All messages</h4>
+            <section className={classes.MessagesSection}>
+              <h4>Beta Requests</h4>
+              {this.state.betaRequests.length
+                ? this.state.betaRequests.map((message) => {
+                    return (
+                      <div className={classes.SingleMessage} key={message._id}>
+                        <Message
+                          messageType={message.source}
+                          name={message.name}
+                          email={message.email}
+                          message={message.message}
+                          token={message.accessToken}
+                          hasRead={message.hasRead}
+                          id={message._id}
+                          clicked={this.changeReadStatusHandler}
+                        ></Message>
+                      </div>
+                    );
+                  })
+                : null}
+            </section>
+            <section className={classes.MessagesSection}>
+              <h4>Contact Form</h4>
+              {this.state.contactForm.length
+                ? this.state.contactForm.map((message) => {
+                    return (
+                      <div className={classes.SingleMessage} key={message._id}>
+                        <Message
+                          messageType={message.source}
+                          name={message.name}
+                          email={message.email}
+                          message={message.message}
+                          token={message.accessToken}
+                          hasRead={message.hasRead}
+                          id={message._id}
+                          clicked={this.changeReadStatusHandler}
+                        ></Message>
+                      </div>
+                    );
+                  })
+                : null}
+            </section>
           </div>
         </div>
       </Aux>
