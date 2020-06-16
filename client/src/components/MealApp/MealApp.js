@@ -314,7 +314,7 @@ class MealApp extends Component {
       this.setState({ isLoading: true });
       axios
         .post(
-          `/mealApps/remove-meal-app-object-admin/${helpers.getUserId()}`,
+          `api/mealApps/remove-meal-app-object-admin/${helpers.getUserId()}`,
           data
         )
         .then((res) => {
@@ -341,7 +341,7 @@ class MealApp extends Component {
       this.setState({ isLoading: true });
       axios
         .post(
-          `/mealApps/remove-meal-app-object-user/${helpers.getUserToken()}`,
+          `api/mealApps/remove-meal-app-object-user/${helpers.getUserToken()}`,
           data
         )
         .then((res) => {
