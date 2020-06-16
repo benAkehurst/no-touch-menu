@@ -5,17 +5,18 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import BASE_URL from '../../../Helpers/BASE_URL';
 
 import Aux from '../../../hoc/Aux/Aux';
+import Message from '../Messages/Message/Message';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 
-class Message extends Component {
+class Messages extends Component {
   state = {
     isLoading: false,
     isError: false,
     errorMessage: null,
     isSuccess: false,
     successMessage: null,
-    allMessages: null,
-    unreadMessages: null,
+    allMessages: [],
+    unreadMessages: [],
     betaRequests: null,
     contactForm: null,
   };
@@ -54,6 +55,24 @@ class Message extends Component {
       });
   }
 
+  changeReadStatusHandler = (messageId) => {
+    this.setState({ isLoading: true });
+    axios
+      .put(`${BASE_URL}api/communications/update-message-read/${messageId}`)
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ isLoading: false });
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoading: false,
+          isError: true,
+          errorMessage: 'Failed to update message read',
+        });
+      });
+  };
+
   render() {
     return (
       <Aux>
@@ -64,7 +83,27 @@ class Message extends Component {
         ) : null}
         {this.state.errorMessage ? this.state.errorMessage : null}
         <div className={classes.MessagesWrapper}>
-          <div>Unread Messages</div>
+          <div className={classes.UnreadMessages}>
+            <h4>Unread Messages</h4>
+            {this.state.unreadMessages.length
+              ? this.state.unreadMessages.map((message) => {
+                  return (
+                    <div className={classes.SingleMessage} key={message._id}>
+                      <Message
+                        messageType={message.source}
+                        name={message.name}
+                        email={message.email}
+                        message={message.message}
+                        token={message.accessToken}
+                        hasRead={message.hasRead}
+                        id={message._id}
+                        clicked={this.changeReadStatusHandler}
+                      ></Message>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
           <div>
             All messages
             <div>Beta Requests</div>
@@ -76,4 +115,4 @@ class Message extends Component {
   }
 }
 
-export default withErrorHandler(Message, axios);
+export default withErrorHandler(Messages, axios);

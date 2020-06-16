@@ -4,4 +4,18 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  width: 100%;
+  .UnreadMessages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 40rem;
+    overflow: scroll;
+    .SingleMessage {
+      margin: 0.25rem 0;
+      width: 80%;
+    }
+  }
 }
