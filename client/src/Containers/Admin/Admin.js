@@ -113,7 +113,10 @@ class Admin extends Component {
                   <div className={classes.MailIconContainer}>
                     <MailIcon></MailIcon> | {this.state.unreadMessages.length}{' '}
                     unread message
-                    {this.state.unreadMessages.length > 1 ? 's' : ''}
+                    {this.state.unreadMessages.length > 1 ||
+                    this.state.unreadMessages.length === 0
+                      ? 's'
+                      : ''}
                   </div>
                 ) : null}
               </div>
