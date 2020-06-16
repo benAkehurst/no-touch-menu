@@ -192,7 +192,7 @@ class MealApp extends Component {
           };
           this.setState({ isLoading: true });
           axios
-            .post(`/mealApps/add-link-mealApp-admin`, deliverooData)
+            .post(`api/mealApps/add-link-mealApp-admin`, deliverooData)
             .then((res) => {
               if (res.status === 200) {
                 this.setState({
@@ -219,7 +219,7 @@ class MealApp extends Component {
           };
           this.setState({ isLoading: true });
           axios
-            .post(`/mealApps/add-link-mealApp-admin`, justEatData)
+            .post(`api/mealApps/add-link-mealApp-admin`, justEatData)
             .then((res) => {
               if (res.status === 200) {
                 this.setState({
@@ -246,7 +246,7 @@ class MealApp extends Component {
           };
           this.setState({ isLoading: true });
           axios
-            .post(`/mealApps/add-link-mealApp-admin`, uberEatsData)
+            .post(`api/mealApps/add-link-mealApp-admin`, uberEatsData)
             .then((res) => {
               if (res.status === 200) {
                 this.setState({

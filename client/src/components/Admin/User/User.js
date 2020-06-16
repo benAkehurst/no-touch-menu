@@ -184,7 +184,7 @@ class User extends Component {
     };
     this.setState({ isLoading: true });
     axios
-      .post(`/auth/reset-password/${this.state.changePasswordId}`, data)
+      .post(`api/auth/reset-password/${this.state.changePasswordId}`, data)
       .then((res) => {
         if (res.status === 201) {
           this.setState({

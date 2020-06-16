@@ -97,7 +97,7 @@ class Restaurant extends Component {
     };
     axios
       .post(
-        `/restaurant/edit-restaurant-name-user/${helpers.getUserToken()}`,
+        `api/restaurant/edit-restaurant-name-user/${helpers.getUserToken()}`,
         data
       )
       .then((res) => {
