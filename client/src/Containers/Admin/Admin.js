@@ -104,7 +104,7 @@ class Admin extends Component {
               <Typography className={classes.heading}>
                 Messages and Beta Requests
               </Typography>
-              <Typography
+              <div
                 className={classes.headingWarning}
                 style={{ marginLeft: 'auto' }}
               >
@@ -115,7 +115,7 @@ class Admin extends Component {
                     {this.state.unreadMessages.length > 1 ? 's' : ''}
                   </div>
                 ) : null}
-              </Typography>
+              </div>
             </ExpansionPanelSummary>
           </ExpansionPanel>
           <ExpansionPanel>
