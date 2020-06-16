@@ -147,9 +147,7 @@ class RegisterForm extends Component {
       isSuccess: false,
       successMessage: '',
     });
-    {
-      this.state.isTokenValid ? this.resetRegUserForm() : this.resetTokenForm();
-    }
+    this.state.isTokenValid ? this.resetRegUserForm() : this.resetTokenForm();
   };
 
   render() {

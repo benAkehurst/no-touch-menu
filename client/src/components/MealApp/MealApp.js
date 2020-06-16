@@ -36,16 +36,46 @@ class MealApp extends Component {
   newUrlInputHandler = (key, e) => {
     switch (key) {
       case 'deliveroo':
-        this.setState({
-          deliverooUrl: e.target.value,
-          saveButtonEnabled: true,
-        });
+        const regExpDel = /deliveroo.co.uk/g;
+        let testStringDel = e.target.value;
+        if (regExpDel.test(testStringDel)) {
+          this.setState({
+            deliverooUrl: e.target.value,
+            isSuccess: true,
+            successMessage: `URL correct`,
+            saveButtonEnabled: true,
+          });
+        } else {
+          this.setState({ isError: true, errorMessage: `URL isn't correct` });
+        }
         break;
       case 'justEat':
-        this.setState({ justEatUrl: e.target.value, saveButtonEnabled: true });
+        const regExpJust = /just-eat.co.uk/g;
+        let testStringJust = e.target.value;
+        if (regExpJust.test(testStringJust)) {
+          this.setState({
+            justEatUrl: e.target.value,
+            isSuccess: true,
+            successMessage: `URL correct`,
+            saveButtonEnabled: true,
+          });
+        } else {
+          this.setState({ isError: true, errorMessage: `URL isn't correct` });
+        }
         break;
       case 'uberEats':
-        this.setState({ uberEatsUrl: e.target.value, saveButtonEnabled: true });
+        const regExpUber = /ubereats.com/g;
+        let testStringUber = e.target.value;
+        if (regExpUber.test(testStringUber)) {
+          this.setState({
+            uberEatsUrl: e.target.value,
+            isSuccess: true,
+            successMessage: `URL correct`,
+            saveButtonEnabled: true,
+          });
+        } else {
+          this.setState({ isError: true, errorMessage: `URL isn't correct` });
+        }
         break;
       default:
         break;
@@ -68,11 +98,13 @@ class MealApp extends Component {
               deliverooData
             )
             .then((res) => {
-              if (res.status === 201) {
+              if (res.status === 200) {
                 this.setState({
                   isLoading: false,
                   isSuccess: true,
                   successMessage: res.data.message,
+                  isError: false,
+                  errorMessage: '',
                 });
               }
             })
@@ -97,11 +129,13 @@ class MealApp extends Component {
               justEatData
             )
             .then((res) => {
-              if (res.status === 201) {
+              if (res.status === 200) {
                 this.setState({
                   isLoading: false,
                   isSuccess: true,
                   successMessage: res.data.message,
+                  isError: false,
+                  errorMessage: '',
                 });
               }
             })
@@ -126,11 +160,13 @@ class MealApp extends Component {
               uberEatsData
             )
             .then((res) => {
-              if (res.status === 201) {
+              if (res.status === 200) {
                 this.setState({
                   isLoading: false,
                   isSuccess: true,
                   successMessage: res.data.message,
+                  isError: false,
+                  errorMessage: '',
                 });
               }
             })
@@ -158,7 +194,7 @@ class MealApp extends Component {
           axios
             .post(`/mealApps/add-link-mealApp-admin`, deliverooData)
             .then((res) => {
-              if (res.status === 201) {
+              if (res.status === 200) {
                 this.setState({
                   isLoading: false,
                   isSuccess: true,
@@ -185,7 +221,7 @@ class MealApp extends Component {
           axios
             .post(`/mealApps/add-link-mealApp-admin`, justEatData)
             .then((res) => {
-              if (res.status === 201) {
+              if (res.status === 200) {
                 this.setState({
                   isLoading: false,
                   isSuccess: true,
@@ -212,7 +248,7 @@ class MealApp extends Component {
           axios
             .post(`/mealApps/add-link-mealApp-admin`, uberEatsData)
             .then((res) => {
-              if (res.status === 201) {
+              if (res.status === 200) {
                 this.setState({
                   isLoading: false,
                   isSuccess: true,
@@ -391,6 +427,8 @@ class MealApp extends Component {
         >
           {this.state.isLoading ? spinner : null}
           <h2>{this.props.title}</h2>
+          {this.state.isSuccess ? this.state.successMessage : null}
+          {this.state.isError ? this.state.errorMessage : null}
           {this.props.showAddMessage ? (
             <span>{this.state.showAddMessage}</span>
           ) : null}
@@ -404,8 +442,6 @@ class MealApp extends Component {
           {this.props.showAddMessage !== null ? viewQRCodeButton : null}
           {this.state.showQRImage ? qrCodeImageEl : null}
           {this.props.showAddMessage !== null ? removeLinkButton : null}
-          {this.state.isSuccess ? this.state.successMessage : null}
-          {this.state.isError ? this.state.errorMessage : null}
         </div>
       </Aux>
     );
