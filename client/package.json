@@ -27,7 +27,7 @@
     "reset": "rm -rf node_modules && rm -rf build && npm i",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "release": "react-scripts build && netlify deploy"
+    "release": "rm -rf build && react-scripts build && netlify deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
