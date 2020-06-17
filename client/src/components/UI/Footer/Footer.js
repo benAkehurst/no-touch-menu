@@ -21,6 +21,10 @@ class Footer extends Component {
     this.props.history.push('/terms');
   };
 
+  getCurrentYear = () => {
+    return new Date().getFullYear();
+  };
+
   render() {
     return (
       <Aux>
@@ -32,6 +36,7 @@ class Footer extends Component {
               <li onClick={() => this.redirectToPrivacy()}>Privacy Policy</li>
               <li onClick={() => this.redirectToTerms()}>Website Terms</li>
             </ul>
+            <p>Copyright © {this.getCurrentYear()} No Touch Menu</p>
           </section>
         </div>
       </Aux>
