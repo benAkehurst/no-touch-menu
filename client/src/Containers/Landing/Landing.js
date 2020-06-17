@@ -7,6 +7,7 @@ import Aux from '../../hoc/Aux/Aux';
 import ContactForm from '../../components/ContactForm/ContactForm';
 import BetaRequest from '../../components/ContactForm/BetaRequest/BetaRequest';
 import Banner from '../../components/UI/Banner/Banner';
+import Footer from '../../components/UI/Footer/Footer';
 
 class Landing extends Component {
   // google analytics
@@ -40,6 +41,9 @@ class Landing extends Component {
             <ContactForm heading={'Contact Us'}></ContactForm>
           </section>
         </main>
+        <footer>
+          <Footer></Footer>
+        </footer>
       </Aux>
     );
   }
