@@ -17,6 +17,10 @@ class Banner extends Component {
     this.props.history.push('/auth');
   };
 
+  returnToLanding = () => {
+    this.props.history.push('/');
+  };
+
   showLogo = () => {
     return <div>Logo</div>;
   };
@@ -46,7 +50,11 @@ class Banner extends Component {
       <Aux>
         <AppBar position="static">
           <Toolbar>
-            <Typography edge="start" variant="h6">
+            <Typography
+              edge="start"
+              variant="h6"
+              onClick={() => this.returnToLanding()}
+            >
               {this.props.siteName}
             </Typography>
             {this.props.showLogo ? this.showLogo() : null}
