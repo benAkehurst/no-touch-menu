@@ -3,6 +3,8 @@ import classes from './Landing.module.scss';
 import axios from '../../axios-connector';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
+import ReactPlayer from 'react-player';
+
 import Aux from '../../hoc/Aux/Aux';
 import ContactForm from '../../components/ContactForm/ContactForm';
 import BetaRequest from '../../components/ContactForm/BetaRequest/BetaRequest';
@@ -31,7 +33,11 @@ class Landing extends Component {
                 No Touch Menu makes it easy to get your menu into the hands of
                 your customers - without them having to touch the menu.
               </span>
-              <span className={classes.Subheader}>
+              <ReactPlayer
+                className={classes.ExplainerVideo}
+                url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+              ></ReactPlayer>
+              <span className={classes.SubheaderTwo}>
                 To get access, please enter your email below and we'll be in
                 touch with you to give you access to your account!
               </span>
