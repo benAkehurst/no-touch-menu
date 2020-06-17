@@ -76,9 +76,13 @@ class Admin extends Component {
       .catch((err) => {
         this.setState({
           isError: true,
-          errorMessage: 'Failed to get unread messages',
+          errorMessage: 'No Unread messages',
         });
       });
+  };
+
+  removeErrorHandler = () => {
+    this.setState({ isError: false, errorMessage: '' });
   };
 
   render() {
@@ -90,7 +94,14 @@ class Admin extends Component {
             <Spinner size={'large'} />
           </div>
         ) : null}
-        {this.state.errorMessage ? this.state.errorMessage : null}
+        {this.state.errorMessage ? (
+          <div
+            onClick={this.removeErrorHandler()}
+            className={classes.ErrorMessage}
+          >
+            {this.state.errorMessage}
+          </div>
+        ) : null}
         <main className={classes.AdminWrapper}>
           <div className={classes.SelectedItems}>
             <p>User Id: {this.state.selectedUserId}</p>
