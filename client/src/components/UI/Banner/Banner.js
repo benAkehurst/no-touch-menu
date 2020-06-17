@@ -47,6 +47,7 @@ class Banner extends Component {
   };
 
   render() {
+    const { match, location, history } = this.props;
     return (
       <Aux>
         <AppBar position="static">
@@ -54,7 +55,12 @@ class Banner extends Component {
             <Typography
               edge="start"
               variant="h6"
-              onClick={() => this.returnToLanding()}
+              onClick={
+                location.pathname === '/admin' ||
+                location.pathname === '/restaurant'
+                  ? null
+                  : () => this.returnToLanding()
+              }
             >
               {this.props.siteName}
             </Typography>
