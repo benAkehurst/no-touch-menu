@@ -47,7 +47,7 @@ class Banner extends Component {
   };
 
   render() {
-    const { match, location, history } = this.props;
+    const { location } = this.props;
     return (
       <Aux>
         <AppBar position="static">
