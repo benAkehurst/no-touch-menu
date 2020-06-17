@@ -22,6 +22,7 @@ class Landing extends Component {
           showUserButtons={false}
           showLogo={false}
           showLoginButton={true}
+          showFaq={true}
         ></Banner>
         <main className={classes.PageWrapper}>
           <section className={classes.TopSection}>
