@@ -18,6 +18,7 @@ class Banner extends Component {
   };
 
   returnToLanding = () => {
+    helpers.clearStorage();
     this.props.history.push('/');
   };
 
