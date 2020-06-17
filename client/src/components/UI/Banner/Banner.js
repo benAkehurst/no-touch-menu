@@ -17,6 +17,11 @@ class Banner extends Component {
     this.props.history.push('/auth');
   };
 
+  returnToLanding = () => {
+    helpers.clearStorage();
+    this.props.history.push('/');
+  };
+
   showLogo = () => {
     return <div>Logo</div>;
   };
@@ -42,11 +47,21 @@ class Banner extends Component {
   };
 
   render() {
+    const { location } = this.props;
     return (
       <Aux>
         <AppBar position="static">
           <Toolbar>
-            <Typography edge="start" variant="h6">
+            <Typography
+              edge="start"
+              variant="h6"
+              onClick={
+                location.pathname === '/admin' ||
+                location.pathname === '/restaurant'
+                  ? null
+                  : () => this.returnToLanding()
+              }
+            >
               {this.props.siteName}
             </Typography>
             {this.props.showLogo ? this.showLogo() : null}
