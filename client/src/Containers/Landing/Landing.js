@@ -31,6 +31,10 @@ class Landing extends Component {
                 No Touch Menu makes it easy to get your menu into the hands of
                 your customers - without them having to touch the menu.
               </span>
+              <span className={classes.Subheader}>
+                To get access, please enter your email below and we'll be in
+                touch with you to give you access to your account!
+              </span>
               <div className={classes.BetaRequest}>
                 <BetaRequest></BetaRequest>
                 No Spam. Ever.
