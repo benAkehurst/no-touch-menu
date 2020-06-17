@@ -81,7 +81,7 @@ class ContactForm extends Component {
       message: this.state.message,
     };
     axios
-      .post(`${BASE_URL}api/contact/landing-page-form`, data)
+      .post(`${BASE_URL}api/communications/landing-page-form`, data)
       .then((response) => {
         if (response.data.success === true) {
           this.setState({

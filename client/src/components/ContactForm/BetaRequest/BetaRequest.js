@@ -49,7 +49,7 @@ class BetaRequest extends Component {
       email: this.state.email,
     };
     axios
-      .post(`${BASE_URL}api/contact/landing-page-email-form`, data)
+      .post(`${BASE_URL}api/communications/landing-page-email-form`, data)
       .then((response) => {
         if (response.data.success === true) {
           this.setState({

@@ -1,3 +1,7 @@
+.ErrorMessage:hover {
+  cursor: pointer;
+}
+
 .AdminWrapper {
   padding: 1rem;
 
@@ -7,6 +11,17 @@
     align-items: center;
     justify-content: space-around;
     width: 100%;
+  }
+
+  .headingWarning {
+    color: orangered;
+
+    .MailIconContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 }
 
