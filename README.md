@@ -1,3 +1,3 @@
-# No Touch Menu
+# No Touch Menu Client
 
-This is the main repo for the client and server of No Touch Menu, which is solving the issue of dinning in a post COVID-19 world!
+This is the client repo of No Touch Menu, which is solving the issue of handling menus in a post COVID-19 world!
