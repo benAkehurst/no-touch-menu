@@ -477,7 +477,7 @@ class Restaurant extends Component {
               <Uploader
                 title={'Upload Restaurant Logo'}
                 uploadType={'newLogoAdmin'}
-                restarantId={this.state.chosenRestaurantId}
+                restaurantId={this.state.chosenRestaurantId}
                 requesterId={helpers.getUserId()}
               ></Uploader>
             </div>
