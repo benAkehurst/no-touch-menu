@@ -134,7 +134,7 @@ class Auth extends Component {
       email: this.state.controls.email.value,
       password: this.state.controls.password.value,
     };
-    this.setState({ showLoader: false });
+    this.setState({ isLoading: true });
     axios
       .post('/api/auth/login-user', data)
       .then((res) => {
@@ -142,19 +142,21 @@ class Auth extends Component {
           if (res.data.data.isAdmin) {
             helpers.addAdminStatus(true);
             helpers.addUserId(res.data.data._id);
+            this.setState({ isLoading: false });
             this.props.history.push({ pathname: '/admin' });
           } else {
             helpers.addAdminStatus(false);
             helpers.addUserToken(res.data.data.token);
             helpers.addUserId(res.data.data._id);
             helpers.addRestaurantId(res.data.data.restaurantId);
+            this.setState({ isLoading: false });
             this.props.history.push({ pathname: '/restaurant' });
           }
         }
       })
       .catch((err) => {
         this.setState({
-          showLoader: false,
+          isLoading: false,
           showMessage: true,
           isRegister: true,
         });
@@ -214,6 +216,11 @@ class Auth extends Component {
             showLogo={false}
           ></Banner>
         </section>
+        {this.state.isLoading ? (
+          <div className={classes.LoadingBg}>
+            <Spinner size={'large'} />
+          </div>
+        ) : null}
         <section className={classes.FormContainer}>
           <Button
             variant="contained"
@@ -226,7 +233,6 @@ class Auth extends Component {
           {!this.state.isRegister ? loginForm : <RegisterFrom></RegisterFrom>}
           {!this.state.isRegister ? button : null}
         </section>
-        {this.state.showLoader ? <Spinner size={'medium'} /> : null}
       </div>
     );
   }
