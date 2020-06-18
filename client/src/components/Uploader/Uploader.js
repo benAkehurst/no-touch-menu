@@ -17,15 +17,43 @@ class Uploader extends Component {
     this.state = {
       isLoading: false,
       isError: false,
+      errorMessage: '',
       uploadedFile: null,
+      correctFileType: false,
       isSuccess: false,
       successMessage: null,
     };
   }
 
   onFileChange(e) {
-    this.setState({ uploadedFile: e.target.files[0] });
+    if (this.checkMimeType(e)) {
+      this.setState({
+        uploadedFile: e.target.files[0],
+        isError: false,
+        errorMessage: '',
+      });
+    } else {
+      this.setState({ isError: true, errorMessage: 'Wrong file type' });
+    }
   }
+
+  checkMimeType = (event) => {
+    let files = event.target.files;
+    let err = '';
+    const types = ['image/png', 'image/jpeg', 'application/pdf'];
+    for (var x = 0; x < files.length; x++) {
+      if (types.every((type) => files[x].type !== type)) {
+        err += files[x].type + ' is not a supported format\n';
+      }
+    }
+    if (err !== '') {
+      event.target.value = null;
+      this.setState({ correctFileType: false });
+      return false;
+    }
+    this.setState({ correctFileType: true });
+    return true;
+  };
 
   onSubmit(e) {
     e.preventDefault();
@@ -82,7 +110,7 @@ class Uploader extends Component {
         break;
       case 'newLogoAdmin':
         formData.append('logoFile', this.state.uploadedFile);
-        formData.append('restaurantId', this.props.restarantId);
+        formData.append('restaurantId', this.props.restaurantId);
         this.setState({ isLoading: true });
         axios
           .post(
@@ -106,7 +134,7 @@ class Uploader extends Component {
         break;
       case 'newMenuAdmin':
         formData.append('menuFile', this.state.uploadedFile);
-        formData.append('restaurantId', this.props.restarantId);
+        formData.append('restaurantId', this.props.restaurantId);
         this.setState({ isLoading: true });
         axios
           .post(
@@ -133,16 +161,27 @@ class Uploader extends Component {
     }
   }
 
-  closeSuccessMessage = () => {
-    this.setState({ isSuccess: false, uploadedFile: null });
+  closeMessage = () => {
+    this.setState({
+      isSuccess: false,
+      isError: false,
+      errorMessage: '',
+      uploadedFile: null,
+    });
   };
 
-  successMessageContainer = () => {
+  messageContainer = (key) => {
     return (
       <Aux>
-        <div onClick={() => this.closeSuccessMessage()}>
+        <div onClick={() => this.closeMessage()}>
           <span className={classes.closeButton}>
-            X <p>{this.state.successMessage}</p>
+            <span>
+              {key === 'success' ? (
+                <p className={classes.Success}>{this.state.successMessage}</p>
+              ) : (
+                <p className={classes.Error}>{this.state.errorMessage}</p>
+              )}
+            </span>
           </span>
         </div>
       </Aux>
@@ -166,7 +205,9 @@ class Uploader extends Component {
             <div className="form-group">
               <button
                 className={classes.submitButton}
-                disabled={!this.state.uploadedFile}
+                disabled={
+                  !this.state.uploadedFile && !this.state.correctFileType
+                }
                 type="submit"
               >
                 Upload
@@ -174,7 +215,9 @@ class Uploader extends Component {
             </div>
           </form>
           {this.state.isLoading ? <Spinner size="Large" /> : null}
-          {this.state.isSuccess ? this.successMessageContainer() : null}
+          {this.state.isSuccess
+            ? this.messageContainer('success')
+            : this.messageContainer('error')}
         </div>
       </div>
     );

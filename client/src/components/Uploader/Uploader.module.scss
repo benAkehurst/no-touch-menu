@@ -55,6 +55,20 @@
     margin-bottom: 0.5rem;
   }
 }
+.closeButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.Success {
+  color: yellowgreen;
+}
+
+.Error {
+  color: orangered;
+}
 
 .closeButton:hover {
   cursor: pointer;
