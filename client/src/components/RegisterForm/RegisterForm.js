@@ -151,11 +151,6 @@ class RegisterForm extends Component {
   };
 
   render() {
-    const spinner = (
-      <div className={classes.LoadingBg}>
-        <Spinner size={'large'} />
-      </div>
-    );
     const errorMessage = (
       <h4 onClick={() => this.clearError()} className={classes.ErrorMessage}>
         {this.state.errorMessage}
@@ -258,7 +253,11 @@ class RegisterForm extends Component {
 
     return (
       <Aux>
-        {this.state.isLoading ? spinner : null}
+        {this.state.isLoading ? (
+          <div className={classes.LoadingBg}>
+            <Spinner size={'large'} />
+          </div>
+        ) : null}
         {this.state.isError ? errorMessage : null}
         {this.state.isSuccess ? successMessage : null}
         {!this.state.isTokenValid ? checkToken : registerUser}
