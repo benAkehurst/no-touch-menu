@@ -98,7 +98,14 @@ class Uploader extends Component {
         axios
           .post(
             `${BASE_URL}api/restaurant/upload-restaurant-logo-user/${helpers.getUserToken()}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
@@ -122,7 +129,14 @@ class Uploader extends Component {
         axios
           .post(
             `${BASE_URL}api/restaurant/upload-restaurant-logo/${this.props.requesterId}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
@@ -146,7 +160,14 @@ class Uploader extends Component {
         axios
           .post(
             `${BASE_URL}api/restaurant/add-menu-to-restaurant-admin/${this.props.requesterId}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
