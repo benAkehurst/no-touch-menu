@@ -5,7 +5,6 @@ import BASE_URL from '../../Helpers/BASE_URL';
 import helpers from '../../Helpers/localStorage';
 
 import Aux from '../../hoc/Aux/Aux';
-import Spinner from '../UI/Spinner/Spinner';
 
 class Uploader extends Component {
   constructor(props) {
@@ -22,6 +21,7 @@ class Uploader extends Component {
       correctFileType: false,
       isSuccess: false,
       successMessage: null,
+      loaded: 0,
     };
   }
 
@@ -41,9 +41,9 @@ class Uploader extends Component {
     let files = event.target.files;
     let err = '';
     const types = ['image/png', 'image/jpeg', 'application/pdf'];
-    for (var x = 0; x < files.length; x++) {
-      if (types.every((type) => files[x].type !== type)) {
-        err += files[x].type + ' is not a supported format\n';
+    for (let i = 0; i < files.length; i++) {
+      if (types.every((type) => files[i].type !== type)) {
+        return false;
       }
     }
     if (err !== '') {
@@ -67,7 +67,14 @@ class Uploader extends Component {
         axios
           .post(
             `${BASE_URL}api/restaurant/add-menu-to-restaurant-user/${helpers.getUserToken()}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
@@ -192,7 +199,6 @@ class Uploader extends Component {
     return (
       <div className="container">
         <h3>{this.props.title}</h3>
-
         <div className="col-md-4 offset-md-4">
           <form onSubmit={this.onSubmit} className={classes.UploadForm}>
             <div className="form-group">
@@ -214,7 +220,12 @@ class Uploader extends Component {
               </button>
             </div>
           </form>
-          {this.state.isLoading ? <Spinner size="Large" /> : null}
+          {this.state.isLoading ? (
+            <div className={classes.ProgressWrapper}>
+              <progress max="100" value={this.state.loaded}></progress>
+              <span>{this.state.loaded.toFixed(0)}%</span>
+            </div>
+          ) : null}
           {this.state.isSuccess
             ? this.messageContainer('success')
             : this.messageContainer('error')}
