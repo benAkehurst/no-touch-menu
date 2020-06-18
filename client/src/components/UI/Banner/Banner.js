@@ -17,6 +17,10 @@ class Banner extends Component {
     this.props.history.push('/auth');
   };
 
+  redirectToFaq = () => {
+    this.props.history.push('/faq');
+  };
+
   returnToLanding = () => {
     helpers.clearStorage();
     this.props.history.push('/');
@@ -46,6 +50,16 @@ class Banner extends Component {
     );
   };
 
+  showFaqLink = () => {
+    return (
+      <div>
+        <Button color="inherit" onClick={() => this.redirectToFaq()}>
+          FAQ
+        </Button>
+      </div>
+    );
+  };
+
   render() {
     const { location } = this.props;
     return (
@@ -67,6 +81,7 @@ class Banner extends Component {
             {this.props.showLogo ? this.showLogo() : null}
             {this.props.showUserButtons ? this.showUserButtons() : null}
             {this.props.showLoginButton ? this.showLoginButton() : null}
+            {this.props.showFaq ? this.showFaqLink() : null}
           </Toolbar>
         </AppBar>
       </Aux>

@@ -1,3 +1,42 @@
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
+  .PageWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .TopSectionWrapper {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      .Header {
+        font-size: 2rem !important;
+      }
+      .Subheader {
+        font-size: 1.5rem;
+        color: #50556c;
+        margin-bottom: 1rem;
+        display: block;
+      }
+      .SubheaderTwo,
+      .ExplainerVideo,
+      .BetaRequest {
+        display: none !important;
+      }
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 85%;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem;
+      box-sizing: border-box;
+    }
+  }
+}
+
 .PageWrapper {
   display: flex;
   flex-direction: column;
@@ -11,12 +50,17 @@
       font-size: 3.5rem;
       font-weight: 900;
     }
-    .Subheader {
+    .Subheader,
+    .SubheaderTwo {
       font-weight: 400;
       font-size: 1.5rem;
       color: #50556c;
-      margin-bottom: 50px;
+      margin-bottom: 2rem;
       display: block;
+    }
+    .ExplainerVideo {
+      align-self: center;
+      margin: 0.25rem;
     }
     .BetaRequest {
       display: flex;

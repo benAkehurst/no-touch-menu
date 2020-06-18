@@ -76,7 +76,14 @@ class Faq extends Component {
             </li>
             <li>
               <h3>How much does it cost?</h3>
-              <p>No Touch Menu is FREE for all users at this time.</p>
+              <p>No Touch Menu is FREE for all users!</p>
+            </li>
+            <li>
+              <h3>Do I need my own website?</h3>
+              <p>
+                The QR code opens a link that we create for your menu. You do
+                not need an existing website to adopt No Touch Menu.
+              </p>
             </li>
             <li>
               <h3>What can I upload?</h3>
