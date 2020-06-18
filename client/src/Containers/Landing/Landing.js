@@ -34,10 +34,10 @@ class Landing extends Component {
                 No Touch Menu makes it easy to get your menu into the hands of
                 your customers - without them having to touch the menu.
               </span>
-              {/* <ReactPlayer
+              <ReactPlayer
                 className={classes.ExplainerVideo}
-                url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
-              ></ReactPlayer> */}
+                url="https://www.youtube.com/watch?v=ZJYRu4dy_0M"
+              ></ReactPlayer>
               <span className={classes.SubheaderTwo}>
                 To get access, please enter your email below and we'll be in
                 touch with you to give you access to your account!
