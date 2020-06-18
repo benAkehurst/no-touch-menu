@@ -160,7 +160,7 @@ class Menu extends Component {
               <Uploader
                 title={'Upload New Menu'}
                 uploadType={'newMenuAdmin'}
-                restarantId={this.state.chosenRestaurantId}
+                restaurantId={this.state.chosenRestaurantId}
                 requesterId={helpers.getUserId()}
               ></Uploader>
             </div>

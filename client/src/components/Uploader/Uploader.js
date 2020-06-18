@@ -5,7 +5,6 @@ import BASE_URL from '../../Helpers/BASE_URL';
 import helpers from '../../Helpers/localStorage';
 
 import Aux from '../../hoc/Aux/Aux';
-import Spinner from '../UI/Spinner/Spinner';
 
 class Uploader extends Component {
   constructor(props) {
@@ -17,15 +16,44 @@ class Uploader extends Component {
     this.state = {
       isLoading: false,
       isError: false,
+      errorMessage: '',
       uploadedFile: null,
+      correctFileType: false,
       isSuccess: false,
       successMessage: null,
+      loaded: 0,
     };
   }
 
   onFileChange(e) {
-    this.setState({ uploadedFile: e.target.files[0] });
+    if (this.checkMimeType(e)) {
+      this.setState({
+        uploadedFile: e.target.files[0],
+        isError: false,
+        errorMessage: '',
+      });
+    } else {
+      this.setState({ isError: true, errorMessage: 'Wrong file type' });
+    }
   }
+
+  checkMimeType = (event) => {
+    let files = event.target.files;
+    let err = '';
+    const types = ['image/png', 'image/jpeg', 'application/pdf'];
+    for (let i = 0; i < files.length; i++) {
+      if (types.every((type) => files[i].type !== type)) {
+        return false;
+      }
+    }
+    if (err !== '') {
+      event.target.value = null;
+      this.setState({ correctFileType: false });
+      return false;
+    }
+    this.setState({ correctFileType: true });
+    return true;
+  };
 
   onSubmit(e) {
     e.preventDefault();
@@ -39,7 +67,14 @@ class Uploader extends Component {
         axios
           .post(
             `${BASE_URL}api/restaurant/add-menu-to-restaurant-user/${helpers.getUserToken()}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
@@ -63,7 +98,14 @@ class Uploader extends Component {
         axios
           .post(
             `${BASE_URL}api/restaurant/upload-restaurant-logo-user/${helpers.getUserToken()}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
@@ -82,12 +124,19 @@ class Uploader extends Component {
         break;
       case 'newLogoAdmin':
         formData.append('logoFile', this.state.uploadedFile);
-        formData.append('restaurantId', this.props.restarantId);
+        formData.append('restaurantId', this.props.restaurantId);
         this.setState({ isLoading: true });
         axios
           .post(
             `${BASE_URL}api/restaurant/upload-restaurant-logo/${this.props.requesterId}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
@@ -106,12 +155,19 @@ class Uploader extends Component {
         break;
       case 'newMenuAdmin':
         formData.append('menuFile', this.state.uploadedFile);
-        formData.append('restaurantId', this.props.restarantId);
+        formData.append('restaurantId', this.props.restaurantId);
         this.setState({ isLoading: true });
         axios
           .post(
             `${BASE_URL}api/restaurant/add-menu-to-restaurant-admin/${this.props.requesterId}`,
-            formData
+            formData,
+            {
+              onUploadProgress: (ProgressEvent) => {
+                this.setState({
+                  loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
+                });
+              },
+            }
           )
           .then((res) => {
             this.setState({
@@ -133,16 +189,27 @@ class Uploader extends Component {
     }
   }
 
-  closeSuccessMessage = () => {
-    this.setState({ isSuccess: false, uploadedFile: null });
+  closeMessage = () => {
+    this.setState({
+      isSuccess: false,
+      isError: false,
+      errorMessage: '',
+      uploadedFile: null,
+    });
   };
 
-  successMessageContainer = () => {
+  messageContainer = (key) => {
     return (
       <Aux>
-        <div onClick={() => this.closeSuccessMessage()}>
+        <div onClick={() => this.closeMessage()}>
           <span className={classes.closeButton}>
-            X <p>{this.state.successMessage}</p>
+            <span>
+              {key === 'success' ? (
+                <p className={classes.Success}>{this.state.successMessage}</p>
+              ) : (
+                <p className={classes.Error}>{this.state.errorMessage}</p>
+              )}
+            </span>
           </span>
         </div>
       </Aux>
@@ -153,7 +220,6 @@ class Uploader extends Component {
     return (
       <div className="container">
         <h3>{this.props.title}</h3>
-
         <div className="col-md-4 offset-md-4">
           <form onSubmit={this.onSubmit} className={classes.UploadForm}>
             <div className="form-group">
@@ -166,15 +232,24 @@ class Uploader extends Component {
             <div className="form-group">
               <button
                 className={classes.submitButton}
-                disabled={!this.state.uploadedFile}
+                disabled={
+                  !this.state.uploadedFile && !this.state.correctFileType
+                }
                 type="submit"
               >
                 Upload
               </button>
             </div>
           </form>
-          {this.state.isLoading ? <Spinner size="Large" /> : null}
-          {this.state.isSuccess ? this.successMessageContainer() : null}
+          {this.state.isLoading ? (
+            <div className={classes.ProgressWrapper}>
+              <progress max="100" value={this.state.loaded}></progress>
+              <span>{this.state.loaded.toFixed(0)}%</span>
+            </div>
+          ) : null}
+          {this.state.isSuccess
+            ? this.messageContainer('success')
+            : this.messageContainer('error')}
         </div>
       </div>
     );
