@@ -16,7 +16,7 @@
     max-height: 40rem;
     overflow: scroll;
     .SingleMessage {
-      margin: 0.25rem 0;
+      margin: $spacing-4 0;
       width: $width-80;
     }
   }

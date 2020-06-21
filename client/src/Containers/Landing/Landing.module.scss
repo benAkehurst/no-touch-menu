@@ -16,7 +16,7 @@
       }
       .Subheader {
         font-size: $spacing-24;
-        color: #50556c;
+        color: $subheader;
         margin-bottom: $spacing-16;
         display: block;
       }
@@ -59,7 +59,7 @@
       }
       .Subheader {
         font-size: $spacing-32;
-        color: #50556c;
+        color: $subheader;
         margin-bottom: $spacing-16;
         display: block;
       }
@@ -97,19 +97,19 @@
     text-align: center;
     .Header {
       font-size: $spacing-56;
-      font-weight: 900;
+      font-weight: $font-weight-04;
     }
     .Subheader,
     .SubheaderTwo {
-      font-weight: 400;
+      font-weight: $font-weight-02;
       font-size: $spacing-24;
-      color: #50556c;
+      color: $subheader;
       margin-bottom: $spacing-32;
       display: block;
     }
     .ExplainerVideo {
       align-self: center;
-      margin: 0.25rem;
+      margin: $spacing-4;
     }
     .BetaRequest {
       display: flex;
