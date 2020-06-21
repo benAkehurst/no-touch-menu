@@ -23,7 +23,7 @@ ul {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 1rem 0;
+  margin: $spacing-16 0;
   padding: $spacing-8;
   max-height: 40rem;
   overflow: scroll;

@@ -17,7 +17,7 @@
       .Subheader {
         font-size: 1.5rem;
         color: #50556c;
-        margin-bottom: 1rem;
+        margin-bottom: $spacing-16;
         display: block;
       }
       .SubheaderTwo,
@@ -36,8 +36,8 @@
       justify-content: center;
       width: 85%;
       border-radius: $spacing-8;
-      padding: 1rem;
-      margin: 1rem;
+      padding: $spacing-16;
+      margin: $spacing-16;
       box-sizing: border-box;
     }
   }
@@ -60,7 +60,7 @@
       .Subheader {
         font-size: 2rem;
         color: #50556c;
-        margin-bottom: 1rem;
+        margin-bottom: $spacing-16;
         display: block;
       }
       .SubheaderTwo,
@@ -79,8 +79,8 @@
       justify-content: center;
       width: 85%;
       border-radius: $spacing-8;
-      padding: 1rem;
-      margin: 1rem;
+      padding: $spacing-16;
+      margin: $spacing-16;
       box-sizing: border-box;
     }
   }
@@ -127,8 +127,8 @@
     justify-content: center;
     width: 85%;
     border-radius: $spacing-8;
-    padding: 1rem;
-    margin: 1rem;
+    padding: $spacing-16;
+    margin: $spacing-16;
     box-sizing: border-box;
   }
 }
