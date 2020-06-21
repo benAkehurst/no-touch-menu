@@ -32,12 +32,12 @@
 
   Button {
     width: 15rem;
-    height: 3rem;
+    height: $spacing-48;
   }
 
   .Input {
     width: 100%;
-    height: 3rem;
+    height: $spacing-48;
     padding: $spacing-8;
     box-sizing: border-box;
   }

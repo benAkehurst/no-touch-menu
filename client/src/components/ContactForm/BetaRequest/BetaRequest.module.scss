@@ -26,19 +26,19 @@
 
 .ContactForm {
   width: 50%;
-  height: 3rem;
+  height: $spacing-48;
   display: flex;
   flex-direction: row;
   align-items: center;
 
   Button {
     width: 15rem;
-    height: 3rem;
+    height: $spacing-48;
   }
 
   .Input {
     width: 50%;
-    height: 3rem;
+    height: $spacing-48;
     padding: $spacing-8;
     box-sizing: border-box;
   }
