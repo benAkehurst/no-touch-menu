@@ -15,7 +15,7 @@
         font-size: 2rem !important;
       }
       .Subheader {
-        font-size: 1.5rem;
+        font-size: $spacing-24;
         color: #50556c;
         margin-bottom: $spacing-16;
         display: block;
@@ -102,7 +102,7 @@
     .Subheader,
     .SubheaderTwo {
       font-weight: 400;
-      font-size: 1.5rem;
+      font-size: $spacing-24;
       color: #50556c;
       margin-bottom: 2rem;
       display: block;
