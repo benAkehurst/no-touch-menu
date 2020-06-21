@@ -1,11 +1,13 @@
+@import '../../variables.scss';
+
 .SingleCard {
-  border: 1px solid;
-  border-color: #ccc;
+  border: $spacing-1 solid;
+  border-color: $off-white;
   width: 33%;
   box-sizing: border-box;
   box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  border-radius: $spacing-8;
+  padding: $spacing-8;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,31 +17,31 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    margin: 0.25rem 0;
+    margin: $spacing-4 0;
     .FormInputWrapper {
-      border: 1px solid;
-      border-color: #ccc;
+      border: $spacing-1 solid;
+      border-color: $off-white;
       width: 100%;
       box-sizing: border-box;
-      border-radius: 0.5rem;
+      border-radius: $spacing-8;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-evenly;
       input {
         outline: none;
-        border: 1px solid #ccc;
-        background-color: white;
+        border: $spacing-1 solid $off-white;
+        background-color: $bg-white;
         font: inherit;
-        padding: 0.5rem 10px;
+        padding: $spacing-8 $spacing-8;
         display: block;
         width: 100%;
-        border-radius: 0.5rem;
+        border-radius: $spacing-8;
         box-sizing: border-box;
       }
       input:focus {
         outline: none;
-        background-color: #ccc;
+        background-color: $off-white;
       }
     }
   }
@@ -47,12 +49,12 @@
 
 .deliveroo {
   background-color: #00cdbc;
-  color: white;
+  color: $bg-white;
 }
 
 .justEat {
   background-color: #d50525;
-  color: white;
+  color: $bg-white;
 }
 
 .uberEats {

@@ -1,9 +1,11 @@
+@import '../../variables.scss';
+
 .ErrorMessage:hover {
   cursor: pointer;
 }
 
 .AdminWrapper {
-  padding: 1rem;
+  padding: $spacing-16;
 
   .SelectedItems {
     display: flex;
@@ -14,7 +16,7 @@
   }
 
   .headingWarning {
-    color: orangered;
+    color: $error;
 
     .MailIconContainer {
       display: flex;

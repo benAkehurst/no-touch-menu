@@ -1,9 +1,11 @@
+@import '../../../variables.scss';
+
 .WarningBannerWrapper {
-  border: 1px solid red;
+  border: $spacing-1 solid red;
   background-color: orangered;
-  color: white;
+  color: $bg-white;
   height: 1.75rem;
-  padding: 0.5rem;
+  padding: $spacing-8;
   display: flex;
   flex-direction: column;
   align-items: center;

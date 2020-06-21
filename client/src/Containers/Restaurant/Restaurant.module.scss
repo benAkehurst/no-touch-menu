@@ -1,5 +1,7 @@
+@import '../../variables.scss';
+
 @mixin border {
-  border: 1px solid;
+  border: $spacing-1 solid;
 }
 
 @mixin flex-row {
@@ -28,71 +30,71 @@
 .RestaurantContainer {
   @include flex-column();
   box-sizing: border-box;
-  padding: 1rem;
+  padding: $spacing-16;
   .RestaurantOptionContainer {
     @include flex-row();
-    height: calc(100% - 4rem);
+    height: calc(100% - $spacing-64);
     width: 100%;
     .OptionsContainer {
       @include flex-column();
-      border-right: 1px solid #eee;
+      border-right: $spacing-1 solid #eee;
       width: 50%;
       .RestaurantOptions {
         @include flex-column();
         width: 100%;
-        padding: 1rem;
+        padding: $spacing-16;
         .RestaurantOption {
           width: 100%;
-          margin-bottom: 1rem;
+          margin-bottom: $spacing-16;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           .RestaurantInformation {
             @include border();
-            border-color: #ccc;
-            width: 85%;
+            border-color: $off-white;
+            width: $width-85;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: column;
             .RestaurantSingleInfo {
               display: flex;
               flex-direction: row;
               align-items: center;
-              height: 3rem;
+              height: $spacing-48;
               h4 {
-                margin-right: 1rem;
+                margin-right: $spacing-16;
               }
             }
           }
           .FormInputWrapper {
             @include border();
-            border-color: #ccc;
-            width: 85%;
+            border-color: $off-white;
+            width: $width-85;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: space-evenly;
             input {
               outline: none;
-              border: 1px solid #ccc;
-              background-color: white;
+              border: $spacing-1 solid $off-white;
+              background-color: $bg-white;
               font: inherit;
-              padding: 0.5rem 10px;
+              padding: $spacing-8 $spacing-8;
               display: block;
-              width: 80%;
-              border-radius: 0.5rem;
+              width: $width-80;
+              border-radius: $spacing-8;
               box-sizing: border-box;
             }
             input:focus {
               outline: none;
-              background-color: #ccc;
+              background-color: $off-white;
             }
           }
         }
@@ -104,29 +106,29 @@
       .MenuOptions {
         @include flex-column();
         width: 100%;
-        padding: 1rem;
+        padding: $spacing-16;
         .MenuOption {
           width: 100%;
-          margin-bottom: 1rem;
+          margin-bottom: $spacing-16;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
         .MenuCards {
           width: 100%;
-          margin-bottom: 1rem;
+          margin-bottom: $spacing-16;
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: space-evenly;
           .MenuCard {
             @include border();
-            border-color: #ccc;
+            border-color: $off-white;
             width: 45%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -135,19 +137,19 @@
             @include border();
             overflow: scroll;
             height: 62vh;
-            border-color: #ccc;
+            border-color: $off-white;
             width: 45%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: column;
             align-items: center;
             .MeanCardRepeaded {
-              margin: 0.5rem;
+              margin: $spacing-8;
               width: 100%;
-              border-bottom: 1px solid black;
+              border-bottom: $spacing-1 solid black;
               display: flex;
               flex-direction: column;
               align-items: center;
@@ -157,30 +159,30 @@
       }
       .FormInputWrapper {
         @include border();
-        border-color: #ccc;
-        width: 85%;
+        border-color: $off-white;
+        width: $width-85;
         box-sizing: border-box;
         box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-        border-radius: 0.5rem;
-        padding: 0.5rem;
+        border-radius: $spacing-8;
+        padding: $spacing-8;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-evenly;
         input {
           outline: none;
-          border: 1px solid #ccc;
-          background-color: white;
+          border: $spacing-1 solid $off-white;
+          background-color: $bg-white;
           font: inherit;
-          padding: 0.5rem 10px;
+          padding: $spacing-8 $spacing-8;
           display: block;
-          width: 80%;
-          border-radius: 0.5rem;
+          width: $width-80;
+          border-radius: $spacing-8;
           box-sizing: border-box;
         }
         input:focus {
           outline: none;
-          background-color: #ccc;
+          background-color: $off-white;
         }
       }
     }

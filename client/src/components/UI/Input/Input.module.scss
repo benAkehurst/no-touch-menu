@@ -1,21 +1,23 @@
+@import '../../../variables.scss';
+
 .Input {
   width: 100%;
-  padding: 10px;
+  padding: $spacing-8;
   box-sizing: border-box;
 }
 
 .Label {
   font-weight: bold;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: $spacing-8;
 }
 
 .InputElement {
   outline: none;
-  border: 1px solid #ccc;
-  background-color: white;
+  border: $spacing-1 solid $off-white;
+  background-color: $bg-white;
   font: inherit;
-  padding: 0.5rem 10px;
+  padding: $spacing-8 $spacing-8;
   display: block;
   width: 100%;
   box-sizing: border-box;
@@ -23,11 +25,11 @@
 
 .InputElement:focus {
   outline: none;
-  background-color: #ccc;
+  background-color: $off-white;
 }
 
 .Invalid {
-  border: 1px solid red;
+  border: $spacing-1 solid red;
   background-color: #fda49a;
 }
 

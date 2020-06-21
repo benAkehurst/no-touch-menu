@@ -1,10 +1,12 @@
+@import '../../../variables.scss';
+
 .Modal {
   position: fixed;
   z-index: 500;
-  background-color: white;
-  width: 70%;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px black;
+  background-color: $bg-white;
+  width: $width-70;
+  border: $spacing-1 solid $off-white;
+  box-shadow: $spacing-1 $spacing-1 $spacing-1 black;
   padding: 16px;
   left: 15%;
   top: 30%;

@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 /* iphone 6, 6s, 7, 8 */
 @media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (-webkit-device-pixel-ratio: 2) {
   .PageWrapper {
@@ -10,12 +12,12 @@
       flex-direction: column;
       text-align: center;
       .Header {
-        font-size: 2rem !important;
+        font-size: $spacing-32 !important;
       }
       .Subheader {
-        font-size: 1.5rem;
-        color: #50556c;
-        margin-bottom: 1rem;
+        font-size: $spacing-24;
+        color: $subheader;
+        margin-bottom: $spacing-16;
         display: block;
       }
       .SubheaderTwo,
@@ -32,10 +34,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 85%;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      margin: 1rem;
+      width: $width-85;
+      border-radius: $spacing-8;
+      padding: $spacing-16;
+      margin: $spacing-16;
       box-sizing: border-box;
     }
   }
@@ -53,12 +55,12 @@
       flex-direction: column;
       text-align: center;
       .Header {
-        font-size: 2.5rem !important;
+        font-size: $spacing-40 !important;
       }
       .Subheader {
-        font-size: 2rem;
-        color: #50556c;
-        margin-bottom: 1rem;
+        font-size: $spacing-32;
+        color: $subheader;
+        margin-bottom: $spacing-16;
         display: block;
       }
       .SubheaderTwo,
@@ -75,10 +77,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 85%;
-      border-radius: 0.5rem;
-      padding: 1rem;
-      margin: 1rem;
+      width: $width-85;
+      border-radius: $spacing-8;
+      padding: $spacing-16;
+      margin: $spacing-16;
       box-sizing: border-box;
     }
   }
@@ -94,20 +96,20 @@
     flex-direction: column;
     text-align: center;
     .Header {
-      font-size: 3.5rem;
-      font-weight: 900;
+      font-size: $spacing-56;
+      font-weight: $font-weight-04;
     }
     .Subheader,
     .SubheaderTwo {
-      font-weight: 400;
-      font-size: 1.5rem;
-      color: #50556c;
-      margin-bottom: 2rem;
+      font-weight: $font-weight-02;
+      font-size: $spacing-24;
+      color: $subheader;
+      margin-bottom: $spacing-32;
       display: block;
     }
     .ExplainerVideo {
       align-self: center;
-      margin: 0.25rem;
+      margin: $spacing-4;
     }
     .BetaRequest {
       display: flex;
@@ -123,10 +125,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 85%;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin: 1rem;
+    width: $width-85;
+    border-radius: $spacing-8;
+    padding: $spacing-16;
+    margin: $spacing-16;
     box-sizing: border-box;
   }
 }

@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .LoadingBg {
   width: 100%;
   height: 100%;
@@ -9,14 +11,14 @@
 }
 
 .ErrorMessage {
-  color: orangered;
+  color: $error;
 }
 .ErrorMessage:hover {
   cursor: pointer;
 }
 
 .SuccessMessage {
-  color: greenyellow;
+  color: $success;
 }
 .SuccessMessage:hover {
   cursor: pointer;
@@ -24,35 +26,35 @@
 
 .ContactForm {
   width: 50%;
-  height: 3rem;
+  height: $spacing-48;
   display: flex;
   flex-direction: row;
   align-items: center;
 
   Button {
     width: 15rem;
-    height: 3rem;
+    height: $spacing-48;
   }
 
   .Input {
     width: 50%;
-    height: 3rem;
-    padding: 0.5rem;
+    height: $spacing-48;
+    padding: $spacing-8;
     box-sizing: border-box;
   }
 
   .Label {
     font-weight: bold;
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: $spacing-8;
   }
 
   .InputElement {
     outline: none;
-    border: 1px solid #ccc;
-    background-color: white;
+    border: $spacing-1 solid $off-white;
+    background-color: $bg-white;
     font: inherit;
-    padding: 0.5rem 10px;
+    padding: $spacing-8 $spacing-8;
     display: block;
     width: 100%;
     box-sizing: border-box;

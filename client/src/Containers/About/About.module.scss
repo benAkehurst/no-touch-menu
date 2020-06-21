@@ -1,7 +1,9 @@
+@import '../../variables.scss';
+
 .AboutWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  padding: $spacing-16;
   height: 68%;
 }
