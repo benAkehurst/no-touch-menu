@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .LoadingBg {
   width: 100%;
   height: 100%;
@@ -16,13 +18,13 @@ ul {
   width: 85%;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-  border-radius: 0.5rem;
+  border-radius: $spacing-8;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 1rem 0;
-  padding: 0.5rem;
+  padding: $spacing-8;
   max-height: 40rem;
   overflow: scroll;
   .SingleOptionHeader {
@@ -37,7 +39,7 @@ ul {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0.5rem 0;
+    margin: $spacing-8 0;
     padding: 0.25rem 0;
     border-top: 1px dashed #ccc;
     border-bottom: 1px dashed #ccc;

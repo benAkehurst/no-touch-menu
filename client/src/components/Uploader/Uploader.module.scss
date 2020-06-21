@@ -54,14 +54,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: $spacing-8;
   }
 }
 .closeButton {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.5rem;
+  padding: $spacing-8;
 }
 
 .Success {

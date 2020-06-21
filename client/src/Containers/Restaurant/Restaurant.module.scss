@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 @mixin border {
   border: 1px solid;
 }
@@ -53,8 +55,8 @@
             width: 85%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: column;
             .RestaurantSingleInfo {
@@ -73,8 +75,8 @@
             width: 85%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -84,10 +86,10 @@
               border: 1px solid #ccc;
               background-color: white;
               font: inherit;
-              padding: 0.5rem 10px;
+              padding: $spacing-8 $spacing-8;
               display: block;
               width: 80%;
-              border-radius: 0.5rem;
+              border-radius: $spacing-8;
               box-sizing: border-box;
             }
             input:focus {
@@ -125,8 +127,8 @@
             width: 45%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -139,13 +141,13 @@
             width: 45%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
+            border-radius: $spacing-8;
+            padding: $spacing-8;
             display: flex;
             flex-direction: column;
             align-items: center;
             .MeanCardRepeaded {
-              margin: 0.5rem;
+              margin: $spacing-8;
               width: 100%;
               border-bottom: 1px solid black;
               display: flex;
@@ -161,8 +163,8 @@
         width: 85%;
         box-sizing: border-box;
         box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
-        border-radius: 0.5rem;
-        padding: 0.5rem;
+        border-radius: $spacing-8;
+        padding: $spacing-8;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -172,10 +174,10 @@
           border: 1px solid #ccc;
           background-color: white;
           font: inherit;
-          padding: 0.5rem 10px;
+          padding: $spacing-8 $spacing-8;
           display: block;
           width: 80%;
-          border-radius: 0.5rem;
+          border-radius: $spacing-8;
           box-sizing: border-box;
         }
         input:focus {
