@@ -1,8 +1,8 @@
 @import '../../../../variables.scss';
 
 .MessageWrapper {
-  width: 85%;
-  border: 1px solid #ccc;
+  width: $width-85;
+  border: $spacing-1 solid $off-white;
   box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
   border-radius: $spacing-8;
   display: flex;

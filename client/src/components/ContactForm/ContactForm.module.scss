@@ -25,7 +25,7 @@
 }
 
 .ContactForm {
-  width: 80%;
+  width: $width-80;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +34,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 80%;
+    width: $width-80;
 
     .Input {
       width: 100%;
@@ -50,8 +50,8 @@
 
     .InputElement {
       outline: none;
-      border: 1px solid #ccc;
-      background-color: white;
+      border: $spacing-1 solid $off-white;
+      background-color: $bg-white;
       font: inherit;
       padding: $spacing-8 $spacing-8;
       display: block;

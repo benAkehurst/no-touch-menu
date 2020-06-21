@@ -1,7 +1,7 @@
 @import '../../variables.scss';
 
 @mixin border {
-  border: 1px solid;
+  border: $spacing-1 solid;
 }
 
 @mixin flex-row {
@@ -37,7 +37,7 @@
     width: 100%;
     .OptionsContainer {
       @include flex-column();
-      border-right: 1px solid #eee;
+      border-right: $spacing-1 solid #eee;
       width: 50%;
       .RestaurantOptions {
         @include flex-column();
@@ -51,8 +51,8 @@
           align-items: flex-start;
           .RestaurantInformation {
             @include border();
-            border-color: #ccc;
-            width: 85%;
+            border-color: $off-white;
+            width: $width-85;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
             border-radius: $spacing-8;
@@ -71,8 +71,8 @@
           }
           .FormInputWrapper {
             @include border();
-            border-color: #ccc;
-            width: 85%;
+            border-color: $off-white;
+            width: $width-85;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
             border-radius: $spacing-8;
@@ -83,18 +83,18 @@
             justify-content: space-evenly;
             input {
               outline: none;
-              border: 1px solid #ccc;
-              background-color: white;
+              border: $spacing-1 solid $off-white;
+              background-color: $bg-white;
               font: inherit;
               padding: $spacing-8 $spacing-8;
               display: block;
-              width: 80%;
+              width: $width-80;
               border-radius: $spacing-8;
               box-sizing: border-box;
             }
             input:focus {
               outline: none;
-              background-color: #ccc;
+              background-color: $off-white;
             }
           }
         }
@@ -123,7 +123,7 @@
           justify-content: space-evenly;
           .MenuCard {
             @include border();
-            border-color: #ccc;
+            border-color: $off-white;
             width: 45%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
@@ -137,7 +137,7 @@
             @include border();
             overflow: scroll;
             height: 62vh;
-            border-color: #ccc;
+            border-color: $off-white;
             width: 45%;
             box-sizing: border-box;
             box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
@@ -149,7 +149,7 @@
             .MeanCardRepeaded {
               margin: $spacing-8;
               width: 100%;
-              border-bottom: 1px solid black;
+              border-bottom: $spacing-1 solid black;
               display: flex;
               flex-direction: column;
               align-items: center;
@@ -159,8 +159,8 @@
       }
       .FormInputWrapper {
         @include border();
-        border-color: #ccc;
-        width: 85%;
+        border-color: $off-white;
+        width: $width-85;
         box-sizing: border-box;
         box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
         border-radius: $spacing-8;
@@ -171,18 +171,18 @@
         justify-content: space-evenly;
         input {
           outline: none;
-          border: 1px solid #ccc;
-          background-color: white;
+          border: $spacing-1 solid $off-white;
+          background-color: $bg-white;
           font: inherit;
           padding: $spacing-8 $spacing-8;
           display: block;
-          width: 80%;
+          width: $width-80;
           border-radius: $spacing-8;
           box-sizing: border-box;
         }
         input:focus {
           outline: none;
-          background-color: #ccc;
+          background-color: $off-white;
         }
       }
     }

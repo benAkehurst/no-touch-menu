@@ -15,8 +15,8 @@ ul {
 }
 
 .SingleOption {
-  width: 85%;
-  border: 1px solid #ccc;
+  width: $width-85;
+  border: $spacing-1 solid $off-white;
   box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.2);
   border-radius: $spacing-8;
   display: flex;
@@ -31,7 +31,7 @@ ul {
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    width: 80%;
+    width: $width-80;
   }
   .SingleListItem {
     display: flex;
@@ -40,8 +40,8 @@ ul {
     align-items: center;
     margin: $spacing-8 0;
     padding: $spacing-4 0;
-    border-top: 1px dashed #ccc;
-    border-bottom: 1px dashed #ccc;
+    border-top: $spacing-1 dashed $off-white;
+    border-bottom: $spacing-1 dashed $off-white;
   }
   .SingleOptionsInputs {
     display: flex;

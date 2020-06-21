@@ -14,8 +14,8 @@
 
 .InputElement {
   outline: none;
-  border: 1px solid #ccc;
-  background-color: white;
+  border: $spacing-1 solid $off-white;
+  background-color: $bg-white;
   font: inherit;
   padding: $spacing-8 $spacing-8;
   display: block;
@@ -25,11 +25,11 @@
 
 .InputElement:focus {
   outline: none;
-  background-color: #ccc;
+  background-color: $off-white;
 }
 
 .Invalid {
-  border: 1px solid red;
+  border: $spacing-1 solid red;
   background-color: #fda49a;
 }
 
