@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .ErrorMessage:hover {
   cursor: pointer;
 }
@@ -14,7 +16,7 @@
   }
 
   .headingWarning {
-    color: orangered;
+    color: $error;
 
     .MailIconContainer {
       display: flex;

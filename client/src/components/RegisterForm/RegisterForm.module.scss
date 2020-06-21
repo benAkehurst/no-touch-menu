@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .LoadingBg {
   width: 100%;
   height: 100%;
@@ -9,14 +11,14 @@
 }
 
 .ErrorMessage {
-  color: orangered;
+  color: $error;
 }
 .ErrorMessage:hover {
   cursor: pointer;
 }
 
 .SuccessMessage {
-  color: greenyellow;
+  color: $success;
 }
 .SuccessMessage:hover {
   cursor: pointer;

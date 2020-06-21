@@ -1,6 +1,8 @@
+@import '../../../variables.scss';
+
 .WarningBannerWrapper {
   border: 1px solid red;
-  background-color: orangered;
+  background-color: $error;
   color: white;
   height: 1.75rem;
   padding: 0.5rem;
