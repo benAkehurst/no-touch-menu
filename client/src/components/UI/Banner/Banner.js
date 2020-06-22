@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classes from './Banner.module.scss';
 import { withRouter } from 'react-router';
 import Aux from '../../../hoc/Aux/Aux';
 import helpers from '../../../Helpers/localStorage';
@@ -64,7 +65,7 @@ class Banner extends Component {
     const { location } = this.props;
     return (
       <Aux>
-        <AppBar position="static">
+        {/* <AppBar position="static">
           <Toolbar>
             <Typography
               edge="start"
@@ -83,7 +84,13 @@ class Banner extends Component {
             {this.props.showLoginButton ? this.showLoginButton() : null}
             {this.props.showFaq ? this.showFaqLink() : null}
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
+
+        <div className={classes.BannerWrapper}>
+          <div className={classes.LeftSection}></div>
+          <div className={classes.MidSection}></div>
+          <div className={classes.RightSection}></div>
+        </div>
       </Aux>
     );
   }
