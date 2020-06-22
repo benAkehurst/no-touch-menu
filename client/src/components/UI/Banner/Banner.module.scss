@@ -1,0 +1,38 @@
+@import '../../../variables.scss';
+
+@mixin border {
+  border: 1px solid black;
+}
+
+@mixin flex-col-center {
+  display: flex;
+  flex-direction: inherit;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.BannerWrapper {
+  @include flex-col-center();
+  max-height: $spacing-40;
+  background-color: $primary-color;
+  box-shadow: $shadow-04;
+  padding: $spacing-16;
+  .LeftSection {
+    align-self: flex-start;
+    .PageName {
+      margin: 0;
+      box-sizing: border-box;
+      color: $bg-white;
+      font-size: $spacing-24;
+    }
+    .PageName:hover {
+      cursor: pointer;
+    }
+  }
+  .MidSection {
+  }
+  .RightSection {
+    @include flex-col-center();
+    align-self: flex-end;
+  }
+}
