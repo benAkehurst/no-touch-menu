@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
+import classes from './Banner.module.scss';
 import { withRouter } from 'react-router';
 import Aux from '../../../hoc/Aux/Aux';
 import helpers from '../../../Helpers/localStorage';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 class Banner extends Component {
@@ -32,7 +30,7 @@ class Banner extends Component {
 
   showUserButtons = () => {
     return (
-      <div style={{ marginLeft: 'auto' }}>
+      <div>
         <Button color="inherit" onClick={() => this.logout()}>
           Logout
         </Button>
@@ -42,7 +40,7 @@ class Banner extends Component {
 
   showLoginButton = () => {
     return (
-      <div style={{ marginLeft: 'auto' }}>
+      <div>
         <Button color="inherit" onClick={() => this.redirectToLogin()}>
           LOGIN TO APP
         </Button>
@@ -64,11 +62,10 @@ class Banner extends Component {
     const { location } = this.props;
     return (
       <Aux>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography
-              edge="start"
-              variant="h6"
+        <nav className={classes.BannerWrapper}>
+          <div className={classes.LeftSection}>
+            <h6
+              className={classes.PageName}
               onClick={
                 location.pathname === '/admin' ||
                 location.pathname === '/restaurant'
@@ -77,13 +74,17 @@ class Banner extends Component {
               }
             >
               {this.props.siteName}
-            </Typography>
+            </h6>
+          </div>
+          <div className={classes.MidSection}>
             {this.props.showLogo ? this.showLogo() : null}
+          </div>
+          <div className={classes.RightSection}>
             {this.props.showUserButtons ? this.showUserButtons() : null}
             {this.props.showLoginButton ? this.showLoginButton() : null}
             {this.props.showFaq ? this.showFaqLink() : null}
-          </Toolbar>
-        </AppBar>
+          </div>
+        </nav>
       </Aux>
     );
   }
