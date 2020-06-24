@@ -12,7 +12,35 @@ describe('<MealApp />', () => {
     wrapper = shallow(<MealApp />);
   });
 
-  it('should render the compoent', () => {
+  it('should render the component', () => {
     expect(wrapper).toBeTruthy();
+  });
+
+  it('should call the menu download method', () => {
+    const method = (MealApp.prototype.downloadMealAppPDF = jest.fn());
+    const component = new MealApp();
+    component.downloadMealAppPDF();
+    expect(method).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call the menu download method as admin', () => {
+    const method = (MealApp.prototype.downloadMealAppPDFAdmin = jest.fn());
+    const component = new MealApp();
+    component.downloadMealAppPDFAdmin();
+    expect(method).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call the view qr code method', () => {
+    const method = (MealApp.prototype.viewQrCode = jest.fn());
+    const component = new MealApp();
+    component.viewQrCode();
+    expect(method).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call the remove meal app method', () => {
+    const method = (MealApp.prototype.removeMealAppObject = jest.fn());
+    const component = new MealApp();
+    component.removeMealAppObject();
+    expect(method).toHaveBeenCalledTimes(1);
   });
 });
