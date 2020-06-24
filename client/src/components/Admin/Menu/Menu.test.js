@@ -12,7 +12,7 @@ describe('<Menu />', () => {
     wrapper = shallow(<Menu />);
   });
 
-  it('should render the compoent', () => {
+  it('should render the component', () => {
     expect(wrapper).toBeTruthy();
   });
 });
