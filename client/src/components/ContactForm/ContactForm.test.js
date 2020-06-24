@@ -12,7 +12,7 @@ describe('<ContactForm />', () => {
     wrapper = shallow(<ContactForm />);
   });
 
-  it('should render the compoent', () => {
+  it('should render the component', () => {
     expect(wrapper).toBeTruthy();
   });
 });
